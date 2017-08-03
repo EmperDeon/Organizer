@@ -1,0 +1,65 @@
+Documents(json) encrypted with aes-256
+ Key(One for account) in DB, generated on registration, encrypted with aes-128
+  Key is login:password:salt SHA1 hash
+
+Request and Response parameters encrypted with aes-128 and verified with RSA
+ AES key
+  Generates on client
+  Key and Unique ID encrypts with Server public RSA
+  Server stores key and UID in DB
+  When sending anything to client, encrypts with that key
+   UID in token
+    If remember me in login, token valid 14 days, otherwise 12 hours
+
+ RSA Private key (for signing) - requester
+ RSA Public key (for verifying) - receiver
+
+
+On new login:
+C 1. Enter login password, store as hash
+C 2. Generate RSA 2048, passphrase - hash
+C 3. Generate UID, AES-128 key (for server)
+C 3.1 Send login, password, RSA Public, UID, AES to server (unencrypted endpoint)
+
+S 4. Check UID uniqueness
+S 4.1 If unique, store all data
+S 4.2 Otherwise, send error to client
+
+C 5. Store all - unparse json -> compress -> encrypt AES128(key - hash) -> save
+
+C 6. Synchronize
+
+
+On login
+C 1. Enter login password
+C 2. Try load json - load -> decrypt AES128 -> uncompress -> parse json
+C 3. Send login data to server (Encrypted, with UID)
+
+S 4. Check validation, auth data. Generate token (with UID)
+
+C 5. Synchronize
+
+
+Storage
+ All in 1 file: storage.json
+ Encrypted contents:
+  encrypted: true
+  sync: true
+  last_login: 'ilya'
+
+  docs: <AES>
+
+ Decrypted contents:
+  encrypted: true
+  sync: true
+  last_login: 'ilya'
+
+  docs:
+   links: []
+   documents: []
+
+
+Tmp keys:
+ AES
+  IV jFPXFv/5WGlOou7EG8nIvA==
+  Key IU0VTGt9X/ElBvWKXDG3QONVpi4Wy5PI5BcqWM75aoU=
