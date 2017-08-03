@@ -1,6 +1,6 @@
-#Organizer
+# Organizer
 
-###Main functions:
+### Main functions:
 - Store text/lists
 - Store links and collect them to groups
 - Auto save information after editing, hiding to tray and closing main window
@@ -9,5 +9,5 @@
 - WIP: Server code will be avaliable in separate repository (Rails 5.1 & MySQL)
 - WIP: Other clients (Web frontend and Mobile on React library)
 
-###Detailed info
+### Detailed info
 WIP
