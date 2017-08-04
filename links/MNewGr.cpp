@@ -35,13 +35,11 @@ MNewGr::MNewGr(MWindow *w, MLinksController *c) : wnd(w), contr(c) {
 
 void MNewGr::addClick() {
 	if (name->text() == "") return;
-	QJsonObject o;
-	o["name"] = name->text();
-
-	contr->cont->insert(name->text(), o);
+	QJsonObject o = {
+			{"name", name->text()}
+	};
 
 	QTabWidget *tabs = wnd->tabs;
 	contr->addNewTab(tabs->count() - 2, o);
 	tabs->setCurrentIndex(tabs->count() - 3);
-
 }

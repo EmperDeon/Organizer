@@ -2,6 +2,7 @@
 #define ORGANIZER_MWGT_H
 
 #include <storage/Storage.h>
+#include <mtab.h>
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QSystemTrayIcon>
@@ -10,27 +11,8 @@
 
 class Storage;
 
-// Tabs
-class MTab : public QWidget {
-	qint64 u_time, u_last;
-	bool timer_not_started = true;
-	QJsonObject append_to_all;
+class MTab;
 
-protected:
-	void saveStorage();
-
-public:
-	virtual QString getDesc() = 0;
-
-	virtual void save() = 0;
-
-	virtual void importFrom(QString s) = 0;
-
-	virtual QString exportTo() = 0;
-
-	void updated();
-
-};
 
 class MTabsController {
 public:

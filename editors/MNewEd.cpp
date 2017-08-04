@@ -4,7 +4,6 @@
 #include <QtWidgets/QPushButton>
 #include "MNewEd.h"
 
-// MNewTab
 MNewEd::MNewEd(MWindow *w, MEditorsController *c) : wnd(w), contr(c) {
 	QWidget *wgt = new QWidget;
 	auto *v = new QVBoxLayout;
@@ -38,14 +37,12 @@ MNewEd::MNewEd(MWindow *w, MEditorsController *c) : wnd(w), contr(c) {
 
 void MNewEd::addClick() {
 	if (name->text() == "") return;
-	QJsonObject o;
-	o["name"] = name->text();
-	o["type"] = type->currentIndex();
-
-	contr->cont->insert(name->text(), o);
+	QJsonObject o = {
+			{"name", name->text()},
+			{"type", type->currentIndex()}
+	};
 
 	QTabWidget *tabs = wnd->tabs;
 	contr->addNewTab(tabs->count() - 2, o);
 	tabs->setCurrentIndex(tabs->count() - 3);
 }
-// MNewTab

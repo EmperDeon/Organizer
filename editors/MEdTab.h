@@ -5,10 +5,8 @@
 #include <QtWidgets/QPlainTextEdit>
 
 class MTab;
-
-class MOrgContainers;
-
 class MEdTab;
+
 
 class MEdTab : public MTab {
 	SDocument *cont;
@@ -18,15 +16,17 @@ class MEdTab : public MTab {
 	QPlainTextEdit *edit;
 
 public:
-	MEdTab(SDocument *c, QJsonObject o);
+	explicit MEdTab(const QJsonObject &o);
 
 	QString getDesc() override;
-
-	void save() override;
 
 	void importFrom(QString s) override;
 
 	QString exportTo() override;
+
+	void fromJson(QJsonValue v) override;
+
+	QJsonValue toJson() override;
 };
 
 #endif //ORGANIZER_MEDTAB_H

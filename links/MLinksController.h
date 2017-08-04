@@ -10,6 +10,7 @@ class MTabController;
 
 class MLinksController : public MTabsController {
 	MWindow *wnd;
+	QList<MTab *> tabs;
 
 public:
 	SDocument *cont;
@@ -26,7 +27,7 @@ public:
 
 	~MLinksController() override = default;
 
-	void addNewTab(int i, const QJsonObject &o) const;
+	void addNewTab(int i, const QJsonObject &o);
 };
 
 

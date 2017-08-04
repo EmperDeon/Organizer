@@ -25,7 +25,7 @@ class MGroup : public MTab {
 
 
 public:
-	MGroup(SDocument *c, QJsonObject o);
+	explicit MGroup(const QJsonObject &o);
 
 	void addLink(QJsonObject o = QJsonObject());
 
@@ -33,7 +33,9 @@ public:
 
 	QString getDesc() override;
 
-	void save() override;
+	void fromJson(QJsonValue v) override;
+
+	QJsonValue toJson() override;
 
 	void importFrom(QString s) override;
 

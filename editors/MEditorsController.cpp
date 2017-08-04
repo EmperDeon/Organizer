@@ -14,16 +14,16 @@ void MEditorsController::load() {
 		addNewTab(i, o);
 }
 
-void MEditorsController::addNewTab(int i, const QJsonObject &o) const {
+void MEditorsController::addNewTab(int i, const QJsonObject &o) {
 	QString name = o["name"].toString("Error");
 	MTab *w;
 
 	switch (o["type"].toInt(-1)) {
 		case 0:
-			w = new MEdTab(cont, o);
+			w = new MEdTab(o);
 			break;
 		case 1:
-			w = new MLsTab(cont, o);
+			w = new MLsTab(o);
 			break;
 
 		default:
@@ -31,8 +31,10 @@ void MEditorsController::addNewTab(int i, const QJsonObject &o) const {
 			break;
 	}
 
-	if (w != nullptr)
+	if (w != nullptr) {
 		wnd->tabs->insertTab(i, w, name);
+		tabs << w;
+	}
 }
 
 MTab *MEditorsController::addNew() {
@@ -40,13 +42,14 @@ MTab *MEditorsController::addNew() {
 }
 
 void MEditorsController::save() {
-	for (int i = 0; i < wnd->tabs->count() - 1; i++) {
-		MTab *t = wnd->getTab(i);
-		if (t != nullptr) t->save();
+	QJsonObject obj;
 
+	for (MTab *t : tabs) {
+		if (t != nullptr)
+			obj[t->getName()] = t->save();
 	}
 
-	Storage::getInstance()->saveDocument("documents", *cont);
+	Storage::getInstance()->saveDocument("documents", obj);
 	Storage::getInstance()->saveJson();
 }
 

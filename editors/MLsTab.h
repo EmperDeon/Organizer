@@ -7,17 +7,11 @@
 #include <QtWidgets/QLineEdit>
 
 class MTab;
-
-class MOrgContainers;
-
 class MLsTab;
-
 class MListEF;
 
-class MLsTab : public MTab {
-Q_OBJECT
 
-	SDocument *cont;
+class MLsTab : public MTab {
 	QJsonObject obj;
 	QString name;
 
@@ -25,20 +19,20 @@ Q_OBJECT
 	MListEF *events;
 	QScrollArea *scroll;
 
-protected slots:
-
-	void addLine(QString text = "");
-
 public:
-	MLsTab(SDocument *c, QJsonObject n);
+	explicit MLsTab(const QJsonObject &o);
 
 	QString getDesc() override;
-
-	void save() override;
 
 	void importFrom(QString s) override;
 
 	QString exportTo() override;
+
+	void fromJson(QJsonValue v) override;
+
+	QJsonValue toJson() override;
+
+	void addLine(QString text = "");
 
 	void delChild(QLineEdit *t);
 
@@ -51,8 +45,6 @@ public:
 
 
 class MListEF : public QObject {
-// Q_OBJECT
-
 	MLsTab *par;
 
 public:

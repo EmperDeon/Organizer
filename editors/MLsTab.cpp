@@ -5,21 +5,13 @@
 #include <QtGui/QMouseEvent>
 
 // MLsTab
-MLsTab::MLsTab(SDocument *c, QJsonObject o) : cont(c), obj(o), name(o["name"].toString()) {
+MLsTab::MLsTab(const QJsonObject &o) : MTab(o), name(o["name"].toString()) {
 	scroll = new QScrollArea;
 	auto *scrollLayout = new QVBoxLayout;
 	QWidget *w = new QWidget;
 
 	list = new QVBoxLayout;
 	events = new MListEF(this);
-
-	QJsonArray arr = obj["lines"].toArray();
-
-	for (QJsonValue v : arr)
-		addLine(v.toString());
-
-	if (arr.empty())
-		addLine();
 
 	list->setAlignment(Qt::AlignTop);
 	w->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -36,31 +28,12 @@ MLsTab::MLsTab(SDocument *c, QJsonObject o) : cont(c), obj(o), name(o["name"].to
 	scrollLayout->setMargin(0);
 
 	setLayout(scrollLayout);
+
+	load();
 }
 
 QString MLsTab::getDesc() {
 	return "List: " + name;
-}
-
-void MLsTab::save() {
-	QJsonArray a;
-	for (int i = 0; i < list->count(); i++) {
-		QString t = (reinterpret_cast<QLineEdit *>(list->itemAt(i)->widget()))->text();
-		if (t != "") a << t;
-	}
-	obj["lines"] = a;
-
-	cont->insert(name, obj);
-}
-
-void MLsTab::addLine(QString text) {
-	auto *line = new QLineEdit;
-	line->setProperty("listItem", "true");
-	line->setText(text);
-	line->installEventFilter(events);
-	line->setContextMenuPolicy(Qt::NoContextMenu);
-	line->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-	list->addWidget(line);
 }
 
 void MLsTab::importFrom(QString s) {
@@ -79,6 +52,36 @@ QString MLsTab::exportTo() {
 	}
 
 	return r;
+}
+
+void MLsTab::fromJson(QJsonValue v) {
+	QJsonArray arr = v.toArray();
+
+	for (QJsonValue t : arr)
+		addLine(t.toString());
+
+	if (arr.empty())
+		addLine();
+}
+
+QJsonValue MLsTab::toJson() {
+	QJsonArray r;
+	for (int i = 0; i < list->count(); i++) {
+		QString t = (reinterpret_cast<QLineEdit *>(list->itemAt(i)->widget()))->text();
+		if (t != "") r << t;
+	}
+
+	return r;
+}
+
+void MLsTab::addLine(QString text) {
+	auto *line = new QLineEdit;
+	line->setProperty("listItem", "true");
+	line->setText(text);
+	line->installEventFilter(events);
+	line->setContextMenuPolicy(Qt::NoContextMenu);
+	line->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+	list->addWidget(line);
 }
 
 void MLsTab::delChild(QLineEdit *t) {

@@ -10,8 +10,6 @@ class MWindow;
 class MLinksController;
 
 class MNewGr : public MTab {
-Q_OBJECT
-
 	MWindow *wnd;
 	MLinksController *contr;
 
@@ -24,11 +22,13 @@ public:
 
 	QString getDesc() override { return "New Tab"; }
 
-	void save() override {}
-
-	void importFrom(QString s) override { Q_UNUSED(s) }
+	void importFrom(QString s) override {}
 
 	QString exportTo() override { return ""; }
+
+	void fromJson(QJsonValue v) override {}
+
+	QJsonValue toJson() override { return QJsonValue(); }
 
 	friend class MWindow;
 };

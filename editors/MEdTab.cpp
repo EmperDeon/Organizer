@@ -2,26 +2,20 @@
 #include "MEdTab.h"
 
 // MEdTab
-MEdTab::MEdTab(SDocument *c, QJsonObject o) : cont(c), obj(o), name(o["name"].toString()) {
+MEdTab::MEdTab(const QJsonObject &o) : MTab(o), name(o["name"].toString()) {
 	auto *l = new QVBoxLayout;
 	edit = new QPlainTextEdit;
-
-	edit->setPlainText(o["text"].toString());
 
 	connect(edit, &QPlainTextEdit::textChanged, this, &MTab::updated);
 
 	l->addWidget(edit);
 	setLayout(l);
+
+	load();
 }
 
 QString MEdTab::getDesc() {
 	return "Plain text: " + name;
-}
-
-void MEdTab::save() {
-	obj["text"] = edit->toPlainText();
-
-	cont->insert(name, obj);
 }
 
 void MEdTab::importFrom(QString s) {
@@ -29,6 +23,14 @@ void MEdTab::importFrom(QString s) {
 }
 
 QString MEdTab::exportTo() {
+	return edit->toPlainText();
+}
+
+void MEdTab::fromJson(QJsonValue v) {
+	edit->setPlainText(v.toString());
+}
+
+QJsonValue MEdTab::toJson() {
 	return edit->toPlainText();
 }
 // MEdTab

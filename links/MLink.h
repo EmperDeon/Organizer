@@ -19,9 +19,9 @@ class MLink : public QWidget {
 public:
 	explicit MLink(MGroup *g, QJsonObject o = QJsonObject());
 
-	QString getName() const { return name; }
-
-	QString getLink() const { return link; }
+//	QString getName() const { return name; }
+//
+//	QString getLink() const { return link; }
 
 	bool isEmpty() const { return empty; }
 

@@ -27,7 +27,7 @@ public:
 
 	SDocument *getDocument(const QString &k) { return new SDocument(docs[k].toObject()); }
 
-	void saveDocument(const QString &k, const SDocument &doc) { docs[k] = doc; }
+	void saveDocument(const QString &k, const QJsonObject &doc) { docs[k] = doc; }
 
 	void loadJson();
 

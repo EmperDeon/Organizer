@@ -14,6 +14,7 @@ class MTabController;
 
 class MEditorsController : public MTabsController {
 	MWindow *wnd;
+	QList<MTab *> tabs;
 
 public:
 	SDocument *cont;
@@ -30,7 +31,7 @@ public:
 
 	~MEditorsController() override = default;
 
-	void addNewTab(int i, const QJsonObject &o) const;
+	void addNewTab(int i, const QJsonObject &o);
 };
 
 

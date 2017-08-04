@@ -228,24 +228,4 @@ void MWindow::newRegister() {
 
 
 // MTab
-void MTab::updated() {
-	if (timer_not_started) {
-		auto *u_timer = new QTimer();
 
-		connect(u_timer, &QTimer::timeout, this, &MTab::saveStorage);
-
-		u_last = QDateTime::currentMSecsSinceEpoch();
-		u_timer->start(400);
-
-		timer_not_started = false;
-	}
-
-	u_time = QDateTime::currentMSecsSinceEpoch();
-}
-
-void MTab::saveStorage() {
-	if (u_time >= u_last && (u_time + 2000 < QDateTime::currentMSecsSinceEpoch())) {
-		u_last = QDateTime::currentMSecsSinceEpoch();
-		Storage::getInstance()->saveJson();
-	}
-}

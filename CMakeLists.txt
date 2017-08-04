@@ -17,6 +17,7 @@ set(CMAKE_CXX_FLAGS "-std=c++14")
 SET(M_S
         main.cpp
         mwgt.cpp
+        mtab.cpp
 
         res.rc
 
@@ -48,6 +49,7 @@ SET(M_S
 
 SET(M_H
         mwgt.h
+        mtab.h
         vars.h
 
         crypt/CAes.h
