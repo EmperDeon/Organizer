@@ -1,18 +1,15 @@
 #include "mwgt.h"
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QAction>
-#include <QtWidgets/QMenu>
-#include <QtWidgets/QMenuBar>
 #include <QtGui/QHideEvent>
-#include <editors/MEditorsController.h>
-#include <links/MLinksController.h>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QInputDialog>
+
 
 // Constructor
 MWindow::MWindow() {
 	tabs = new QTabWidget;
     wsync = new WSync;
+    contr = new MTabsController(this);
 
 	constructMenuBar();
 
@@ -36,7 +33,10 @@ MWindow::MWindow() {
 
     connect(tabs, &QTabWidget::currentChanged, this, &MWindow::tabChange);
 
-	changeWidget();
+    // Load tabs
+    tabs->addTab(new QWidget, "+");
+    contr->load();
+    tabs->setCurrentIndex(0);
 
 	setCentralWidget(tabs);
 	setGeometry(100, 100, 750, 500);
@@ -167,33 +167,19 @@ void MWindow::trayToggle() {
 
 
 void MWindow::changeWidget() {
-	bool l = chAction->text() == "To Links";
-	chAction->setText(l ? "To Editors" : "To Links");
-
-
-//	Unload previous controller
-	if (contr != nullptr) {
-        saveController();
-		delete contr;
-
-        Storage::getInstance()->saveJson();
-	}
-
-//	Construct and load new
-	if (l) {
-		contr = new MLinksController(this);
-
-	} else {
-		contr = new MEditorsController(this);
-
-	}
-
-//	Clear Tabs
-	tabs->clear();
-	newTab = nullptr;
-	tabs->addTab(new QWidget(), "+");
-
-	contr->load();
-
-	tabs->setCurrentIndex(0);
+////	Unload previous controller
+//	if (contr != nullptr) {
+//        saveController();
+//		delete contr;
+//
+//        Storage::getInstance()->saveJson();
+//	}
+//
+////	Construct and load new
+//	contr = new MTabsController(this);
+//
+//
+////	Clear Tabs
+//	tabs->clear();
+//	newTab = nullptr;
 }

@@ -69,7 +69,7 @@ void Storage::loadDocs(QString d) {
 		d = aes.decrypt(d);
 	}
 
-	docs = CTools::fromJson(d);
+	docs = CTools::fromJsonA(d);
 }
 
 QString Storage::saveDocs() {

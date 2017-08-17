@@ -25,22 +25,19 @@ SET(M_S
         crypt/CRsa.cpp
         crypt/CTools.cpp
 
-        editors/MEditorsController.cpp
+        editors/MTabsController.cpp
         editors/MNewEd.cpp
         editors/MEdTab.cpp
         editors/MLsTab.cpp
 
-        links/MLinksController.cpp
         links/MLink.cpp
         links/MGroup.cpp
-        links/MNewGr.cpp
 
         network/NCrypt.cpp
         network/Network.cpp
 
         storage/Storage.cpp
         storage/SSecure.cpp
-        storage/SDocument.cpp
 
         utils/ULoginDialog.cpp
         utils/UPassDialog.cpp
@@ -58,22 +55,19 @@ SET(M_H
         crypt/CRsa.h
         crypt/CTools.h
 
-        editors/MEditorsController.h
+        editors/MTabsController.h
         editors/MNewEd.h
         editors/MEdTab.h
         editors/MLsTab.h
 
-        links/MLinksController.h
         links/MLink.h
         links/MGroup.h
-        links/MNewGr.h
 
         network/NCrypt.h
         network/Network.h
 
         storage/Storage.h
         storage/SSecure.h
-        storage/SDocument.h
 
         utils/ULoginDialog.h
         utils/UPassDialog.h

@@ -10,26 +10,25 @@ class Storage;
 
 class MTab;
 
-class MTabController;
 
-class MEditorsController : public MTabsController {
+class MTabsController {
 	MWindow *wnd;
 	QList<MTab *> tabs;
 
 public:
-	SDocument *cont;
+	QJsonArray *cont;
 
-	explicit MEditorsController(MWindow *w);
+	explicit MTabsController(MWindow *w);
 
-	void load() override;
+	void load();
 
-	void save() override;
+	void save();
 
-	MTab *addNew() override;
+	MTab *addNew();
 
-	void tabDel(QString name) override;
+	void tabDel(QString name);
 
-	~MEditorsController() override = default;
+	~MTabsController() = default;
 
 	void addNewTab(int i, const QJsonObject &o);
 };

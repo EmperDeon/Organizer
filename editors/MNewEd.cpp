@@ -4,7 +4,7 @@
 #include <QtWidgets/QPushButton>
 #include "MNewEd.h"
 
-MNewEd::MNewEd(MWindow *w, MEditorsController *c) : wnd(w), contr(c) {
+MNewEd::MNewEd(MWindow *w, MTabsController *c) : wnd(w), contr(c) {
 	QWidget *wgt = new QWidget;
 	auto *v = new QVBoxLayout;
 	auto *l = new QFormLayout;
@@ -15,7 +15,7 @@ MNewEd::MNewEd(MWindow *w, MEditorsController *c) : wnd(w), contr(c) {
 	QPushButton *submit = new QPushButton(tr("Create"));
 	submit->setProperty("newLineButton", "true");
 
-	type->addItems({"Plain Text", "List"});
+    type->addItems({"Plain text", "List", "Links group"});
 
 	l->addRow(label);
 	l->addRow(tr("Name: "), name);

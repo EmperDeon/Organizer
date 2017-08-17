@@ -14,8 +14,6 @@ class MLink;
 
 
 class MGroup : public MTab {
-	SDocument *cont;
-	QJsonObject obj;
 	QString name;
 
 	QList<MLink *> links;

@@ -6,10 +6,22 @@
 
 
 class MTab : public QWidget {
+public:
+    enum TabType : int {
+        Text,
+        List,
+        LinksGroup,
+
+        NewTab = 100
+    };
+
+private:
 	qint64 u_time = 0, u_last = 0;
 	bool timer_not_started = true;
 	QJsonObject obj;
 	QString name;
+
+    TabType type;
 
 protected:
 	void saveStorage();
@@ -17,7 +29,7 @@ protected:
 public:
 	explicit MTab() = default;
 
-	explicit MTab(const QJsonObject &o);
+    explicit MTab(const QJsonObject &o, TabType t = NewTab);
 
 	void load();
 
@@ -36,6 +48,8 @@ public:
 	virtual void fromJson(QJsonValue v) = 0;
 
 	virtual QJsonValue toJson() = 0;
+
+
 };
 
 

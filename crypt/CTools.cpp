@@ -20,12 +20,20 @@ QString CTools::hash(const QString &str) {
 	return hash.hashToString(str.toStdString().c_str());
 }
 
+QString CTools::toJson(QJsonArray ob, QJsonDocument::JsonFormat format) {
+    return QString::fromUtf8(QJsonDocument(ob).toJson(format));
+}
+
 QString CTools::toJson(QJsonObject ob, QJsonDocument::JsonFormat format) {
 	return QString::fromUtf8(QJsonDocument(ob).toJson(format));
 }
 
 QJsonObject CTools::fromJson(const QString &str) {
 	return QJsonDocument::fromJson(str.toUtf8()).object();
+}
+
+QJsonArray CTools::fromJsonA(const QString &str) {
+    return QJsonDocument::fromJson(str.toUtf8()).array();
 }
 
 QString CTools::randomStr(int size) {

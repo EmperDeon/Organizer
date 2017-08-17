@@ -2,7 +2,7 @@
 #include "MEdTab.h"
 
 // MEdTab
-MEdTab::MEdTab(const QJsonObject &o) : MTab(o), name(o["name"].toString()) {
+MEdTab::MEdTab(const QJsonObject &o) : MTab(o, MTab::Text), name(o["name"].toString()) {
 	auto *l = new QVBoxLayout;
 	edit = new QPlainTextEdit;
 

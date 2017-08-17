@@ -5,7 +5,7 @@
 #include <QtGui/QMouseEvent>
 
 // MLsTab
-MLsTab::MLsTab(const QJsonObject &o) : MTab(o), name(o["name"].toString()) {
+MLsTab::MLsTab(const QJsonObject &o) : MTab(o, MTab::List), name(o["name"].toString()) {
 	scroll = new QScrollArea;
 	auto *scrollLayout = new QVBoxLayout;
 	QWidget *w = new QWidget;

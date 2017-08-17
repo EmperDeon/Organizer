@@ -3,7 +3,7 @@
 #include <storage/Storage.h>
 #include "mtab.h"
 
-MTab::MTab(const QJsonObject &o) : obj(o), name(o["name"].toString()) {}
+MTab::MTab(const QJsonObject &o, TabType t) : obj(o), name(o["name"].toString()), type(t) {}
 
 void MTab::updated() {
 	if (timer_not_started) {
@@ -34,7 +34,7 @@ void MTab::load() {
 QJsonObject MTab::save() {
 	obj["content"] = toJson();
 	obj["last_updated"] = u_last;
-	obj.remove("links");
+    obj["type"] = type;
 
 	return obj;
 }

@@ -9,24 +9,11 @@
 #include <QtCore/QDateTime>
 #include <QtCore/QTimer>
 #include <widgets/WSync.h>
+#include <editors/MTabsController.h>
 
 class Storage;
 
 class MTab;
-
-
-class MTabsController {
-public:
-	virtual void load() = 0;
-
-	virtual void save() = 0;
-
-	virtual MTab *addNew() = 0;
-
-	virtual void tabDel(QString name) = 0;
-
-	virtual ~MTabsController() = default;
-};
 
 class MWindow : public QMainWindow {
 	MTabsController *contr = nullptr;

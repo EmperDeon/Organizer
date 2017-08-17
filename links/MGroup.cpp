@@ -1,7 +1,7 @@
 #include <QtCore/QJsonArray>
 #include "MGroup.h"
 
-MGroup::MGroup(const QJsonObject &o) : MTab(o), name(o["name"].toString()) {
+MGroup::MGroup(const QJsonObject &o) : MTab(o, MTab::LinksGroup), name(o["name"].toString()) {
 	scroll = new QScrollArea;
 	auto *scrollLayout = new QVBoxLayout;
 	QWidget *w = new QWidget;

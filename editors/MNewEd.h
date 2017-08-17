@@ -4,21 +4,21 @@
 #include <mwgt.h>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QLineEdit>
-#include "MEditorsController.h"
+#include "MTabsController.h"
 
 class MWindow;
 
-class MEditorsController;
+class MTabsController;
 
 class MNewEd : public MTab {
 	MWindow *wnd;
-	MEditorsController *contr;
+	MTabsController *contr;
 
 	QComboBox *type;
 	QLineEdit *name;
 
 public:
-	MNewEd(MWindow *w, MEditorsController *c);
+	MNewEd(MWindow *w, MTabsController *c);
 
 	void addClick();
 

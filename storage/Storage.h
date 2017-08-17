@@ -3,11 +3,12 @@
 
 #include <vars.h>
 #include <QtCore/QJsonObject>
-#include <storage/SDocument.h>
+#include <QtCore/QJsonArray>
 #include <storage/SSecure.h>
 
 class Storage {
-	QJsonObject original, docs;
+    QJsonObject original;
+    QJsonArray docs;
 
 	SSecure *secure;
 
@@ -25,9 +26,9 @@ public:
 
 	void remove(const QString &k) { original.remove(k); }
 
-	SDocument *getDocument(const QString &k) { return new SDocument(docs[k].toObject()); }
+    QJsonArray *getDocument(const QString &k) { return new QJsonArray(docs); }
 
-	void saveDocument(const QString &k, const QJsonObject &doc) { docs[k] = doc; }
+    void saveDocument(const QJsonArray &doc) { docs = doc; }
 
 	void loadJson();
 
