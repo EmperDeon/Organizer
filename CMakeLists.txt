@@ -35,7 +35,6 @@ SET(M_S
         links/MGroup.cpp
         links/MNewGr.cpp
 
-        network/NAuth.cpp
         network/NCrypt.cpp
         network/Network.cpp
 
@@ -43,7 +42,10 @@ SET(M_S
         storage/SSecure.cpp
         storage/SDocument.cpp
 
+        utils/ULoginDialog.cpp
         utils/UPassDialog.cpp
+
+        widgets/WSync.cpp
         )
 
 
@@ -66,7 +68,6 @@ SET(M_H
         links/MGroup.h
         links/MNewGr.h
 
-        network/NAuth.h
         network/NCrypt.h
         network/Network.h
 
@@ -74,7 +75,10 @@ SET(M_H
         storage/SSecure.h
         storage/SDocument.h
 
+        utils/ULoginDialog.h
         utils/UPassDialog.h
+
+        widgets/WSync.h
         )
 
 qt5_wrap_cpp(GENERATED_SOURCES ${M_H})

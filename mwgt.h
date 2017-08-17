@@ -8,6 +8,7 @@
 #include <QtWidgets/QSystemTrayIcon>
 #include <QtCore/QDateTime>
 #include <QtCore/QTimer>
+#include <widgets/WSync.h>
 
 class Storage;
 
@@ -28,24 +29,22 @@ public:
 };
 
 class MWindow : public QMainWindow {
-Q_OBJECT
-
 	MTabsController *contr = nullptr;
 	QAction *chAction;
 
 	QSystemTrayIcon *tray;
-	QMenu *mfile;
+	WSync *wsync;
 
 	MTab *lastTab = nullptr, *newTab = nullptr;
 
-public:
-	QTabWidget *tabs;
 
 	MTab *getTab(int i) { return dynamic_cast<MTab *>(tabs->widget(i)); }
 
 	MTab *getCurrentTab() { return dynamic_cast<MTab *>(tabs->currentWidget()); }
 
-//public slots:
+public:
+	QTabWidget *tabs;
+
 	void tabNew();
 
 	void tabClose();
@@ -60,12 +59,6 @@ public:
 
 	void trayToggle();
 
-	void updateMenu();
-
-	void enableSync();
-
-	void newRegister();
-
 protected:
 	void closeEvent(QCloseEvent *e) override;
 
@@ -78,6 +71,18 @@ public:
 
 	void changeWidget();
 
+	// Singleton
+	static MWindow *getInstance() {
+		static MWindow *instance = nullptr;
+
+		if (instance == nullptr) {
+			instance = new MWindow;
+		}
+
+		return instance;
+	}
+
+	void saveController() { contr->save(); }
 };
 
 #endif //ORGANIZER_MWGT_H

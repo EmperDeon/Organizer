@@ -50,7 +50,6 @@ void MEditorsController::save() {
 	}
 
 	Storage::getInstance()->saveDocument("documents", obj);
-	Storage::getInstance()->saveJson();
 }
 
 void MEditorsController::tabDel(QString name) {

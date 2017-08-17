@@ -3,6 +3,8 @@
 #include <utils/UPassDialog.h>
 #include <QtCore/QFile>
 #include <QDebug>
+#include <network/Network.h>
+#include <mwgt.h>
 
 //#define ENCRYPT_OUT
 //#define DECRYPT_INP
@@ -36,6 +38,8 @@ void Storage::loadJson() {
 }
 
 void Storage::saveJson() {
+	MWindow::getInstance()->saveController();
+
 	original["docs"] = saveDocs();
 
 	if (getB("sync"))
@@ -65,16 +69,6 @@ void Storage::loadDocs(QString d) {
 		d = aes.decrypt(d);
 	}
 
-//	QFile f("/home/ilya/.myQtProgs/documents.json");
-//	f.open(QFile::ReadOnly);
-//	docs["documents"] = QJsonDocument::fromJson(f.readAll()).object();
-//	f.close();
-//
-//	f.setFileName("/home/ilya/.myQtProgs/links.json");
-//	f.open(QFile::ReadOnly);
-//	docs["links"] = QJsonDocument::fromJson(f.readAll()).object();
-//	f.close();
-
 	docs = CTools::fromJson(d);
 }
 
@@ -93,5 +87,6 @@ QString Storage::saveDocs() {
 void Storage::sendDocsToServer() {
 	QString docs = saveDocs();
 
-
+	Network net;
+	net.request("documents/save", {{"docs", docs}});
 }

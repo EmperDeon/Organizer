@@ -13,10 +13,6 @@ public:
 	QString password();
 
 	void initNetworkInfo();
-
-	void initNewLogin();
-
-	void clearLoginInfo();
 };
 
 

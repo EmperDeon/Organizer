@@ -31,14 +31,3 @@ void SSecure::initNetworkInfo() {
 	obj->insert("rsa_pu", CRsa::createPublicKey(rsa_pr));
 }
 
-void SSecure::initNewLogin() {
-	obj->insert("login_hash", UPassDialog::getLoginHash(obj->value("last_login").toString()));
-	obj->insert("login_date", QDateTime::currentSecsSinceEpoch());
-}
-
-void SSecure::clearLoginInfo() {
-	obj->remove("login_hash");
-	obj->remove("login_date");
-
-	obj->remove("doc_key");
-}

@@ -8,11 +8,11 @@
 #include <links/MLinksController.h>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QInputDialog>
-#include <network/NAuth.h>
 
 // Constructor
 MWindow::MWindow() {
 	tabs = new QTabWidget;
+    wsync = new WSync;
 
 	constructMenuBar();
 
@@ -30,14 +30,13 @@ MWindow::MWindow() {
 
 	trayMenu->addAction(trayClick);
 	tray->setContextMenu(trayMenu);
-	// Create tray
 
-	connect(tabs, &QTabWidget::currentChanged, this, &MWindow::tabChange);
 	connect(tray, &QSystemTrayIcon::activated, this, &MWindow::trayClick);
+    // Create tray
+
+    connect(tabs, &QTabWidget::currentChanged, this, &MWindow::tabChange);
 
 	changeWidget();
-
-	updateMenu();
 
 	setCentralWidget(tabs);
 	setGeometry(100, 100, 750, 500);
@@ -46,12 +45,9 @@ MWindow::MWindow() {
 void MWindow::constructMenuBar() {
 	QMenuBar *menu = this->menuBar();
 
-	mfile = new QMenu("File");
+    QMenu *mfile = new QMenu("File");
 	mfile->addAction("Import", this, &MWindow::importFrom);
 	mfile->addAction("Export", this, &MWindow::exportTo);
-	mfile->addSeparator();
-	mfile->addAction("Enable sync", this, &MWindow::enableSync);
-	mfile->addAction("Register", this, &MWindow::newRegister);
 	mfile->addSeparator();
 	mfile->addAction("Save", [=]() { contr->save(); }, QKeySequence::Save);
 	mfile->addAction("Exit", this, &MWindow::close, QKeySequence(Qt::CTRL + Qt::Key_Q));
@@ -70,6 +66,7 @@ void MWindow::constructMenuBar() {
 	menu->addMenu(mtabs);
 	menu->addAction(chAction);
 	menu->addMenu(mhelp);
+    menu->addMenu(wsync->getMenu());
 }
 // Constructor
 
@@ -138,7 +135,8 @@ void MWindow::exportTo() {
 void MWindow::closeEvent(QCloseEvent *e) {
 	Q_UNUSED(e)
 
-	contr->save();
+    saveController();
+    Storage::getInstance()->saveJson();
 	tray->hide();
 }
 
@@ -175,8 +173,10 @@ void MWindow::changeWidget() {
 
 //	Unload previous controller
 	if (contr != nullptr) {
-		contr->save();
+        saveController();
 		delete contr;
+
+        Storage::getInstance()->saveJson();
 	}
 
 //	Construct and load new
@@ -197,35 +197,3 @@ void MWindow::changeWidget() {
 
 	tabs->setCurrentIndex(0);
 }
-
-void MWindow::updateMenu() {
-	auto actions = mfile->actions();
-	auto st = Storage::getInstance();
-
-	actions[3]->setText(st->getB("sync") ? "Disable sync" : "Enable sync");
-}
-
-void MWindow::enableSync() {
-	auto st = Storage::getInstance();
-	SSecure *se = st->secureStorage();
-
-	bool sync = st->getB("sync");
-	st->set("sync", !sync);
-
-	if (sync)
-		se->initNewLogin();
-	else
-		se->clearLoginInfo();
-
-	updateMenu();
-}
-
-void MWindow::newRegister() {
-	NAuth auth;
-
-	auth.newRegister();
-}
-
-
-// MTab
-

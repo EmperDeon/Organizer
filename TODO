@@ -1,0 +1,5 @@
+TODO: Merge Editor and Links controllers
+TODO:  Make 'select'-like sorting, so if user needs to go to specific type (links for ex.), it will display links only
+
+TODO: Add class for loading old versions of storage file
+TODO:  So, if current version 5 and file version is 2, class will apply migrations 3, 4, 5

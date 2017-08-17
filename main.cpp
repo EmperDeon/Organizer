@@ -2,8 +2,8 @@
 #include <QtCore/QFile>
 #include <mwgt.h>
 #include <Qca-qt5/QtCrypto/QtCrypto>
-#include <iostream>
 #include <network/Network.h>
+#include <utils/ULoginDialog.h>
 
 int main(int argc, char **argv) {
 	QApplication a(argc, argv);
@@ -14,8 +14,10 @@ int main(int argc, char **argv) {
 	QString StyleSheet = QLatin1String(File.readAll());
 	a.setStyleSheet(StyleSheet);
 
-	auto *wnd = new MWindow;
+    auto *wnd = MWindow::getInstance();
 	wnd->show();
+
+//    qDebug() << ULoginDialog::getLoginHash();
 
 //	Network net;
 //	qDebug() << net.request("documents/last_timestamp");
