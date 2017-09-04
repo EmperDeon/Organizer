@@ -135,7 +135,7 @@ void MWindow::exportTo() {
 void MWindow::closeEvent(QCloseEvent *e) {
 	Q_UNUSED(e)
 
-    saveController();
+    contr->save();
     Storage::getInstance()->saveJson();
 	tray->hide();
 }

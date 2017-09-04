@@ -3,7 +3,12 @@
 #include <storage/Storage.h>
 #include "mtab.h"
 
-MTab::MTab(const QJsonObject &o, TabType t) : obj(o), name(o["name"].toString()), type(t) {}
+MTab::MTab(const QJsonObject &o, TabType t) {
+    obj = o;
+    name = obj["name"].toString();
+    type = t;
+    u_last = static_cast<qint64>(o["last_updated"].toDouble());
+}
 
 void MTab::updated() {
 	if (timer_not_started) {
@@ -27,8 +32,15 @@ void MTab::saveStorage() {
 	}
 }
 
-void MTab::load() {
-	fromJson(obj["content"]);
+void MTab::load(QJsonObject o) {
+//	qint64 n_last = static_cast<qint64>(o["last_updated"].toDouble());
+//
+//	if (n_last > u_last)
+
+    if (o.empty())
+        fromJson(obj["content"]);
+    else
+        fromJson(o["content"]);
 }
 
 QJsonObject MTab::save() {

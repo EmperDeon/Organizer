@@ -3,6 +3,7 @@
 
 #include <storage/Storage.h>
 #include <mwgt.h>
+#include <network/NSync.h>
 
 class MWindow;
 
@@ -10,14 +11,15 @@ class Storage;
 
 class MTab;
 
+class NSync;
+
 
 class MTabsController {
 	MWindow *wnd;
-	QList<MTab *> tabs;
+    QMap<QString, MTab *> tabs;
+    NSync *sync;
 
 public:
-	QJsonArray *cont;
-
 	explicit MTabsController(MWindow *w);
 
 	void load();
@@ -30,7 +32,7 @@ public:
 
 	~MTabsController() = default;
 
-	void addNewTab(int i, const QJsonObject &o);
+    void addNewTab(const QString &name, const QJsonObject &o, int i);
 };
 
 

@@ -31,7 +31,7 @@ public:
 
     explicit MTab(const QJsonObject &o, TabType t = NewTab);
 
-	void load();
+    void load(QJsonObject o = QJsonObject());
 
 	QJsonObject save();
 

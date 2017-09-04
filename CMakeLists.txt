@@ -35,6 +35,7 @@ SET(M_S
 
         network/NCrypt.cpp
         network/Network.cpp
+        network/NSync.cpp
 
         storage/Storage.cpp
         storage/SSecure.cpp
@@ -65,6 +66,7 @@ SET(M_H
 
         network/NCrypt.h
         network/Network.h
+        network/NSync.h
 
         storage/Storage.h
         storage/SSecure.h

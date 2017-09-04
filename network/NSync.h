@@ -1,9 +1,19 @@
 #ifndef ORGANIZER_NSYNC_H
 #define ORGANIZER_NSYNC_H
 
+#include <editors/MTabsController.h>
 
-class NSync {
+class MTabsController;
 
+
+class NSync : public QObject {
+    MTabsController *contr;
+    QTimer *timer;
+
+public:
+    explicit NSync(MTabsController *c);
+
+    void tryLoad();
 };
 
 

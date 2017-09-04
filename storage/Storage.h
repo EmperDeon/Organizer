@@ -26,9 +26,9 @@ public:
 
 	void remove(const QString &k) { original.remove(k); }
 
-    QJsonArray *getDocument(const QString &k) { return new QJsonArray(docs); }
+    QJsonArray getDocs() { return docs; }
 
-    void saveDocument(const QJsonArray &doc) { docs = doc; }
+    void setDocs(const QJsonArray &doc) { docs = doc; }
 
 	void loadJson();
 

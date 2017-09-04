@@ -10,7 +10,7 @@ CONFIG += c++14
 SOURCES += main.cpp \
 mio.cpp \
 mwgt.cpp \
-editors/MEditorsController.cpp \
+editors/MTabsController.cpp \
 editors/MNewEd.cpp \
 editors/MEdTab.cpp \
 editors/MLsTab.cpp \
@@ -21,7 +21,7 @@ links/MNewGr.cpp
 
 HEADERS += mio.h \
 mwgt.h \
-editors/MEditorsController.h \
+editors/MTabsController.h \
 editors/MNewEd.h \
 editors/MEdTab.h \
 editors/MLsTab.h \

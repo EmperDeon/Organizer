@@ -38,9 +38,10 @@ void Storage::loadJson() {
 }
 
 void Storage::saveJson() {
-	MWindow::getInstance()->saveController();
+    MWindow *receiver = MWindow::getInstance();
+    receiver->contr->save();
 
-	original["docs"] = saveDocs();
+    original["docs"] = saveDocs();
 
 	if (getB("sync"))
 		sendDocsToServer();

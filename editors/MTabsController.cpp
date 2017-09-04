@@ -6,17 +6,27 @@
 
 
 MTabsController::MTabsController(MWindow *w) : wnd(w) {
-	cont = Storage::getInstance()->getDocument("documents");
+    sync = new NSync(this);
 }
 
 void MTabsController::load() {
+    QJsonArray docs = Storage::getInstance()->getDocs();
+
 	int i = 0;
-    for (const QJsonValue &o : *cont)
-        addNewTab(i, o.toObject());
+    for (const auto &o : docs) {
+        QJsonObject ob = o.toObject();
+        QString name = ob["name"].toString("Error");
+
+        if (tabs.contains(name)) {
+            tabs[name]->load(ob);
+
+        } else {
+            addNewTab(name, ob, i);
+        }
+    }
 }
 
-void MTabsController::addNewTab(int i, const QJsonObject &o) {
-	QString name = o["name"].toString("Error");
+void MTabsController::addNewTab(const QString &name, const QJsonObject &o, int i) {
 	MTab *w;
 
     MTab::TabType type = static_cast<MTab::TabType>(o["type"].toInt(100));
@@ -39,7 +49,7 @@ void MTabsController::addNewTab(int i, const QJsonObject &o) {
 
 	if (w != nullptr) {
 		wnd->tabs->insertTab(i, w, name);
-		tabs << w;
+        tabs[name] = w;
 	}
 }
 
@@ -50,12 +60,12 @@ MTab *MTabsController::addNew() {
 void MTabsController::save() {
     QJsonArray obj;
 
-	for (MTab *t : tabs) {
+    for (MTab *t : tabs.values()) {
 		if (t != nullptr)
             obj << t->save();
     }
 
-    Storage::getInstance()->saveDocument(obj);
+    Storage::getInstance()->setDocs(obj);
 }
 
 void MTabsController::tabDel(QString name) {

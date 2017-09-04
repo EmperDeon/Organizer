@@ -15,8 +15,9 @@ class Storage;
 
 class MTab;
 
+class MTabsController;
+
 class MWindow : public QMainWindow {
-	MTabsController *contr = nullptr;
 	QAction *chAction;
 
 	QSystemTrayIcon *tray;
@@ -46,6 +47,7 @@ public:
 
 	void trayToggle();
 
+    MTabsController *contr = nullptr;
 protected:
 	void closeEvent(QCloseEvent *e) override;
 
@@ -69,7 +71,6 @@ public:
 		return instance;
 	}
 
-	void saveController() { contr->save(); }
 };
 
 #endif //ORGANIZER_MWGT_H

@@ -43,6 +43,6 @@ void MNewEd::addClick() {
 	};
 
 	QTabWidget *tabs = wnd->tabs;
-	contr->addNewTab(tabs->count() - 2, o);
+    contr->addNewTab(name->text(), o, tabs->count() - 2);
 	tabs->setCurrentIndex(tabs->count() - 3);
 }
