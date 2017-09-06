@@ -4,7 +4,7 @@
 #include <QtWidgets/QPushButton>
 #include "MNewEd.h"
 
-MNewEd::MNewEd(MWindow *w, MTabsController *c) : wnd(w), contr(c) {
+MNewEd::MNewEd(WMain *w, MTabsController *c) : wnd(w), contr(c) {
 	QWidget *wgt = new QWidget;
 	auto *v = new QVBoxLayout;
 	auto *l = new QFormLayout;
@@ -15,7 +15,9 @@ MNewEd::MNewEd(MWindow *w, MTabsController *c) : wnd(w), contr(c) {
 	QPushButton *submit = new QPushButton(tr("Create"));
 	submit->setProperty("newLineButton", "true");
 
-    type->addItems({"Plain text", "List", "Links group"});
+    type->addItem("Plain text", MTab::Text);
+    type->addItem("List", MTab::List);
+    type->addItem("Links group", MTab::LinksGroup);
 
 	l->addRow(label);
 	l->addRow(tr("Name: "), name);
@@ -38,8 +40,8 @@ MNewEd::MNewEd(MWindow *w, MTabsController *c) : wnd(w), contr(c) {
 void MNewEd::addClick() {
 	if (name->text() == "") return;
 	QJsonObject o = {
-			{"name", name->text()},
-			{"type", type->currentIndex()}
+            {"name", name->text()},
+            {"type", type->currentData().toInt()}
 	};
 
 	QTabWidget *tabs = wnd->tabs;

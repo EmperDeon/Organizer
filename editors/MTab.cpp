@@ -1,7 +1,7 @@
 #include <QtCore/QTimer>
 #include <QtCore/QDateTime>
 #include <storage/Storage.h>
-#include "mtab.h"
+#include "MTab.h"
 
 MTab::MTab(const QJsonObject &o, TabType t) {
     obj = o;

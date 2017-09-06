@@ -3,17 +3,23 @@
 
 #include <QtWidgets/QWidget>
 #include <QtCore/QJsonObject>
+#include <QtCore/QMap>
 
 
 class MTab : public QWidget {
 public:
     enum TabType : int {
-        Text,
-        List,
-        LinksGroup,
-
-        NewTab = 100
+	    Text = 1,
+	    List = 2,
+	    LinksGroup = 4,
+	    NewTab = 1024
     };
+
+	enum TabGroup : int {
+		All = Text | List | LinksGroup,
+		Editors = Text | List,
+		Links = LinksGroup
+	};
 
 private:
 	qint64 u_time = 0, u_last = 0;
@@ -21,7 +27,7 @@ private:
 	QJsonObject obj;
 	QString name;
 
-    TabType type;
+	TabType type = NewTab;
 
 protected:
 	void saveStorage();
@@ -39,6 +45,8 @@ public:
 
 	QString getName() { return name; }
 
+	bool isInGroup(TabGroup gr) { return gr & type; }
+
 	virtual QString getDesc() = 0;
 
 	virtual void importFrom(QString s) = 0;
@@ -48,8 +56,6 @@ public:
 	virtual void fromJson(QJsonValue v) = 0;
 
 	virtual QJsonValue toJson() = 0;
-
-
 };
 
 

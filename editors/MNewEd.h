@@ -1,24 +1,24 @@
 #ifndef ORGANIZER_MNEWED_H
 #define ORGANIZER_MNEWED_H
 
-#include <mwgt.h>
+#include <widgets/WMain.h>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QLineEdit>
 #include "MTabsController.h"
 
-class MWindow;
+class WMain;
 
 class MTabsController;
 
 class MNewEd : public MTab {
-	MWindow *wnd;
+    WMain *wnd;
 	MTabsController *contr;
 
 	QComboBox *type;
 	QLineEdit *name;
 
 public:
-	MNewEd(MWindow *w, MTabsController *c);
+    MNewEd(WMain *w, MTabsController *c);
 
 	void addClick();
 
@@ -34,7 +34,7 @@ public:
 
 	~MNewEd() override = default;
 
-	friend class MWindow;
+    friend class WMain;
 };
 
 #endif //ORGANIZER_MNEWED_H

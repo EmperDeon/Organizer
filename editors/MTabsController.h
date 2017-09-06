@@ -2,10 +2,10 @@
 #define ORGANIZER_MEDITORS_H
 
 #include <storage/Storage.h>
-#include <mwgt.h>
+#include <widgets/WMain.h>
 #include <network/NSync.h>
 
-class MWindow;
+class WMain;
 
 class Storage;
 
@@ -15,24 +15,25 @@ class NSync;
 
 
 class MTabsController {
-	MWindow *wnd;
-    QMap<QString, MTab *> tabs;
+	WMain *wnd;
     NSync *sync;
 
 public:
-	explicit MTabsController(MWindow *w);
+	QMap<QString, MTab *> tabs;
+
+	explicit MTabsController(WMain *w);
 
 	void load();
 
 	void save();
-
-	MTab *addNew();
 
 	void tabDel(QString name);
 
 	~MTabsController() = default;
 
     void addNewTab(const QString &name, const QJsonObject &o, int i);
+
+	QList<MTab *> selectByGroup(MTab::TabGroup gr);
 };
 
 

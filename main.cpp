@@ -1,6 +1,6 @@
 #include <QtWidgets/QApplication>
 #include <QtCore/QFile>
-#include <mwgt.h>
+#include <widgets/WMain.h>
 #include <Qca-qt5/QtCrypto/QtCrypto>
 #include <network/Network.h>
 #include <utils/ULoginDialog.h>
@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
 	QString StyleSheet = QLatin1String(File.readAll());
 	a.setStyleSheet(StyleSheet);
 
-    auto *wnd = MWindow::getInstance();
+	auto *wnd = WMain::getInstance();
 	wnd->show();
 
 //    qDebug() << ULoginDialog::getLoginHash();

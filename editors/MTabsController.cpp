@@ -5,7 +5,7 @@
 #include "MNewEd.h"
 
 
-MTabsController::MTabsController(MWindow *w) : wnd(w) {
+MTabsController::MTabsController(WMain *w) : wnd(w) {
     sync = new NSync(this);
 }
 
@@ -48,13 +48,10 @@ void MTabsController::addNewTab(const QString &name, const QJsonObject &o, int i
 	}
 
 	if (w != nullptr) {
-		wnd->tabs->insertTab(i, w, name);
+//        wnd->tabs->insertNewTab(i, w, name);
+        wnd->tabs->addTab(w, name);
         tabs[name] = w;
 	}
-}
-
-MTab *MTabsController::addNew() {
-	return new MNewEd(wnd, this);
 }
 
 void MTabsController::save() {
@@ -70,4 +67,17 @@ void MTabsController::save() {
 
 void MTabsController::tabDel(QString name) {
 //	cont->remove(name);
+}
+
+QList<MTab *> MTabsController::selectByGroup(MTab::TabGroup gr) {
+    auto r = QList<MTab *>();
+
+    for (const auto &n : tabs.keys()) {
+        if (tabs[n]->isInGroup(gr)) {
+//            qDebug() << n;
+            r << tabs[n];
+        }
+    }
+
+    return r;
 }

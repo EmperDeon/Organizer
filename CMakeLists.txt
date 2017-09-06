@@ -16,19 +16,17 @@ set(CMAKE_CXX_FLAGS "-std=c++14")
 
 SET(M_S
         main.cpp
-        mwgt.cpp
-        mtab.cpp
-
         res.rc
 
         crypt/CAes.cpp
         crypt/CRsa.cpp
         crypt/CTools.cpp
 
-        editors/MTabsController.cpp
-        editors/MNewEd.cpp
         editors/MEdTab.cpp
         editors/MLsTab.cpp
+        editors/MNewEd.cpp
+        editors/MTab.cpp
+        editors/MTabsController.cpp
 
         links/MLink.cpp
         links/MGroup.cpp
@@ -43,23 +41,24 @@ SET(M_S
         utils/ULoginDialog.cpp
         utils/UPassDialog.cpp
 
+        widgets/WMain.cpp
         widgets/WSync.cpp
+        widgets/WTabs.cpp
         )
 
 
 SET(M_H
-        mwgt.h
-        mtab.h
         vars.h
 
         crypt/CAes.h
         crypt/CRsa.h
         crypt/CTools.h
 
-        editors/MTabsController.h
-        editors/MNewEd.h
         editors/MEdTab.h
         editors/MLsTab.h
+        editors/MNewEd.h
+        editors/MTab.h
+        editors/MTabsController.h
 
         links/MLink.h
         links/MGroup.h
@@ -74,7 +73,9 @@ SET(M_H
         utils/ULoginDialog.h
         utils/UPassDialog.h
 
+        widgets/WMain.h
         widgets/WSync.h
+        widgets/WTabs.h
         )
 
 qt5_wrap_cpp(GENERATED_SOURCES ${M_H})

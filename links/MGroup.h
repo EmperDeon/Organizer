@@ -1,7 +1,7 @@
 #ifndef ORGANIZER_MGROUP_H
 #define ORGANIZER_MGROUP_H
 
-#include <mwgt.h>
+#include <widgets/WMain.h>
 #include <links/MLink.h>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QScrollArea>

@@ -4,7 +4,7 @@
 #include <QtCore/QFile>
 #include <QDebug>
 #include <network/Network.h>
-#include <mwgt.h>
+#include <widgets/WMain.h>
 
 //#define ENCRYPT_OUT
 //#define DECRYPT_INP
@@ -38,7 +38,7 @@ void Storage::loadJson() {
 }
 
 void Storage::saveJson() {
-    MWindow *receiver = MWindow::getInstance();
+	WMain *receiver = WMain::getInstance();
     receiver->contr->save();
 
     original["docs"] = saveDocs();

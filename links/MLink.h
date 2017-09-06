@@ -1,7 +1,7 @@
 #ifndef ORGANIZER_MLINK_H
 #define ORGANIZER_MLINK_H
 
-#include <mwgt.h>
+#include <widgets/WMain.h>
 #include <links/MGroup.h>
 #include <QtWidgets/QLineEdit>
 
