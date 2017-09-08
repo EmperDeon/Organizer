@@ -4,13 +4,8 @@
 #include <editors/MTabsController.h>
 #include <QtWidgets/QPlainTextEdit>
 
-class MTab;
-class MEdTab;
-
 
 class MEdTab : public MTab {
-	QString name;
-
 	QPlainTextEdit *edit;
 
 public:

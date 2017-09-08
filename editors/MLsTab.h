@@ -13,7 +13,6 @@ class MListEF;
 
 class MLsTab : public MTab {
 	QJsonObject obj;
-	QString name;
 
 	QVBoxLayout *list;
 	MListEF *events;

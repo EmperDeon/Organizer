@@ -18,6 +18,7 @@ MNewEd::MNewEd(WMain *w, MTabsController *c) : wnd(w), contr(c) {
     type->addItem("Plain text", MTab::Text);
     type->addItem("List", MTab::List);
     type->addItem("Links group", MTab::LinksGroup);
+	type->addItem("Markdown", MTab::Markdown);
 
 	l->addRow(label);
 	l->addRow(tr("Name: "), name);

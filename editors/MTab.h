@@ -12,24 +12,27 @@ public:
 	    Text = 1,
 	    List = 2,
 	    LinksGroup = 4,
+	    Markdown = 8,
 	    NewTab = 1024
     };
 
 	enum TabGroup : int {
-		All = Text | List | LinksGroup,
+		All = Text | List | LinksGroup | Markdown,
 		Editors = Text | List,
-		Links = LinksGroup
+		Links = LinksGroup,
+		Guides = Markdown
 	};
 
 private:
 	qint64 u_time = 0, u_last = 0;
 	bool timer_not_started = true;
 	QJsonObject obj;
-	QString name;
 
 	TabType type = NewTab;
 
 protected:
+	QString name;
+
 	void saveStorage();
 
 public:
@@ -56,6 +59,10 @@ public:
 	virtual void fromJson(QJsonValue v) = 0;
 
 	virtual QJsonValue toJson() = 0;
+
+	virtual void loadCustomParams(const QJsonObject &o) {}
+
+	virtual QJsonObject saveCustomParams() { return QJsonObject(); }
 };
 
 

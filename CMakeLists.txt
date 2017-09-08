@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.3)
+cmake_minimum_required(VERSION 3.0)
 project(Organizer)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -24,6 +24,7 @@ SET(M_S
 
         editors/MEdTab.cpp
         editors/MLsTab.cpp
+        editors/MMdTab.cpp
         editors/MNewEd.cpp
         editors/MTab.cpp
         editors/MTabsController.cpp
@@ -56,6 +57,7 @@ SET(M_H
 
         editors/MEdTab.h
         editors/MLsTab.h
+        editors/MMdTab.h
         editors/MNewEd.h
         editors/MTab.h
         editors/MTabsController.h
@@ -78,10 +80,12 @@ SET(M_H
         widgets/WTabs.h
         )
 
+add_subdirectory(vendor/markdown)
+
 qt5_wrap_cpp(GENERATED_SOURCES ${M_H})
-qt5_add_resources(UI_RESOURCES res.qrc)
+qt5_add_resources(UI_RESOURCES res/res.qrc)
 
 add_executable(Organizer ${M_S} ${M_H} ${UI_RESOURCES})
 qt5_use_modules(Organizer Core Widgets Network)
 
-target_link_libraries(Organizer ${Qt5Core_QTMAIN_LIBRARIES} qca-qt5)
+target_link_libraries(Organizer ${Qt5Core_QTMAIN_LIBRARIES} qca-qt5 MarkToHtml)

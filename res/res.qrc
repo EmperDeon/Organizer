@@ -2,5 +2,8 @@
     <qresource prefix="/">
         <file>icon.ico</file>
         <file>style.qss</file>
+        <file>icons/md-both.png</file>
+        <file>icons/md-edit.png</file>
+        <file>icons/md-view.png</file>
     </qresource>
 </RCC>

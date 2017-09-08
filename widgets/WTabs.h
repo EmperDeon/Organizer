@@ -21,8 +21,8 @@ class WTabs : public QTabWidget {
     QAction *action = nullptr;
     MTab::TabGroup current_group = MTab::All;
     QMap<QString, MTab::TabGroup> tab_groups;
-public:
 
+public:
     explicit WTabs(WMain *m);
 
     int insertNewTab(int index, MTab *widget, const QString &string);

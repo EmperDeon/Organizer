@@ -37,16 +37,24 @@ void MTab::load(QJsonObject o) {
 //
 //	if (n_last > u_last)
 
-    if (o.empty())
-        fromJson(obj["content"]);
-    else
-        fromJson(o["content"]);
+	if (o.empty()) {
+		fromJson(obj["content"]);
+		loadCustomParams(obj);
+	} else {
+		fromJson(o["content"]);
+		loadCustomParams(o);
+	}
 }
 
 QJsonObject MTab::save() {
 	obj["content"] = toJson();
 	obj["last_updated"] = u_last;
     obj["type"] = type;
+
+	QJsonObject cust = saveCustomParams();
+	for (QString k : cust.keys()) {
+		obj[k] = cust[k];
+	}
 
 	return obj;
 }

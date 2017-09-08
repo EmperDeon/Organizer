@@ -3,6 +3,7 @@
 #include "MEdTab.h"
 #include "MLsTab.h"
 #include "MNewEd.h"
+#include "MMdTab.h"
 
 
 MTabsController::MTabsController(WMain *w) : wnd(w) {
@@ -40,6 +41,9 @@ void MTabsController::addNewTab(const QString &name, const QJsonObject &o, int i
             break;
         case MTab::LinksGroup:
             w = new MGroup(o);
+            break;
+        case MTab::Markdown:
+            w = new MMdTab(o);
             break;
 
         default:
