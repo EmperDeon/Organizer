@@ -12,7 +12,7 @@ class MMdTab : public MTab {
     int cur_mode;
 
     QPlainTextEdit *edit;
-    QLabel *view;
+    QTextEdit *view;
     QScrollArea *view_scroll;
 
     QHBoxLayout *m_layout;
@@ -39,9 +39,6 @@ public:
     void updateText();
 
     void changeMode(int id, bool checked);
-
-protected:
-    void resizeEvent(QResizeEvent *event) override;
 };
 
 

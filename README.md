@@ -1,7 +1,6 @@
 # Organizer
 
-Using markdown code from this repo 
-[cpp-markdown](https://github.com/sevenjay/cpp-markdown)
+Using markdown code from [cpp-markdown](https://github.com/sevenjay/cpp-markdown) repo
 
 ### Main functions:
 - Store text/lists
@@ -22,4 +21,7 @@ WIP
 - Add class for loading old versions of storage file
 
   So, if current version 5 and file version is 2, class will apply migrations 3, 4, 5
-  
+
+- Add files storage (convert file to base64, and encrypt if needed)
+
+  Maybe as FilesGroup, with possible encryption (each gorup with separate key)

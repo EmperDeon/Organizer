@@ -50,7 +50,7 @@ QTabBar::tab:selected {
 
 QPlainTextEdit {
     background-color: #2a2a2a;
-    font-size: 10pt;
+    font-size: 14px;
     padding: 5px;
     selection-background-color: #454545;
     border: 1px solid black;
