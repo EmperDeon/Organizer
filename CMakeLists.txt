@@ -36,8 +36,11 @@ SET(M_S
         network/Network.cpp
         network/NSync.cpp
 
+        storage/SMigrations.cpp
         storage/Storage.cpp
         storage/SSecure.cpp
+
+        storage/migrations/SMVer1.cpp
 
         utils/ULoginDialog.cpp
         utils/UPassDialog.cpp
@@ -69,8 +72,12 @@ SET(M_H
         network/Network.h
         network/NSync.h
 
+        storage/SMigrations.h
         storage/Storage.h
         storage/SSecure.h
+
+        storage/migrations/SMigration.h
+        storage/migrations/SMVer1.h
 
         utils/ULoginDialog.h
         utils/UPassDialog.h

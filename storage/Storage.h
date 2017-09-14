@@ -5,12 +5,15 @@
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonArray>
 #include <storage/SSecure.h>
+#include <storage/SMigrations.h>
+
 
 class Storage {
     QJsonObject original;
     QJsonArray docs;
 
 	SSecure *secure;
+    SMigrations *migrations;
 
 public:
 	Storage();

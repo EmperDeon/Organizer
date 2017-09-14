@@ -6,10 +6,9 @@
 #include <network/Network.h>
 #include <widgets/WMain.h>
 
-//#define ENCRYPT_OUT
-//#define DECRYPT_INP
-
 Storage::Storage() {
+	migrations = new SMigrations;
+
 	loadJson();
 }
 
@@ -22,14 +21,14 @@ void Storage::loadJson() {
 
 	QString json = f.readAll();
 
-// Decrypt input ?
-#ifdef DECRYPT_INP
-	CAes fileAes("128", STORAGE_KEY);
+	if (!json.startsWith('{')) {
+		CAes fileAes("128", STORAGE_KEY);
 
-	json = fileAes.decrypt(json);
-#endif
+		json = fileAes.decrypt(json);
+	}
 
 	original = CTools::fromJson(json);
+	original = migrations->processFull(original);
 
 	// Here, because needs original json, but decrypt may need access to *secure
 	secure = new SSecure(&original);
@@ -71,6 +70,7 @@ void Storage::loadDocs(QString d) {
 	}
 
 	docs = CTools::fromJsonA(d);
+	docs = migrations->processDocs(docs);
 }
 
 QString Storage::saveDocs() {

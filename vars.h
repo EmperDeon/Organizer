@@ -14,7 +14,8 @@
 #define S_DOC_KEY_SIZE 64
 
 
-// IO
+// Storage
+//#define ENCRYPT_OUT
 #define STORAGE_FILE "/home/ilya/.myQtProgs/storage2.json"
 #define STORAGE_KEY "ttpGxMkT4wk7QJx77ak75dtYqaUdRQB5fJQO1NzzYFc="
 
