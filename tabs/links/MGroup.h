@@ -2,7 +2,7 @@
 #define ORGANIZER_MGROUP_H
 
 #include <widgets/WMain.h>
-#include <links/MLink.h>
+#include <tabs/links/MLink.h>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QScrollArea>
 

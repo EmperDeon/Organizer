@@ -1,7 +1,7 @@
 #ifndef ORGANIZER_MLSTAB_H
 #define ORGANIZER_MLSTAB_H
 
-#include <editors/MTabsController.h>
+#include <tabs/MTabsController.h>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QScrollArea>
 #include <QtWidgets/QLineEdit>

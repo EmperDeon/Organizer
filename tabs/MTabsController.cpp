@@ -1,9 +1,9 @@
-#include <editors/MTabsController.h>
-#include <links/MGroup.h>
-#include "MEdTab.h"
-#include "MLsTab.h"
-#include "MNewEd.h"
-#include "MMdTab.h"
+#include "tabs/MTabsController.h"
+#include "tabs/editors/MEdTab.h"
+#include "tabs/editors/MLsTab.h"
+#include "tabs/links/MGroup.h"
+#include "tabs/guides/MMdTab.h"
+#include "tabs/MNewEd.h"
 
 
 MTabsController::MTabsController(WMain *w) : wnd(w) {

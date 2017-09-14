@@ -1,7 +1,7 @@
 #ifndef ORGANIZER_NSYNC_H
 #define ORGANIZER_NSYNC_H
 
-#include <editors/MTabsController.h>
+#include <tabs/MTabsController.h>
 
 class MTabsController;
 

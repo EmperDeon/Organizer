@@ -2,7 +2,7 @@
 #define ORGANIZER_MLINK_H
 
 #include <widgets/WMain.h>
-#include <links/MGroup.h>
+#include <tabs/links/MGroup.h>
 #include <QtWidgets/QLineEdit>
 
 

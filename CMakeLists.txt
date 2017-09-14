@@ -22,15 +22,17 @@ SET(M_S
         crypt/CRsa.cpp
         crypt/CTools.cpp
 
-        editors/MEdTab.cpp
-        editors/MLsTab.cpp
-        editors/MMdTab.cpp
-        editors/MNewEd.cpp
-        editors/MTab.cpp
-        editors/MTabsController.cpp
+        tabs/editors/MEdTab.cpp
+        tabs/editors/MLsTab.cpp
 
-        links/MLink.cpp
-        links/MGroup.cpp
+        tabs/links/MLink.cpp
+        tabs/links/MGroup.cpp
+
+        tabs/guides/MMdTab.cpp
+
+        tabs/MNewEd.cpp
+        tabs/MTab.cpp
+        tabs/MTabsController.cpp
 
         network/NCrypt.cpp
         network/Network.cpp
@@ -58,15 +60,17 @@ SET(M_H
         crypt/CRsa.h
         crypt/CTools.h
 
-        editors/MEdTab.h
-        editors/MLsTab.h
-        editors/MMdTab.h
-        editors/MNewEd.h
-        editors/MTab.h
-        editors/MTabsController.h
+        tabs/editors/MEdTab.h
+        tabs/editors/MLsTab.h
 
-        links/MLink.h
-        links/MGroup.h
+        tabs/links/MLink.h
+        tabs/links/MGroup.h
+
+        tabs/guides/MMdTab.h
+
+        tabs/MNewEd.h
+        tabs/MTab.h
+        tabs/MTabsController.h
 
         network/NCrypt.h
         network/Network.h

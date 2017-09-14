@@ -2,14 +2,14 @@
 #define ORGANIZER_WMAIN_H
 
 #include <storage/Storage.h>
-#include <editors/MTab.h>
+#include <tabs/MTab.h>
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QSystemTrayIcon>
 #include <QtCore/QDateTime>
 #include <QtCore/QTimer>
 #include <widgets/WSync.h>
-#include <editors/MTabsController.h>
+#include <tabs/MTabsController.h>
 #include "WTabs.h"
 
 

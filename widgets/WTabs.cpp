@@ -1,6 +1,5 @@
 #include <QtWidgets/QMessageBox>
-#include <editors/MNewEd.h>
-#include "WTabs.h"
+#include <tabs/MNewEd.h>
 
 WTabs::WTabs(WMain *m) : main(m), contr(main->contr) {
     tab_groups = {{"Editors", MTab::Editors},

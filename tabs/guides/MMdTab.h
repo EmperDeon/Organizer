@@ -6,7 +6,7 @@
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QButtonGroup>
-#include "MTab.h"
+#include "tabs/MTab.h"
 
 class MMdTab : public MTab {
     int cur_mode;

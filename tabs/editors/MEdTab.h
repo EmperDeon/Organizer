@@ -1,7 +1,7 @@
 #ifndef ORGANIZER_MEDTAB_H
 #define ORGANIZER_MEDTAB_H
 
-#include <editors/MTabsController.h>
+#include <tabs/MTabsController.h>
 #include <QtWidgets/QPlainTextEdit>
 
 

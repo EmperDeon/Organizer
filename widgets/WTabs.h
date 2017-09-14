@@ -2,8 +2,8 @@
 #define ORGANIZER_WTABWIDGET_H
 
 #include <QtWidgets/QTabWidget>
-#include <editors/MTab.h>
-#include <editors/MTabsController.h>
+#include <tabs/MTab.h>
+#include <tabs/MTabsController.h>
 
 class WMain;
 
