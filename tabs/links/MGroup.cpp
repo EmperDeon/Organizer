@@ -1,23 +1,14 @@
 #include <QtCore/QJsonArray>
+#include <utils/UScrollArea.h>
 #include "MGroup.h"
 
 MGroup::MGroup(const QJsonObject &o) : MTab(o, MTab::LinksGroup), name(o["name"].toString()) {
-	scroll = new QScrollArea;
 	auto *scrollLayout = new QVBoxLayout;
-	QWidget *w = new QWidget;
 
 	list = new QVBoxLayout;
 	list->setAlignment(Qt::AlignTop);
-	w->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-	w->setLayout(list);
 
-	// TODO: Move to separate class/Library
-	scroll->setWidget(w);
-	scroll->setWidgetResizable(true);
-	scroll->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
-	scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	scroll->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Expanding);
+	auto *scroll = new UScrollArea(list);
 
 	scrollLayout->addWidget(scroll);
 	scrollLayout->setMargin(0);

@@ -12,7 +12,7 @@ public:
 
 	QByteArray encrypt(QByteArray mem, QString path);
 
-	QByteArray decrypt(QByteArray mes, QString path, bool ver = true);
+    QByteArray decrypt(QByteArray mes, QString path);
 
 	QString getKey(QString path);
 

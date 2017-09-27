@@ -13,9 +13,7 @@ class WTabs : public QTabWidget {
     WMain *main;
     MTabsController *contr;
 
-    MTab *lastTab = nullptr, *newTab = nullptr;
-
-    QList<MTab *> tabs;
+    MTab *newTab = nullptr;
 
     // Groups cycle variables
     QAction *action = nullptr;
@@ -24,8 +22,6 @@ class WTabs : public QTabWidget {
 
 public:
     explicit WTabs(WMain *m);
-
-    int insertNewTab(int index, MTab *widget, const QString &string);
 
     void tabNew();
 

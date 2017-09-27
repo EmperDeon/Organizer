@@ -21,7 +21,7 @@ QString CAes::decrypt(const QString &message) {
 }
 
 CAes::CAes(QString cipher_name, QString k, QString i) :
-		key(fromBase(k)), iv(fromBase(i)), cipher("aes" + cipher_name, QCA::Cipher::CBC, QCA::Cipher::PKCS7) {
+		key(fromBase(k)), iv(fromBase(i)), cipher("aes" + cipher_name, AES_MODE, AES_PADDING) {
 
 	encryption = true;
 	cipher.setup(QCA::Encode, key, iv);

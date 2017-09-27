@@ -1,33 +1,22 @@
 #include "MLsTab.h"
-#include <QtCore/QJsonArray>
 #include <QtWidgets/QMessageBox>
 #include <QtCore/QEvent>
 #include <QtGui/QMouseEvent>
 
-// MLsTab
 MLsTab::MLsTab(const QJsonObject &o) : MTab(o, MTab::List) {
-	scroll = new QScrollArea;
-	auto *scrollLayout = new QVBoxLayout;
-	QWidget *w = new QWidget;
+	auto *l = new QVBoxLayout;
 
 	list = new QVBoxLayout;
 	events = new MListEF(this);
 
 	list->setAlignment(Qt::AlignTop);
-	w->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-	w->setLayout(list);
 
-	scroll->setWidget(w);
-	scroll->setWidgetResizable(true);
-	scroll->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
-	scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	scroll->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Expanding);
+	auto *scroll = new UScrollArea(list);
 
-	scrollLayout->addWidget(scroll);
-	scrollLayout->setMargin(0);
+	l->addWidget(scroll);
+	l->setMargin(0);
 
-	setLayout(scrollLayout);
+	setLayout(l);
 
 	load();
 }
@@ -123,8 +112,6 @@ void MLsTab::arrowPressed(QLineEdit *l, bool up) {
 QLineEdit *MLsTab::getLineEdit(int i) const {
 	return (static_cast<QLineEdit *>(list->itemAt(i)->widget()));
 }
-// MLsTab
-
 
 
 // MListEF

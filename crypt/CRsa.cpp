@@ -1,10 +1,8 @@
 #include "CRsa.h"
 #include "CTools.h"
-#include <QDebug>
 
 CRsa::CRsa(QString pub, QString prv, QString passphrase) {
 	publicKey = QCA::PublicKey::fromPEM(pub);
-
 
 	if (prv != "")
 		privateKey = QCA::PrivateKey::fromPEM(prv, passphrase.toStdString().c_str());
@@ -24,13 +22,13 @@ QString CRsa::createPublicKey(QString private_key) {
 }
 
 QString CRsa::encode(QString str) {
-	QCA::SecureArray mem = publicKey.encrypt(str.toStdString().c_str(), QCA::EME_PKCS1v15);
+    QCA::SecureArray mem = publicKey.encrypt(str.toStdString().c_str(), RSA_ENC_ALG);
 	return CTools::toBase(mem);
 }
 
 QString CRsa::decode(QString str) {
 	QCA::SecureArray mem;
-	privateKey.decrypt(CTools::fromBase(str), &mem, QCA::EME_PKCS1v15);
+    privateKey.decrypt(CTools::fromBase(str), &mem, RSA_ENC_ALG);
 
 	return QByteArray(mem.constData());
 }

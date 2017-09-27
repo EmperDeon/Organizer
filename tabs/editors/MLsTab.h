@@ -5,6 +5,7 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QScrollArea>
 #include <QtWidgets/QLineEdit>
+#include <utils/UScrollArea.h>
 
 class MTab;
 class MLsTab;
@@ -16,7 +17,6 @@ class MLsTab : public MTab {
 
 	QVBoxLayout *list;
 	MListEF *events;
-	QScrollArea *scroll;
 
 public:
 	explicit MLsTab(const QJsonObject &o);

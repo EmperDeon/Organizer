@@ -21,8 +21,9 @@ void Storage::loadJson() {
 
 	QString json = f.readAll();
 
+    // Check if storage file is encrypted
 	if (!json.startsWith('{')) {
-		CAes fileAes("128", STORAGE_KEY);
+        CAes fileAes(STORAGE_CIPHER, STORAGE_KEY);
 
 		json = fileAes.decrypt(json);
 	}
@@ -52,8 +53,8 @@ void Storage::saveJson() {
 
 // Encrypt output ?
 #ifdef ENCRYPT_OUT
-	CAes aes("128", STORAGE_KEY);
-	json = aes.encrypt(json);
+    CAes aes(STORAGE_CIPHER, STORAGE_KEY);
+    json = aes.encrypt(json);
 #endif
 
 	QFile f(STORAGE_FILE);
@@ -64,7 +65,7 @@ void Storage::saveJson() {
 
 void Storage::loadDocs(QString d) {
 	if (getB("sync")) { // Decrypt
-		CAes aes("128", secure->password());
+        CAes aes(S_DOC_CIPHER, secure->password());
 
 		d = aes.decrypt(d);
 	}
@@ -77,10 +78,13 @@ QString Storage::saveDocs() {
 	QString doc = CTools::toJson(docs);
 
 	if (getB("sync")) {
-		CAes aes("128", secure->password());
+        CAes aes(S_DOC_CIPHER, secure->password());
 
 		doc = aes.encrypt(doc);
 	}
+
+//    Add as option later
+//    doc = CTools::toBase(qCompress(doc.toUtf8()));
 
 	return doc;
 }

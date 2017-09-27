@@ -10,10 +10,6 @@
 
 class NCrypt;
 
-struct NetResponse {
-	QString text, code, time;
-};
-
 class Network : public QObject {
 	NCrypt *crypt;
 

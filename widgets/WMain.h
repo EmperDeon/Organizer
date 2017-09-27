@@ -1,32 +1,26 @@
 #ifndef ORGANIZER_WMAIN_H
 #define ORGANIZER_WMAIN_H
 
-#include <storage/Storage.h>
-#include <tabs/MTab.h>
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QSystemTrayIcon>
 #include <QtCore/QDateTime>
 #include <QtCore/QTimer>
-#include <widgets/WSync.h>
-#include <tabs/MTabsController.h>
-#include "WTabs.h"
+#include <utils/USingleton.h>
+#include <utils/UTray.h>
+#include "widgets/WSync.h"
+#include "widgets/WTabs.h"
+#include "tabs/MTabsController.h"
 
-
-class Storage;
-
-class MTab;
 
 class MTabsController;
 
 class WTabs;
 
 
-class WMain : public QMainWindow {
-    QAction *chAction;
-
-    QSystemTrayIcon *tray;
-    WSync *wsync;
+class WMain : public QMainWindow, public USingleton<WMain> {
+    WSync *w_sync;
+    UTray *tray;
 
 public:
     WTabs *tabs;
@@ -35,11 +29,8 @@ public:
 
     void exportTo();
 
-    void trayClick(QSystemTrayIcon::ActivationReason reason);
-
-    void trayToggle();
-
     MTabsController *contr = nullptr;
+
 protected:
     void closeEvent(QCloseEvent *e) override;
 
@@ -49,19 +40,6 @@ public:
     WMain();
 
     void constructMenuBar();
-
-    void changeWidget();
-
-    // Singleton
-    static WMain *getInstance() {
-        static WMain *instance = nullptr;
-
-        if (instance == nullptr) {
-            instance = new WMain;
-        }
-
-        return instance;
-    }
 
 };
 

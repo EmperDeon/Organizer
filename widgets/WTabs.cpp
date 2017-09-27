@@ -11,6 +11,7 @@ WTabs::WTabs(WMain *m) : main(m), contr(main->contr) {
 }
 
 void WTabs::tabNew() {
+    // TODO: Delete newTab from TabBar, not itself
     if (newTab == nullptr && contr != nullptr && count() > 0) {
         newTab = new MNewEd(main, contr);
         insertTab(count() - 1, newTab, "New Tab");
@@ -52,12 +53,6 @@ void WTabs::tabChange(int i) {
         }
         newTab = nullptr;
     }
-}
-
-int WTabs::insertNewTab(int index, MTab *widget, const QString &string) {
-    tabs << widget;
-
-    return QTabWidget::insertTab(index, widget, string);
 }
 
 void WTabs::setAction(QAction *act) {

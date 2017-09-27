@@ -46,6 +46,9 @@ SET(M_S
 
         utils/ULoginDialog.cpp
         utils/UPassDialog.cpp
+        utils/UScrollArea.cpp
+        utils/USingleton.cpp
+        utils/UTray.cpp
 
         widgets/WMain.cpp
         widgets/WSync.cpp
@@ -85,6 +88,9 @@ SET(M_H
 
         utils/ULoginDialog.h
         utils/UPassDialog.h
+        utils/UScrollArea.h
+        utils/USingleton.h
+        utils/UTray.h
 
         widgets/WMain.h
         widgets/WSync.h

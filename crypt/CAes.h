@@ -24,7 +24,7 @@ public:
 
 	QString decrypt(const QString &message);
 
-	static QString createKey(int key_size = 32);
+    static QString createKey(int key_size = AES_DEF_KEY_SIZE);
 
 	static QString createKey(QString k);
 

@@ -6,35 +6,18 @@
 
 // Constructor
 WMain::WMain() {
-    wsync = new WSync;
+    w_sync = new WSync;
+    tray = new UTray(this);
+
     contr = new MTabsController(this);
     tabs = new WTabs(this);
 
     constructMenuBar();
 
-    qApp->setWindowIcon(QIcon(":/icon.ico"));
-
-    // Create tray
-    tray = new QSystemTrayIcon;
-    tray->setIcon(QIcon(":/icon.ico"));
-    tray->show();
-
-    auto *trayMenu = new QMenu;
-
-    QAction *trayClick = new QAction("Toggle state");
-    connect(trayClick, &QAction::triggered, this, &WMain::trayToggle);
-
-    trayMenu->addAction(trayClick);
-    tray->setContextMenu(trayMenu);
-
-    connect(tray, &QSystemTrayIcon::activated, this, &WMain::trayClick);
-    // Create tray
-
     contr->load();
     tabs->setMovable(true);
 
     tabs->groupBy();
-
 
     setCentralWidget(tabs);
     setGeometry(100, 100, 750, 500);
@@ -65,7 +48,7 @@ void WMain::constructMenuBar() {
     menu->addMenu(mtabs);
     menu->addAction(chAction);
     menu->addMenu(mhelp);
-    menu->addMenu(wsync->getMenu());
+    menu->addMenu(w_sync->getMenu());
 }
 // Constructor
 
@@ -74,7 +57,9 @@ void WMain::constructMenuBar() {
 void WMain::importFrom() {
     bool ok;
     QString s = QInputDialog::getMultiLineText(this, "Enter text", "Text: ", "", &ok);
-    if (ok) tabs->getCurrentTab()->importFrom(s);
+
+    if (ok)
+        tabs->getCurrentTab()->importFrom(s);
 }
 
 void WMain::exportTo() {
@@ -97,41 +82,4 @@ void WMain::hideEvent(QHideEvent *e) {
 
     Storage::getInstance()->saveJson();
     e->accept();
-}
-
-void WMain::trayClick(QSystemTrayIcon::ActivationReason reason) {
-    if (reason == QSystemTrayIcon::Trigger) {
-        trayToggle();
-    }
-}
-
-void WMain::trayToggle() {
-    if (!isVisible()) {
-        if (isMinimized()) showNormal();
-        this->show();
-        qApp->setActiveWindow(this);
-
-    } else {
-        this->hide();
-    }
-}
-// Widget events
-
-
-void WMain::changeWidget() {
-////	Unload previous controller
-//	if (contr != nullptr) {
-//        saveController();
-//		delete contr;
-//
-//        Storage::getInstance()->saveJson();
-//	}
-//
-////	Construct and load new
-//	contr = new MTabsController(this);
-//
-//
-////	Clear Tabs
-//	tabs->clear();
-//	newTab = nullptr;
 }

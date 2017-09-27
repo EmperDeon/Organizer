@@ -17,7 +17,7 @@ QByteArray NCrypt::encrypt(QByteArray mem, QString path) {
 	return QJsonDocument(obj).toJson(QJsonDocument::Compact);
 }
 
-QByteArray NCrypt::decrypt(QByteArray mes, QString path, bool ver) {
+QByteArray NCrypt::decrypt(QByteArray mes, QString path) {
 	QJsonObject obj = QJsonDocument::fromJson(mes).object();
 
 	CAes aes(NETWORK_AES_TYPE, getKey(path));

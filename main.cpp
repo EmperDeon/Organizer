@@ -1,9 +1,6 @@
 #include <QtWidgets/QApplication>
 #include <QtCore/QFile>
 #include <widgets/WMain.h>
-#include <Qca-qt5/QtCrypto/QtCrypto>
-#include <network/Network.h>
-#include <utils/ULoginDialog.h>
 
 int main(int argc, char **argv) {
 	QApplication a(argc, argv);
@@ -13,6 +10,8 @@ int main(int argc, char **argv) {
 	File.open(QFile::ReadOnly);
 	QString StyleSheet = QLatin1String(File.readAll());
 	a.setStyleSheet(StyleSheet);
+
+    qApp->setWindowIcon(QIcon(":/icon.ico"));
 
 	auto *wnd = WMain::getInstance();
 	wnd->show();

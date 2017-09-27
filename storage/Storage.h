@@ -6,9 +6,10 @@
 #include <QtCore/QJsonArray>
 #include <storage/SSecure.h>
 #include <storage/SMigrations.h>
+#include <utils/USingleton.h>
 
 
-class Storage {
+class Storage : public USingleton<Storage> {
     QJsonObject original;
     QJsonArray docs;
 
@@ -40,17 +41,6 @@ public:
 	void loadDocs(QString d);
 
 	QString saveDocs();
-
-	// Singleton
-	static Storage *getInstance() {
-		static Storage *instance = nullptr;
-
-		if (instance == nullptr) {
-			instance = new Storage;
-		}
-
-		return instance;
-	}
 
 	static SSecure *secureStorage() {
 		Storage *st = getInstance();

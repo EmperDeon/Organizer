@@ -19,7 +19,6 @@ class MGroup : public MTab {
 	QList<MLink *> links;
 
 	QVBoxLayout *list;
-	QScrollArea *scroll;
 
 
 public:
