@@ -8,8 +8,6 @@ Using markdown code from [cpp-markdown](https://github.com/sevenjay/cpp-markdown
 - Store Markdown-formatted text (editor and render)
 - Auto save information after editing, hiding to tray and closing main window
 - Migration of documents on load (Support for loading old-version docs)
-- Sync:
-    - Generation of keys for secure network transmissions between client and server
 
 ### Detailed info
 WIP
@@ -41,11 +39,6 @@ Support for loading old versions of storage file (So, if current version 5 and f
   - Simplify Main functions
   - Write requirements and build instructions
   - Screenshots
-  
-- Sync:
-    - WIP: Login/Register on server for synchronization ("end-to-end", more info in 'CryptInfo' file)
-    - Server code will be available in separate repository (Rails 5.1 & MySQL)
-    - Other clients (Web frontend and Mobile on React library)
     
 ### Needs further checking
 - network/NCrypt:decrypt - Validation error prints only to console and message decryption isn't stopped
