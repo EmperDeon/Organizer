@@ -40,6 +40,7 @@ void MTab::load(QJsonObject o) {
 	if (o.empty()) {
 		fromJson(obj["content"]);
 		loadCustomParams(obj);
+
 	} else {
 		fromJson(o["content"]);
 		loadCustomParams(o);
@@ -52,7 +53,7 @@ QJsonObject MTab::save() {
     obj["type"] = type;
 
 	QJsonObject cust = saveCustomParams();
-	for (QString k : cust.keys()) {
+    for (const QString &k : cust.keys()) {
 		obj[k] = cust[k];
 	}
 

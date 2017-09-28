@@ -1,10 +1,7 @@
-#include "tabs/MTabsController.h"
 #include "tabs/editors/MEdTab.h"
-#include "tabs/editors/MLsTab.h"
 #include "tabs/links/MGroup.h"
-#include "tabs/guides/MMdTab.h"
-#include "tabs/MNewEd.h"
-
+#include "tabs/lists/MLsTab.h"
+#include "tabs/MTabsController.h"
 
 MTabsController::MTabsController(WMain *w) : wnd(w) {
     sync = new NSync(this);
@@ -42,9 +39,6 @@ void MTabsController::addNewTab(const QString &name, const QJsonObject &o, int i
         case MTab::LinksGroup:
             w = new MGroup(o);
             break;
-        case MTab::Markdown:
-            w = new MMdTab(o);
-            break;
 
         default:
             w = nullptr;
@@ -69,7 +63,7 @@ void MTabsController::save() {
     Storage::getInstance()->setDocs(obj);
 }
 
-void MTabsController::tabDel(QString name) {
+void MTabsController::tabDel(QString name) {// Fixme
 //	cont->remove(name);
 }
 
@@ -78,7 +72,6 @@ QList<MTab *> MTabsController::selectByGroup(MTab::TabGroup gr) {
 
     for (const auto &n : tabs.keys()) {
         if (tabs[n]->isInGroup(gr)) {
-//            qDebug() << n;
             r << tabs[n];
         }
     }

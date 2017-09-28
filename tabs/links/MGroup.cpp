@@ -2,7 +2,7 @@
 #include <utils/UScrollArea.h>
 #include "MGroup.h"
 
-MGroup::MGroup(const QJsonObject &o) : MTab(o, MTab::LinksGroup), name(o["name"].toString()) {
+MGroup::MGroup(const QJsonObject &o) : MTab(o, MTab::LinksGroup) {
 	auto *scrollLayout = new QVBoxLayout;
 
 	list = new QVBoxLayout;

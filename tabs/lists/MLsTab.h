@@ -1,21 +1,20 @@
 #ifndef ORGANIZER_MLSTAB_H
 #define ORGANIZER_MLSTAB_H
 
-#include <tabs/MTabsController.h>
+#include <QtCore/QJsonArray>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QScrollArea>
 #include <QtWidgets/QLineEdit>
 #include <utils/UScrollArea.h>
+#include <tabs/MTab.h>
 
-class MTab;
-class MLsTab;
 class MListEF;
 
 
 class MLsTab : public MTab {
-	QJsonObject obj;
-
 	QVBoxLayout *list;
+	QList<QLineEdit *> lines;
+
 	MListEF *events;
 
 public:
@@ -31,6 +30,7 @@ public:
 
 	QJsonValue toJson() override;
 
+
 	void addLine(QString text = "");
 
 	void delChild(QLineEdit *t);
@@ -38,16 +38,14 @@ public:
 	void returnPressed(QLineEdit *l);
 
 	void arrowPressed(QLineEdit *l, bool up);
-
-	QLineEdit *getLineEdit(int i) const;
 };
 
 
 class MListEF : public QObject {
-	MLsTab *par;
+	MLsTab *tab;
 
 public:
-	explicit MListEF(MLsTab *t) : par(t) {}
+	explicit MListEF(MLsTab *t) : tab(t) {}
 
 	bool eventFilter(QObject *object, QEvent *qEvent) override;
 };

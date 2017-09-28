@@ -3,23 +3,20 @@
 #include <QtCore/QUrl>
 #include "MLink.h"
 
-MLink::MLink(MGroup *g, QJsonObject o) : gr(g) {
-	name = o["name"].toString();
-	link = o["link"].toString();
-
+MLink::MLink(MGroup *g, QJsonObject o) : group(g) {
 	auto *l = new QVBoxLayout;
 
-	lN = new QLineEdit(name);
-	lL = new QLineEdit(link);
+    l_name = new QLineEdit(o["name"].toString());
+    l_link = new QLineEdit(o["link"].toString());
 
-	lL->setProperty("link", "true");
-	lL->installEventFilter(this);
+    l_link->setProperty("link", "true");
+    l_link->installEventFilter(this);
 
-	connect(lN, &QLineEdit::textChanged, this, &MLink::editChange);
-	connect(lL, &QLineEdit::textChanged, this, &MLink::editChange);
+    connect(l_name, &QLineEdit::textChanged, this, &MLink::editChange);
+    connect(l_link, &QLineEdit::textChanged, this, &MLink::editChange);
 
-	l->addWidget(lN);
-	l->addWidget(lL);
+    l->addWidget(l_name);
+    l->addWidget(l_link);
 
 	setContextMenuPolicy(Qt::NoContextMenu);
 	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -27,21 +24,19 @@ MLink::MLink(MGroup *g, QJsonObject o) : gr(g) {
 }
 
 void MLink::editChange() {
-	empty = lN->text() == "" && lL->text() == "";
-	name = lN->text();
-	link = lL->text();
+    empty = l_name->text() == "" && l_link->text() == "";
 
-	gr->updateLinks();
+    group->updateLinks();
 }
 
 QJsonObject MLink::getJson() const {
-	return QJsonObject{{"name", name},
-	                   {"link", link}};
+    return QJsonObject{{"name", l_name->text()},
+                       {"link", l_link->text()}};
 }
 
 bool MLink::eventFilter(QObject *object, QEvent *event) {
 	if (event->type() == QEvent::MouseButtonDblClick) {
-		QDesktopServices::openUrl(link);
+        QDesktopServices::openUrl(l_link->text());
 	}
 
 	return QObject::eventFilter(object, event);

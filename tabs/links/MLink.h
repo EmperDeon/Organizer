@@ -1,27 +1,22 @@
 #ifndef ORGANIZER_MLINK_H
 #define ORGANIZER_MLINK_H
 
-#include <widgets/WMain.h>
-#include <tabs/links/MGroup.h>
+#include <QtCore/QJsonObject>
 #include <QtWidgets/QLineEdit>
-
+#include <tabs/links/MGroup.h>
 
 class MGroup;
 
-class MLink : public QWidget {
-	MGroup *gr;
 
-	QString name, link;
-	QLineEdit *lN, *lL;
+class MLink : public QWidget {
+	MGroup *group;
+
+	QLineEdit *l_name, *l_link;
 
 	bool empty = true;
 
 public:
 	explicit MLink(MGroup *g, QJsonObject o = QJsonObject());
-
-//	QString getName() const { return name; }
-//
-//	QString getLink() const { return link; }
 
 	bool isEmpty() const { return empty; }
 

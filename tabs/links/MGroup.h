@@ -1,21 +1,15 @@
 #ifndef ORGANIZER_MGROUP_H
 #define ORGANIZER_MGROUP_H
 
-#include <widgets/WMain.h>
-#include <tabs/links/MLink.h>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QScrollArea>
-
-class MTab;
-
-class Storage;
+#include <tabs/links/MLink.h>
+#include <tabs/MTab.h>
 
 class MLink;
 
 
 class MGroup : public MTab {
-	QString name;
-
 	QList<MLink *> links;
 
 	QVBoxLayout *list;

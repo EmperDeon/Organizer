@@ -23,12 +23,11 @@ SET(M_S
         crypt/CTools.cpp
 
         tabs/editors/MEdTab.cpp
-        tabs/editors/MLsTab.cpp
 
         tabs/links/MLink.cpp
         tabs/links/MGroup.cpp
 
-        tabs/guides/MMdTab.cpp
+        tabs/lists/MLsTab.cpp
 
         tabs/MNewEd.cpp
         tabs/MTab.cpp
@@ -64,12 +63,11 @@ SET(M_H
         crypt/CTools.h
 
         tabs/editors/MEdTab.h
-        tabs/editors/MLsTab.h
 
         tabs/links/MLink.h
         tabs/links/MGroup.h
 
-        tabs/guides/MMdTab.h
+        tabs/lists/MLsTab.h
 
         tabs/MNewEd.h
         tabs/MTab.h

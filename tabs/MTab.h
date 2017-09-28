@@ -12,15 +12,13 @@ public:
 	    Text = 1,
 	    List = 2,
 	    LinksGroup = 4,
-	    Markdown = 8,
 	    NewTab = 1024
     };
 
 	enum TabGroup : int {
-		All = Text | List | LinksGroup | Markdown,
+		All = Text | List | LinksGroup,
 		Editors = Text | List,
-		Links = LinksGroup,
-		Guides = Markdown
+		Links = LinksGroup
 	};
 
 private:

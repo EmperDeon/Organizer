@@ -34,10 +34,8 @@ void MLsTab::importFrom(QString s) {
 QString MLsTab::exportTo() {
 	QString r;
 
-	for (int i = 0; i < list->count(); i++) {
-		QLineEdit *edit = (reinterpret_cast<QLineEdit *>(list->itemAt(i)->widget()));
-		if (edit != nullptr)
-			r += edit->text() + "\n";
+	for (auto *line : lines) {
+		r += line->text() + "\n";
 	}
 
 	return r;
@@ -55,9 +53,9 @@ void MLsTab::fromJson(QJsonValue v) {
 
 QJsonValue MLsTab::toJson() {
 	QJsonArray r;
-	for (int i = 0; i < list->count(); i++) {
-		QString t = (reinterpret_cast<QLineEdit *>(list->itemAt(i)->widget()))->text();
-		if (t != "") r << t;
+
+	for (auto *line : lines) {
+		r << line->text();
 	}
 
 	return r;
@@ -65,12 +63,15 @@ QJsonValue MLsTab::toJson() {
 
 void MLsTab::addLine(QString text) {
 	auto *line = new QLineEdit;
+
 	line->setProperty("listItem", "true");
 	line->setText(text);
 	line->installEventFilter(events);
 	line->setContextMenuPolicy(Qt::NoContextMenu);
 	line->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
 	list->addWidget(line);
+	lines << line;
 }
 
 void MLsTab::delChild(QLineEdit *t) {
@@ -85,78 +86,71 @@ void MLsTab::delChild(QLineEdit *t) {
 }
 
 void MLsTab::returnPressed(QLineEdit *l) {
-	for (int i = 0; i < list->count(); i++) {
-		QLineEdit *edit = (static_cast<QLineEdit *>(list->itemAt(i)->widget()));
+	int i = lines.indexOf(l);
 
-		if (l == edit) {
-			if (i == list->count() - 1)
-				addLine();
-			getLineEdit(i + 1)->setFocus();
-		}
+	if (i != -1) {
+		if (i == lines.count() - 1)
+			addLine();
+		lines.value(i + 1)->setFocus();
 	}
 }
 
 void MLsTab::arrowPressed(QLineEdit *l, bool up) {
-	for (int i = 0; i < list->count(); i++) {
-		QLineEdit *edit = getLineEdit(i);
+	int i = lines.indexOf(l);
 
-		if (l == edit) {
-			if (!up && i < list->count() - 1)
-				getLineEdit(i + 1)->setFocus();
-			else if (up && i > 0)
-				getLineEdit(i - 1)->setFocus();
-		}
+	if (i != -1) {
+		if (!up && i < list->count() - 1)
+			lines.value(i + 1)->setFocus();
+		else if (up && i > 0)
+			lines.value(i - 1)->setFocus();
 	}
-}
-
-QLineEdit *MLsTab::getLineEdit(int i) const {
-	return (static_cast<QLineEdit *>(list->itemAt(i)->widget()));
 }
 
 
 // MListEF
 bool MListEF::eventFilter(QObject *object, QEvent *event) {
-	QLineEdit *e;
+	auto *e = dynamic_cast<QLineEdit *>(object);
 
-	if ((e = static_cast<QLineEdit *>(object)) != nullptr) {
+	if (e != nullptr) {
 		if (event->type() == QEvent::MouseButtonRelease) {
-			if (static_cast<QMouseEvent *>(event)->button() == Qt::RightButton) {
-				par->delChild(e);
+			if (dynamic_cast<QMouseEvent *>(event)->button() == Qt::RightButton) {
+				tab->delChild(e);
 
 				event->accept();
 				return true;
 			}
+
 		} else if (event->type() == QEvent::KeyRelease) {
-			auto *ke = static_cast<QKeyEvent *>(event);
+			auto *ke = dynamic_cast<QKeyEvent *>(event);
 			switch (ke->key()) {
 
 				case Qt::Key_Return:
-					par->returnPressed(e);
+					tab->returnPressed(e);
 					event->accept();
 					return true;
 
 				case Qt::Key_Backspace:
 					if (e->text() == "") {
-						par->delChild(e);
+						tab->delChild(e);
 						event->accept();
 						return true;
 					}
 					break;
 
 				case Qt::Key_Up:
-					par->arrowPressed(e, true);
+					tab->arrowPressed(e, true);
 					event->accept();
 					return true;
 
 				case Qt::Key_Down:
-					par->arrowPressed(e, false);
+					tab->arrowPressed(e, false);
 					event->accept();
 					return true;
 
 				default:;
 			}
 
-			par->updated();
+			tab->updated();
 		}
 	}
 

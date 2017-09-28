@@ -22,7 +22,7 @@ Support for loading old versions of storage file (So, if current version 5 and f
 - Moving tabs does not affect storage
 
 ### TODO
-- Add markdown syntax highlighting and toolbar
+- Next: Add markdown syntax highlighting and toolbar
 
 - Themes [Light, Dark] as default, 
 
@@ -31,11 +31,14 @@ Support for loading old versions of storage file (So, if current version 5 and f
   Maybe as FilesGroup, with possible encryption (each group with separate key)
 
 - Add support for compiling from .pro
-
   - Check minimal qt version (ex. 5.5)
+  - Add qca as vendor subproject
+  - Check and add license
   
 - README
   - Simplify Main functions
+  - Write requirements and build instructions
+  - Screenshots
   
 - Sync:
     - WIP: Login/Register on server for synchronization ("end-to-end", more info in 'CryptInfo' file)
