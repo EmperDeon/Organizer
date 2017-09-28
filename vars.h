@@ -31,4 +31,10 @@
 #define NETWORK_DEF_KEY "+7QqHqbuJEursfbU+uaJUmN1obOcZEza3oRUtmS+Qz8="
 
 
+//
+// Options
+//
+
+//#define OPTION_SYNC
+
 #endif //ORGANIZER_VARS_H

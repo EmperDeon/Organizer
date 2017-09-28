@@ -48,7 +48,10 @@ void WMain::constructMenuBar() {
     menu->addMenu(mtabs);
     menu->addAction(chAction);
     menu->addMenu(mhelp);
+
+#ifdef OPTION_SYNC
     menu->addMenu(w_sync->getMenu());
+#endif
 }
 // Constructor
 

@@ -26,6 +26,8 @@ Support for loading old versions of storage file (So, if current version 5 and f
 
 - Themes [Light, Dark] as default, 
 
+- Custom groups of tabs
+
 - Add files storage (convert file to base64, and encrypt if needed)
 
   Maybe as FilesGroup, with possible encryption (each group with separate key)

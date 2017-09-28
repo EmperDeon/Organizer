@@ -3,6 +3,7 @@
 
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QHBoxLayout>
 #include <tabs/MTab.h>
 
 

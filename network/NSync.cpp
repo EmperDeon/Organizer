@@ -5,7 +5,9 @@ NSync::NSync(MTabsController *c) : contr(c) {
 
     connect(timer, &QTimer::timeout, this, &NSync::tryLoad);
 
-//    timer->start(5000);
+#ifdef OPTION_SYNC
+    timer->start(5000);
+#endif
 }
 
 void NSync::tryLoad() {

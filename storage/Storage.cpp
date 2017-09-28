@@ -43,8 +43,10 @@ void Storage::saveJson() {
 
     original["docs"] = saveDocs();
 
+#ifdef OPTION_SYNC
 	if (getB("sync"))
 		sendDocsToServer();
+#endif
 
 	if (!getB("remember"))
 		remove("login_hash");

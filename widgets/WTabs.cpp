@@ -3,8 +3,7 @@
 
 WTabs::WTabs(WMain *m) : main(m), contr(main->contr) {
     tab_groups = {{"Editors", MTab::Editors},
-                  {"Links",   MTab::Links},
-                  {"Guides",  MTab::Guides}};
+                  {"Links",   MTab::Links}};
 
     connect(this, &QTabWidget::currentChanged, this, &WTabs::tabChange);
 
