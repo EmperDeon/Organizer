@@ -20,8 +20,6 @@ class Network : public QObject {
 	QNetworkReply::NetworkError lastError;
 
 
-	bool hasErrors();
-
 	QUrl prepareReq(QString path);
 
 	QJsonValue processReq(QNetworkReply *rep);

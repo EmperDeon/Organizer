@@ -12,10 +12,6 @@ Network::Network() {
 	crypt = new NCrypt;
 }
 
-bool Network::hasErrors() {
-	return false;
-}
-
 QJsonValue Network::request(QString path, QMap<QString, QString> params) {
 	QTime requestTime;
 	requestTime.start();
