@@ -16,7 +16,7 @@ class Network : public QObject {
 	QNetworkAccessManager manager;
 
 	QJsonObject lastReply;
-	int lastTime, lastCode;
+    int lastTime;
 	QNetworkReply::NetworkError lastError;
 
 
@@ -48,7 +48,7 @@ public:
 
 	friend class NAuth;
 
-	void writeToLog(QString qString, QMap<QString, QString> map, QString type, QJsonArray tries = QJsonArray());
+    void writeToLog(QString path, QMap<QString, QString> map, QString type, QJsonArray tries = QJsonArray());
 };
 
 

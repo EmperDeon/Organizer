@@ -38,8 +38,6 @@ QJsonValue Network::request(QString path, QMap<QString, QString> params) {
 			.arg(r_type, 4).arg(path, 22).arg(keys).arg(getLastCode())
 			.toStdString().c_str();
 
-//	hasErrors();
-
 	lastTime = requestTime.elapsed();
 	writeToLog(path, params, r_type, tries);
 
@@ -252,15 +250,15 @@ void Network::checkEncryption() {
 	}
 }
 
-void Network::writeToLog(QString qString, QMap<QString, QString> map, QString type, QJsonArray tries) {
+void Network::writeToLog(QString path, QMap<QString, QString> map, QString type, QJsonArray tries) {
 	QJsonObject o;
 
-	o["path"] = qString;
+    o["path"] = path;
 	o["r_type"] = type;
 
 	o["response"] = lastReply;
 	o["code"] = getLastCode();
-	o["time"] = lastTime;
+    o["time"] = getLastTime();
 	o["tries"] = tries;
 
 	QJsonObject t;
