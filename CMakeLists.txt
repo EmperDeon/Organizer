@@ -19,6 +19,7 @@ SET(M_S
         res.rc
 
         crypt/CAes.cpp
+        crypt/CFiles.cpp
         crypt/CRsa.cpp
         crypt/CTools.cpp
 
@@ -59,6 +60,7 @@ SET(M_H
         vars.h
 
         crypt/CAes.h
+        crypt/CFiles.h
         crypt/CRsa.h
         crypt/CTools.h
 

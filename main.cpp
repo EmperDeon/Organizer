@@ -1,6 +1,8 @@
 #include <QtWidgets/QApplication>
 #include <QtCore/QFile>
 #include <widgets/WMain.h>
+#include <crypt/CFiles.h>
+#include <QtWidgets/QFileDialog>
 
 int main(int argc, char **argv) {
 	QApplication a(argc, argv);
@@ -14,7 +16,12 @@ int main(int argc, char **argv) {
     qApp->setWindowIcon(QIcon(":/icon.ico"));
 
 	auto *wnd = WMain::getInstance();
-	wnd->show();
+//	wnd->show();
+
+//	CFiles::copyToEncryptedStorage("path/to/dir", QFileDialog::getOpenFileName(wnd));
+	CFiles::copyFromEncryptedStorage("path/to/dir", "всё.rar", QFileDialog::getExistingDirectory(wnd));
+
+	qDebug() << "Finished";
 
 //    qDebug() << ULoginDialog::getLoginHash();
 

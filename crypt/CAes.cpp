@@ -1,24 +1,33 @@
 #include "CAes.h"
 
 QString CAes::encrypt(QString message) {
-	if (!encryption) {
-		encryption = true;
-		cipher.setup(QCA::Encode, key, iv);
-	}
+    return toBase(encryptAr(message.toStdString().c_str()));
+}
 
-	return toBase(cipher.process(message.toStdString().c_str()));
+QByteArray CAes::encryptAr(QByteArray message) {
+    if (!encryption) {
+        encryption = true;
+        cipher.setup(QCA::Encode, key, iv);
+    }
+
+    return cipher.process(message).toByteArray();
 }
 
 QString CAes::decrypt(const QString &message) {
-	if (encryption) {
-		encryption = false;
-		cipher.setup(QCA::Decode, key, iv);
-	}
-
-	QCA::MemoryRegion mem = cipher.process(fromBase(message));
-
-	return QByteArray(mem.constData());
+    return decryptAr(fromBase(message).toByteArray());
 }
+
+QByteArray CAes::decryptAr(const QByteArray &message) {
+    if (encryption) {
+        encryption = false;
+        cipher.setup(QCA::Decode, key, iv);
+    }
+
+    QCA::MemoryRegion mem = cipher.process(message);
+
+    return mem.toByteArray();
+}
+
 
 CAes::CAes(QString cipher_name, QString k, QString i) :
 		key(fromBase(k)), iv(fromBase(i)), cipher("aes" + cipher_name, AES_MODE, AES_PADDING) {

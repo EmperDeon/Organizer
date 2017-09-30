@@ -18,10 +18,13 @@
 #define S_DOC_CIPHER "128"
 
 // Storage
-//#define ENCRYPT_OUT
 #define STORAGE_FILE "/home/ilya/.myQtProgs/storage2.json"
 #define STORAGE_KEY "ttpGxMkT4wk7QJx77ak75dtYqaUdRQB5fJQO1NzzYFc="
 #define STORAGE_CIPHER "128"
+
+// File Storage
+#define FILES_DIR "/home/ilya/.myQtProgs/encrypted_files/"
+#define FILES_BUFFER_SIZE 33554432
 
 // Network
 #define NETWORK_URL "http://0.0.0.0:3005/"
@@ -35,6 +38,7 @@
 // Options
 //
 
-//#define OPTION_SYNC
+//#define ENCRYPT_OUT // Encrypt storage output
+//#define OPTION_SYNC // Enable sync (send on save, load on timer, sync menu in WMain MenuBar)
 
 #endif //ORGANIZER_VARS_H
