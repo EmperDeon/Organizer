@@ -3,6 +3,13 @@
         <file>icon.ico</file>
         <file>style.qss</file>
         <file>md-style.css</file>
+
+        <file>icons/file-del.png</file>
+        <file>icons/file-save.png</file>
+        <file>icons/file-edit.png</file>
+
+        <file>icons/file-types/none.png</file>
+
         <file>icons/md-both.png</file>
         <file>icons/md-edit.png</file>
         <file>icons/md-view.png</file>

@@ -16,6 +16,7 @@
 #define S_UID_SIZE 32
 #define S_DOC_KEY_SIZE 64
 #define S_DOC_CIPHER "128"
+#define S_FILES_CIPHER "128"
 
 // Storage
 #define STORAGE_FILE "/home/ilya/.myQtProgs/storage2.json"
@@ -25,6 +26,13 @@
 // File Storage
 #define FILES_DIR "/home/ilya/.myQtProgs/encrypted_files/"
 #define FILES_BUFFER_SIZE 33554432
+#define FILES_CIPHER "128"
+#define FILES_KEY_SIZE 32
+
+#define FILE_HASH "sha256"
+#define FILE_KILOBYTE 1024
+#define FILE_MEGABYTE 1048576
+#define FILE_GIGABYTE 1073741824
 
 // Network
 #define NETWORK_URL "http://0.0.0.0:3005/"

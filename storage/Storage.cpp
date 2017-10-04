@@ -35,6 +35,7 @@ void Storage::loadJson() {
 	secure = new SSecure(&original);
 
 	loadDocs(original["docs"].toString());
+    loadFiles(original["files"].toString());
 }
 
 void Storage::saveJson() {
@@ -42,6 +43,7 @@ void Storage::saveJson() {
     receiver->contr->save();
 
     original["docs"] = saveDocs();
+    original["files"] = saveFiles();
 
 #ifdef OPTION_SYNC
 	if (getB("sync"))
@@ -65,6 +67,13 @@ void Storage::saveJson() {
 	f.close();
 }
 
+void Storage::sendDocsToServer() {
+    QString docs = saveDocs();
+
+    Network net;
+    net.request("documents/save", {{"docs", docs}});
+}
+
 void Storage::loadDocs(QString d) {
 	if (getB("sync")) { // Decrypt
         CAes aes(S_DOC_CIPHER, secure->password());
@@ -72,28 +81,96 @@ void Storage::loadDocs(QString d) {
 		d = aes.decrypt(d);
 	}
 
+    if (getB("is_compress")) {
+        d = QString::fromUtf8(qUncompress(CTools::fromBase(d).toByteArray()));
+    }
+
 	docs = CTools::fromJsonA(d);
 	docs = migrations->processDocs(docs);
 }
 
 QString Storage::saveDocs() {
-	QString doc = CTools::toJson(docs);
+    QString out = CTools::toJson(docs);
 
 	if (getB("sync")) {
         CAes aes(S_DOC_CIPHER, secure->password());
 
-		doc = aes.encrypt(doc);
-	}
+        out = aes.encrypt(out);
+    }
 
-//    Add as option later
-//    doc = CTools::toBase(qCompress(doc.toUtf8()));
+    if (getB("is_compress")) {
+        out = CTools::toBase(qCompress(out.toUtf8()));
+    }
 
-	return doc;
+    return out;
 }
 
-void Storage::sendDocsToServer() {
-	QString docs = saveDocs();
+void Storage::loadFiles(QString f) {
+    if (getB("sync")) { // Decrypt
+        CAes aes(S_FILES_CIPHER, secure->password());
 
-	Network net;
-	net.request("documents/save", {{"docs", docs}});
+        f = aes.decrypt(f);
+    }
+
+    if (getB("is_compress")) {
+        f = QString::fromUtf8(qUncompress(CTools::fromBase(f).toByteArray()));
+    }
+
+    QJsonObject fl = CTools::fromJson(f);
+    fl = migrations->processFiles(fl);
+
+    QJsonObject file_list = fl["files"].toObject(), file_keys = fl["file_keys"].toObject();
+    for (const QString &name : file_list.keys()) {
+        files[name] = new SFiles(name, file_keys[name].toString(), file_list[name].toArray());
+    }
+}
+
+QString Storage::saveFiles() {
+    QJsonObject f;
+    QJsonObject file_list, file_keys;
+
+    for (const QString &name : files.keys()) {
+        auto *fl = files[name];
+        file_list[name] = fl->toJson();
+        file_keys[name] = fl->getKey();
+    }
+
+    f["files"] = file_list;
+    f["file_keys"] = file_keys;
+
+    QString out = CTools::toJson(f);
+
+    if (getB("sync")) {
+        CAes aes(S_FILES_CIPHER, secure->password());
+
+        out = aes.encrypt(out);
+    }
+
+    if (getB("is_compress")) {
+        out = CTools::toBase(qCompress(out.toUtf8()));
+    }
+
+    return out;
+}
+
+/**
+ * Get ot create SFiles
+ *
+ * @param name
+ * @return SFiles*
+ */
+SFiles *Storage::getFiles(const QString &name) {
+    auto *st = Storage::getInstance();
+
+    if (st->files.contains(name)) {
+        return st->files.value(name);
+
+    } else {
+        const QString &key = CAes::createKey(FILES_KEY_SIZE);
+        auto *file = new SFiles(name, key);
+
+        st->files[name] = file;
+
+        return file;
+    }
 }

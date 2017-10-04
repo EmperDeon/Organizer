@@ -1,8 +1,9 @@
 #include <QtWidgets/QApplication>
 #include <QtCore/QFile>
 #include <widgets/WMain.h>
-#include <crypt/CFiles.h>
 #include <QtWidgets/QFileDialog>
+#include <storage/SFile.h>
+#include <widgets/WFiles.h>
 
 int main(int argc, char **argv) {
 	QApplication a(argc, argv);
@@ -18,16 +19,29 @@ int main(int argc, char **argv) {
 	auto *wnd = WMain::getInstance();
 //	wnd->show();
 
-//	CFiles::copyToEncryptedStorage("path/to/dir", QFileDialog::getOpenFileName(wnd));
-	CFiles::copyFromEncryptedStorage("path/to/dir", "всё.rar", QFileDialog::getExistingDirectory(wnd));
+    auto *w = new WFiles(Storage::getFiles("test_name"));
+    w->show();
 
-	qDebug() << "Finished";
+//    auto *f = Storage::getFiles("test_name");
+//
+//    f->saveFile(QFileDialog::getExistingDirectory(wnd), f->getFiles().first());
+//
+//    Storage::getInstance()->saveJson();
+
+//    QString file = QFileDialog::getOpenFileName(new QWidget);
+//    SFile f_info(file);
+//
+//    qDebug() << f_info.hash;
+
+//	CFiles::copyToEncryptedStorage("path/to/dir", QFileDialog::getOpenFileName(wnd));
+//	CFiles::copyFromEncryptedStorage("path/to/dir", "всё.rar", QFileDialog::getExistingDirectory(wnd));
 
 //    qDebug() << ULoginDialog::getLoginHash();
 
 //	Network net;
 //	qDebug() << net.request("documents/last_timestamp");
 
+//    a.closeAllWindows();
 	return a.exec();
 }
 

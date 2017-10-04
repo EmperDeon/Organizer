@@ -19,7 +19,6 @@ SET(M_S
         res.rc
 
         crypt/CAes.cpp
-        crypt/CFiles.cpp
         crypt/CRsa.cpp
         crypt/CTools.cpp
 
@@ -38,6 +37,8 @@ SET(M_S
         network/Network.cpp
         network/NSync.cpp
 
+        storage/SFile.cpp
+        storage/SFiles.cpp
         storage/SMigrations.cpp
         storage/Storage.cpp
         storage/SSecure.cpp
@@ -50,6 +51,9 @@ SET(M_S
         utils/USingleton.cpp
         utils/UTray.cpp
 
+        widgets/WFile.cpp
+        widgets/WFileIcon.cpp
+        widgets/WFiles.cpp
         widgets/WMain.cpp
         widgets/WSync.cpp
         widgets/WTabs.cpp
@@ -60,7 +64,6 @@ SET(M_H
         vars.h
 
         crypt/CAes.h
-        crypt/CFiles.h
         crypt/CRsa.h
         crypt/CTools.h
 
@@ -79,6 +82,8 @@ SET(M_H
         network/Network.h
         network/NSync.h
 
+        storage/SFile.h
+        storage/SFiles.h
         storage/SMigrations.h
         storage/Storage.h
         storage/SSecure.h
@@ -92,6 +97,9 @@ SET(M_H
         utils/USingleton.h
         utils/UTray.h
 
+        widgets/WFile.h
+        widgets/WFileIcon.h
+        widgets/WFiles.h
         widgets/WMain.h
         widgets/WSync.h
         widgets/WTabs.h

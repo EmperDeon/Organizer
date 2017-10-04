@@ -33,3 +33,9 @@ QJsonArray SMigrations::processDocs(QJsonArray a) {
 
     return a;
 }
+
+QJsonObject SMigrations::processFiles(QJsonObject a) {
+    // FIXME: Stub, add realization later
+
+    return a;
+}
