@@ -29,7 +29,6 @@ signals:
 public:
     explicit WFile(const PTabFile &f);
 
-
     QPushButton *createButton(const QString &icon, const QString &tooltip) const;
 };
 

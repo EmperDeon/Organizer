@@ -2,6 +2,8 @@
 #include <QtCore/QDataStream>
 #include <widgets/files/WFiles.h>
 #include <QDebug>
+#include <QtWidgets/QInputDialog>
+#include <QtWidgets/QMessageBox>
 
 PTabFiles::PTabFiles() {
     w_files = new WFiles(this);
@@ -18,12 +20,28 @@ void PTabFiles::addFile(const QString &file) {
     PTabFile s_file(file);
     s_file.processName(*aes);
 
+    int existing_file = findFileByName(s_file.name);
 
-    PTabFiles::moveIn(s_file.name, dir.filePath(s_file.name_enc), [this](QByteArray in) {
+    if (existing_file != -1) {
+        if (QMessageBox::question(w_files, QObject::tr("File adding"),
+                                  QObject::tr("Are you sure you want to overwrite existing file ?")) ==
+            QMessageBox::No) {
+            qDebug() << "no";
+
+            return;
+        }
+    }
+
+    PTabFiles::moveIn(file, dir.filePath(s_file.name_enc), [this](QByteArray in) {
         return this->aes->encryptAr(in);
     });
 
-    files << s_file;
+    if (existing_file == -1) {
+        files << s_file;
+
+    } else {
+        files[existing_file] = s_file;
+    }
 
 //    QByteArray read_data, write_data;
 //    QFile f_in(s_file.name), f_out(dir.filePath(s_file.name_enc));
@@ -140,12 +158,34 @@ void PTabFiles::moveOut(const QString &f_in, const QString &f_out, const std::fu
     out.close();
 }
 
-void PTabFiles::del(const PTabFile &file) {
+int PTabFiles::findFileByName(const QString &f) {
+    for (int i = 0; i < files.size(); i++) {
+        if (files[i].name == f)
+            return i;
+    }
 
+    return -1;
+}
+
+void PTabFiles::del(const PTabFile &file) {
+    int i = findFileByName(file.name);
+
+    if (i != -1) {
+        QDir dir(FILES_DIR);
+        dir.cd(name);
+        dir.remove(file.name_enc);
+
+        files.removeAt(i);
+    }
 }
 
 void PTabFiles::rename(const PTabFile &file) {
+    int i = findFileByName(file.name);
 
+    if (i != -1) {
+        files[i].name = QInputDialog::getText(w_files, QObject::tr("Enter new name for file"), QObject::tr("Name: "),
+                                              QLineEdit::Normal, files[i].name);
+    }
 }
 
 void PTabFiles::initIfNeeded(MTab *tab, const QJsonObject &o) {

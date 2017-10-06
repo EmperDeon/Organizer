@@ -39,14 +39,11 @@ SET(M_S
         network/Network.cpp
         network/NSync.cpp
 
-        plugins/tabs/PTabPlugin.cpp
         plugins/Plugin.cpp
-        widgets/files/WFile.cpp
-        widgets/files/WFileIcon.cpp
-        widgets/files/WFiles.cpp
-
+        plugins/tabs/PTabPlugin.cpp
         plugins/tabs/PTabFile.cpp
         plugins/tabs/PTabFiles.cpp
+
         storage/SMigrations.cpp
         storage/Storage.cpp
         storage/SSecure.cpp
@@ -58,6 +55,10 @@ SET(M_S
         utils/UScrollArea.cpp
         utils/USingleton.cpp
         utils/UTray.cpp
+
+        widgets/files/WFile.cpp
+        widgets/files/WFileIcon.cpp
+        widgets/files/WFiles.cpp
         widgets/WMain.cpp
         widgets/WSync.cpp
         widgets/WTabs.cpp
@@ -88,14 +89,11 @@ SET(M_H
         network/Network.h
         network/NSync.h
 
-        plugins/tabs/PTabPlugin.h
         plugins/Plugin.h
-        widgets/files/WFile.h
-        widgets/files/WFileIcon.h
-        widgets/files/WFiles.h
-
+        plugins/tabs/PTabPlugin.h
         plugins/tabs/PTabFile.h
         plugins/tabs/PTabFiles.h
+
         storage/SMigrations.h
         storage/Storage.h
         storage/SSecure.h
@@ -108,6 +106,10 @@ SET(M_H
         utils/UScrollArea.h
         utils/USingleton.h
         utils/UTray.h
+
+        widgets/files/WFile.h
+        widgets/files/WFileIcon.h
+        widgets/files/WFiles.h
         widgets/WMain.h
         widgets/WSync.h
         widgets/WTabs.h

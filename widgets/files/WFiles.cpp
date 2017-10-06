@@ -2,6 +2,7 @@
 #include <storage/Storage.h>
 #include "WFile.h"
 #include <QtWidgets/QFileDialog>
+#include <QtCore/QTimer>
 
 WFiles::WFiles(PTabFiles *s_f) : files(s_f) {
     auto *l = new QVBoxLayout;
@@ -29,6 +30,7 @@ void WFiles::updateFileList() {
     for (auto *f : file_widgets) {
         f->deleteLater();
     }
+    file_widgets.clear();
 
     for (const auto &f : files->getFiles()) {
         auto *t = new WFile(f);
@@ -51,7 +53,9 @@ void WFiles::addFile() {
 void WFiles::delFile(const PTabFile &f) {
     files->del(f);
 
-    updateFileList();
+    QTimer::singleShot(10, [=]() {
+        updateFileList();
+    });
 }
 
 void WFiles::saveFile(const PTabFile &f) {

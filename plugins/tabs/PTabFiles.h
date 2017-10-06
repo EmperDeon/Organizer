@@ -33,6 +33,8 @@ public:
 
     static void moveOut(const QString &f_in, const QString &f_out, const std::function<QByteArray(QByteArray)> &func);
 
+    int findFileByName(const QString &n);
+
     void del(const PTabFile &file);
 
     void rename(const PTabFile &file);
