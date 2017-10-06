@@ -35,7 +35,7 @@ public:
 
     void cycleGroup();
 
-    void groupBy(MTab::TabGroup gr = MTab::Files);
+    void groupBy(MTab::TabGroup gr = MTab::All);
 
     void setAction(QAction *act);
 

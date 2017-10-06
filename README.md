@@ -2,16 +2,25 @@
 
 Using markdown code from [cpp-markdown](https://github.com/sevenjay/cpp-markdown) repo
 
+Organizer is an open source, cross-platform app for keeping documents (text notes, links and files).
 
-### Main functions:
+
+#### Main functions:
 - Store text/lists
-- Store links and collect them to groups
-- Store Markdown-formatted text (editor and render)
-- Auto save information after editing, hiding to tray and closing main window
+- Store links in named groups
+- Store files in encrypted storage
+
+#### Features:
+- Auto save information after editing
+- Hiding to tray
+
+
 - Migration of documents on load (Support for loading old-version docs)
 
 
-### Detailed info
+## Detailed info
+Each document is separate tab.
+
 ### Storage
 All in 1 file: storage.json
 
@@ -43,21 +52,17 @@ Default:
  "version": <storage version>
 ```
 
-#### Migrations
+### Migrations
 Support for loading old versions of storage file (So, if current version 5 and file version is 2, class will apply migrations 3, 4, 5)
 
 
+## TODO's
 ### TODO order
 - README
-- FIXME's
 - Markdown toolbar
 - Prepare for first release
 
-##### FIXME
-- Delete tab not working
-- Moving tabs does not affect storage
-
-##### Big TODO's
+### Big TODO's
 - Prepare for first release
   - Add support for compiling from .pro
   - Check minimal qt version (ex. 5.5, or 5.2)
@@ -65,17 +70,17 @@ Support for loading old versions of storage file (So, if current version 5 and f
   - Check and add license
   
 - README
-  - Update CryptInfo with recent changes, and rewrite as MD
-  - Simplify Main functions
   - Write requirements and build instructions
   - Screenshots
 
-##### Small TODO's
+### Small TODO's
 - Add markdown syntax highlighting and toolbar
 
 - Themes [Light, Dark] as default, and custom (JSON)
 
 - Custom groups of tabs
+
+- Moving tabs does not affect storage
     
    
 #### Other 

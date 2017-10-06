@@ -31,7 +31,7 @@ public:
 
 	~MTabsController() = default;
 
-    void addNewTab(const QString &name, const QJsonObject &o, int i);
+	void addNewTab(const QString &name, const QJsonObject &o, int i = -1);
 
 	QList<MTab *> selectByGroup(MTab::TabGroup gr);
 };

@@ -94,7 +94,7 @@ void WTabs::groupBy(MTab::TabGroup gr) {
 }
 
 QString WTabs::findGroupName(MTab::TabGroup gr) {
-    QString ret = "error";
+    QString ret = "All";
 
     for (const QString &k : tab_groups.keys()) {
         if (tab_groups[k] == gr) {

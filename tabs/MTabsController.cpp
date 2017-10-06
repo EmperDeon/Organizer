@@ -11,7 +11,6 @@ MTabsController::MTabsController(WMain *w) : wnd(w) {
 void MTabsController::load() {
     QJsonArray docs = Storage::getInstance()->getDocs();
 
-    int i = 0;
     for (const auto &o : docs) {
         QJsonObject ob = o.toObject();
         QString name = ob["name"].toString("Error");
@@ -20,7 +19,7 @@ void MTabsController::load() {
             tabs[name]->load(ob);
 
         } else {
-            addNewTab(name, ob, i);
+            addNewTab(name, ob);
         }
     }
 }
@@ -50,9 +49,12 @@ void MTabsController::addNewTab(const QString &name, const QJsonObject &o, int i
     }
 
     if (w != nullptr) {
-//        wnd->tabs->insertNewTab(i, w, name);
         wnd->tabs->addTab(w, name);
         tabs[name] = w;
+
+        if (i != -1) {
+            wnd->tabs->insertTab(i, w, name);
+        }
     }
 }
 
@@ -67,8 +69,8 @@ void MTabsController::save() {
     Storage::getInstance()->setDocs(obj);
 }
 
-void MTabsController::tabDel(QString name) {// Fixme
-//	cont->remove(name);
+void MTabsController::tabDel(QString name) {
+    tabs.remove(name);
 }
 
 QList<MTab *> MTabsController::selectByGroup(MTab::TabGroup gr) {
