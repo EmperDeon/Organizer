@@ -20,19 +20,9 @@ class MNewEd : public MTab {
 public:
     MNewEd(WMain *w, MTabsController *c);
 
-	void addClick();
-
 	QString getDesc() override { return "New Tab"; }
 
-	void importFrom(QString s) override { Q_UNUSED(s) }
-
-	QString exportTo() override { return ""; }
-
-	void fromJson(QJsonValue v) override {}
-
-	QJsonValue toJson() override { return QJsonValue(); }
-
-	~MNewEd() override = default;
+	void addClick();
 
     friend class WMain;
 };

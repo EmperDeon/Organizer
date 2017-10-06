@@ -1,24 +1,13 @@
 #include <QtCore/QDir>
 #include <QtCore/QDataStream>
-#include "SFiles.h"
+#include <widgets/files/WFiles.h>
+#include <QDebug>
 
-SFiles::SFiles(const QString &n, const QString &k, const QJsonArray &fs) : name(n), key(k), aes(FILES_CIPHER, key) {
-    for (auto v : fs) {
-        files << SFile::fromJson(v.toObject());
-    }
+PTabFiles::PTabFiles() {
+    w_files = new WFiles(this);
 }
 
-QJsonArray SFiles::toJson() {
-    QJsonArray r;
-
-    for (auto f : files) {
-        r << f.toJson();
-    }
-
-    return r;
-}
-
-void SFiles::addFile(const QString &file) {
+void PTabFiles::addFile(const QString &file) {
     QDir dir;
 
     dir.mkpath(FILES_DIR);
@@ -26,12 +15,12 @@ void SFiles::addFile(const QString &file) {
     dir.mkpath(name);
     dir.cd(name);
 
-    SFile s_file(file);
-    s_file.processName(aes);
+    PTabFile s_file(file);
+    s_file.processName(*aes);
 
 
-    SFiles::moveIn(s_file.name, dir.filePath(s_file.name_enc), [this](QByteArray in) {
-        return this->aes.encryptAr(in);
+    PTabFiles::moveIn(s_file.name, dir.filePath(s_file.name_enc), [this](QByteArray in) {
+        return this->aes->encryptAr(in);
     });
 
     files << s_file;
@@ -58,15 +47,15 @@ void SFiles::addFile(const QString &file) {
 //    f_out.close();
 }
 
-void SFiles::saveFile(const QString &path, const SFile &file) {
+void PTabFiles::saveFile(const QString &path, const PTabFile &file) {
     QDir dir(FILES_DIR);
     dir.cd(name);
 
     const QString &f_in = dir.filePath(file.name_enc);
     const QString &f_out = QDir(path).filePath(file.name);
 
-    SFiles::moveOut(f_in, f_out, [this](QByteArray in) {
-        return this->aes.decryptAr(in);
+    PTabFiles::moveOut(f_in, f_out, [this](QByteArray in) {
+        return this->aes->decryptAr(in);
     });
 
 //    QByteArray read_data, write_data;
@@ -99,7 +88,7 @@ void SFiles::saveFile(const QString &path, const SFile &file) {
 //    f_out.close();
 }
 
-void SFiles::moveIn(const QString &f_in, const QString &f_out, const std::function<QByteArray(QByteArray)> &func) {
+void PTabFiles::moveIn(const QString &f_in, const QString &f_out, const std::function<QByteArray(QByteArray)> &func) {
     QByteArray read_data, write_data;
     QFile in(f_in), out(f_out);
 
@@ -122,7 +111,7 @@ void SFiles::moveIn(const QString &f_in, const QString &f_out, const std::functi
     out.close();
 }
 
-void SFiles::moveOut(const QString &f_in, const QString &f_out, const std::function<QByteArray(QByteArray)> &func) {
+void PTabFiles::moveOut(const QString &f_in, const QString &f_out, const std::function<QByteArray(QByteArray)> &func) {
     int block_size;
     QByteArray read_data, write_data;
     QFile in(f_in), out(f_out);
@@ -149,4 +138,50 @@ void SFiles::moveOut(const QString &f_in, const QString &f_out, const std::funct
 
     in.close();
     out.close();
+}
+
+void PTabFiles::del(const PTabFile &file) {
+
+}
+
+void PTabFiles::rename(const PTabFile &file) {
+
+}
+
+void PTabFiles::initIfNeeded(MTab *tab, const QJsonObject &o) {
+    if (o["files_name"].toString().isEmpty()) {
+        auto &ob = const_cast<QJsonObject &>(o);
+
+        ob["files_name"] = CTools::hash(tab->getDesc());
+        ob["file_key"] = CAes::createKey(FILES_KEY_SIZE);
+        ob["files"] = QJsonArray();
+    }
+}
+
+void PTabFiles::readInfo(const QJsonObject &o) {
+    name = o["files_name"].toString();
+    key = o["file_key"].toString();
+
+    files.clear();
+    for (auto v : o["files"].toArray()) {
+        files << PTabFile(v.toObject());
+    }
+
+    delete aes;
+    aes = new CAes(FILES_CIPHER, key);
+
+    w_files->updateFileList();
+}
+
+void PTabFiles::writeInfo(QJsonObject &o) {
+    QJsonArray ar;
+    for (auto f : files) {
+        ar << f.toJson();
+    }
+
+    o["files"] = ar;
+}
+
+QWidget *PTabFiles::getWidget() {
+    return w_files;
 }

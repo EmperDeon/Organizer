@@ -1,3 +1,4 @@
+#include <tabs/files/MFlGroup.h>
 #include "tabs/editors/MEdTab.h"
 #include "tabs/links/MGroup.h"
 #include "tabs/lists/MLsTab.h"
@@ -10,7 +11,7 @@ MTabsController::MTabsController(WMain *w) : wnd(w) {
 void MTabsController::load() {
     QJsonArray docs = Storage::getInstance()->getDocs();
 
-	int i = 0;
+    int i = 0;
     for (const auto &o : docs) {
         QJsonObject ob = o.toObject();
         QString name = ob["name"].toString("Error");
@@ -25,7 +26,7 @@ void MTabsController::load() {
 }
 
 void MTabsController::addNewTab(const QString &name, const QJsonObject &o, int i) {
-	MTab *w;
+    MTab *w;
 
     MTab::TabType type = static_cast<MTab::TabType>(o["type"].toInt(100));
 
@@ -39,24 +40,27 @@ void MTabsController::addNewTab(const QString &name, const QJsonObject &o, int i
         case MTab::LinksGroup:
             w = new MGroup(o);
             break;
+        case MTab::FilesGroup:
+            w = new MFlGroup(o);
+            break;
 
         default:
             w = nullptr;
             break;
-	}
+    }
 
-	if (w != nullptr) {
+    if (w != nullptr) {
 //        wnd->tabs->insertNewTab(i, w, name);
         wnd->tabs->addTab(w, name);
         tabs[name] = w;
-	}
+    }
 }
 
 void MTabsController::save() {
     QJsonArray obj;
 
     for (MTab *t : tabs.values()) {
-		if (t != nullptr)
+        if (t != nullptr)
             obj << t->save();
     }
 

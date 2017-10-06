@@ -12,13 +12,15 @@ public:
 	    Text = 1,
 	    List = 2,
 	    LinksGroup = 4,
+	    FilesGroup = 8,
 	    NewTab = 1024
     };
 
 	enum TabGroup : int {
-		All = Text | List | LinksGroup,
+		All = Text | List | LinksGroup | FilesGroup,
 		Editors = Text | List,
-		Links = LinksGroup
+		Links = LinksGroup,
+		Files = FilesGroup
 	};
 
 private:
@@ -50,17 +52,17 @@ public:
 
 	virtual QString getDesc() = 0;
 
-	virtual void importFrom(QString s) = 0;
+	virtual void importFrom(QString s) {};
 
-	virtual QString exportTo() = 0;
+	virtual QString exportTo() { return ""; };
 
-	virtual void fromJson(QJsonValue v) = 0;
+	virtual void fromJson(QJsonValue v) {};
 
-	virtual QJsonValue toJson() = 0;
+	virtual QJsonValue toJson() { return QJsonObject(); };
 
 	virtual void loadCustomParams(const QJsonObject &o) {}
 
-	virtual QJsonObject saveCustomParams() { return QJsonObject(); }
+	virtual void saveCustomParams(QJsonObject &o) {}
 };
 
 

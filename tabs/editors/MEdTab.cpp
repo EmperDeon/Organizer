@@ -92,12 +92,8 @@ void MEdTab::loadCustomParams(const QJsonObject &o) {
     cur_mode = o["mode"].toInt();
 }
 
-QJsonObject MEdTab::saveCustomParams() {
-    QJsonObject r;
-
-    r["mode"] = cur_mode;
-
-    return r;
+void MEdTab::saveCustomParams(QJsonObject &o) {
+    o["mode"] = cur_mode;
 }
 
 void MEdTab::updateText() {

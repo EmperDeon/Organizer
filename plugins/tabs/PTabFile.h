@@ -6,16 +6,16 @@
 #include <crypt/CAes.h>
 
 
-class SFile {
+class PTabFile {
 public:
     QString name, name_enc, hash, size, type;
 
-    explicit SFile(const QJsonObject &o);
+    explicit PTabFile(const QJsonObject &o);
 
-    explicit SFile(const QFileInfo &f);
+    explicit PTabFile(const QFileInfo &f);
 
 
-    static SFile fromJson(const QJsonObject &o) { return SFile(o); }
+    static PTabFile fromJson(const QJsonObject &o) { return PTabFile(o); }
 
     QJsonObject toJson();
 

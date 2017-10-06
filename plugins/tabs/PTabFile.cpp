@@ -1,8 +1,8 @@
 #include <vars.h>
 #include <Qca-qt5/QtCrypto/QtCrypto>
-#include "SFile.h"
+#include "PTabFile.h"
 
-SFile::SFile(const QJsonObject &o) {
+PTabFile::PTabFile(const QJsonObject &o) {
     name = o["name"].toString();
     name_enc = o["name_enc"].toString();
     hash = o["hash"].toString();
@@ -10,14 +10,14 @@ SFile::SFile(const QJsonObject &o) {
     type = o["type"].toString();
 }
 
-SFile::SFile(const QFileInfo &f) {
+PTabFile::PTabFile(const QFileInfo &f) {
     name = f.fileName();
     hash = processHash(f);
     size = processSize(f);
     type = processType(f);
 }
 
-QJsonObject SFile::toJson() {
+QJsonObject PTabFile::toJson() {
     return QJsonObject{
             {"name",     name},
             {"name_enc", name_enc},
@@ -27,7 +27,7 @@ QJsonObject SFile::toJson() {
     };
 }
 
-QString SFile::processHash(const QFileInfo &f) {
+QString PTabFile::processHash(const QFileInfo &f) {
     QCA::Hash hash(FILE_HASH);
 
     QFile f_in(f.absoluteFilePath());
@@ -42,7 +42,7 @@ QString SFile::processHash(const QFileInfo &f) {
     return hash.final().toByteArray().toHex();
 }
 
-QString SFile::processSize(const QFileInfo &f) {
+QString PTabFile::processSize(const QFileInfo &f) {
     double size = f.size();
     QString suffix;
 
@@ -65,10 +65,11 @@ QString SFile::processSize(const QFileInfo &f) {
     return QString("%1 %2").arg(size, 6, 'f', 2, ' ').arg(suffix);
 }
 
-QString SFile::processType(const QFileInfo &f) {
+QString PTabFile::processType(const QFileInfo &f) {
     return f.completeSuffix();
 }
 
-void SFile::processName(CAes &aes) {
+void PTabFile::processName(CAes &aes) {
     name_enc = aes.encrypt(name);
+    name_enc = name_enc.replace('/', '-');
 }

@@ -6,7 +6,7 @@
 
 class WFileIcon : public QLabel {
 public:
-    WFileIcon(const QString &type);
+    explicit WFileIcon(const QString &type);
 
     QPixmap getIcon(const QString &type);
 };

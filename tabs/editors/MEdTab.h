@@ -31,7 +31,7 @@ public:
 
     void loadCustomParams(const QJsonObject &o) override;
 
-    QJsonObject saveCustomParams() override;
+    void saveCustomParams(QJsonObject &o) override;
 
     void updateText();
 

@@ -16,9 +16,9 @@
 #define S_UID_SIZE 32
 #define S_DOC_KEY_SIZE 64
 #define S_DOC_CIPHER "128"
-#define S_FILES_CIPHER "128"
 
 // Storage
+#define STORAGE_CUR_VERSION 1
 #define STORAGE_FILE "/home/ilya/.myQtProgs/storage2.json"
 #define STORAGE_KEY "ttpGxMkT4wk7QJx77ak75dtYqaUdRQB5fJQO1NzzYFc="
 #define STORAGE_CIPHER "128"

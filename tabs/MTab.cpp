@@ -52,10 +52,7 @@ QJsonObject MTab::save() {
 	obj["last_updated"] = u_last;
     obj["type"] = type;
 
-	QJsonObject cust = saveCustomParams();
-    for (const QString &k : cust.keys()) {
-		obj[k] = cust[k];
-	}
+	saveCustomParams(obj);
 
 	return obj;
 }

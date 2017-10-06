@@ -42,6 +42,7 @@ Support for loading old versions of storage file (So, if current version 5 and f
   - Check and add license
   
 - README
+  - Update CryptInfo with recent changes, and rewrite as MD
   - Simplify Main functions
   - Write requirements and build instructions
   - Screenshots

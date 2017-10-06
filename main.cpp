@@ -2,8 +2,8 @@
 #include <QtCore/QFile>
 #include <widgets/WMain.h>
 #include <QtWidgets/QFileDialog>
-#include <storage/SFile.h>
-#include <widgets/WFiles.h>
+#include <plugins/tabs/PTabFile.h>
+#include <widgets/files/WFiles.h>
 
 int main(int argc, char **argv) {
 	QApplication a(argc, argv);
@@ -17,10 +17,7 @@ int main(int argc, char **argv) {
     qApp->setWindowIcon(QIcon(":/icon.ico"));
 
 	auto *wnd = WMain::getInstance();
-//	wnd->show();
-
-    auto *w = new WFiles(Storage::getFiles("test_name"));
-    w->show();
+    wnd->show();
 
 //    auto *f = Storage::getFiles("test_name");
 //
@@ -29,7 +26,7 @@ int main(int argc, char **argv) {
 //    Storage::getInstance()->saveJson();
 
 //    QString file = QFileDialog::getOpenFileName(new QWidget);
-//    SFile f_info(file);
+//    PTabFile f_info(file);
 //
 //    qDebug() << f_info.hash;
 

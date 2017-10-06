@@ -54,26 +54,22 @@ Storage
   sync: false
   last_login: 'ilya'
 
-  docs:
-   links: []
-   documents: []
+  docs: [
+    {
 
- Files:
-  No 'filesystem', but a list of uids(sha256 hash of tab desc)
 
-  files:
-    <tab_hash>: [
-      {
-        name: <file_or_folder_name>,
-        hash: <sha256 of file, used for verification>,
-        size: <size string>
-        type: <name for icon>,
-      },...
-    ],...
-
-  file_keys: {
-    <tab_hash>: <tab_folder_key>,...
-  }
+      // Plugins
+      "files": [
+        {
+          name: <file_name>,
+          hash: <sha256 of file, used for verification>,
+          size: <size string>
+          type: <name for icon>,
+        },...
+      ],
+      "file_key": <tab_folder_key>
+    },...
+  ]
 
 Tmp keys:
  AES

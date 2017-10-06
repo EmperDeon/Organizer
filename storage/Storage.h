@@ -7,15 +7,13 @@
 #include <storage/SSecure.h>
 #include <storage/SMigrations.h>
 #include <utils/USingleton.h>
-#include "SFiles.h"
+#include "plugins/tabs/PTabFiles.h"
 
-class SFiles;
+class PTabFiles;
 
 class Storage : public USingleton<Storage> {
     QJsonObject original;
     QJsonArray docs;
-
-    QMap<QString, SFiles *> files;
 
 	SSecure *secure;
     SMigrations *migrations;
@@ -50,20 +48,12 @@ public:
 
 	QString saveDocs();
 
-    // Files
-    void loadFiles(QString f);
-
-    QString saveFiles();
-
 
 	static SSecure *secureStorage() {
 		Storage *st = getInstance();
 
 		return st->secure;
 	}
-
-    static SFiles *getFiles(const QString &name);
-
 };
 
 #endif //ORGANIZER_MIO_H

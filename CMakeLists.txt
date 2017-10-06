@@ -24,6 +24,8 @@ SET(M_S
 
         tabs/editors/MEdTab.cpp
 
+        tabs/files/MFlGroup.cpp
+
         tabs/links/MLink.cpp
         tabs/links/MGroup.cpp
 
@@ -37,8 +39,14 @@ SET(M_S
         network/Network.cpp
         network/NSync.cpp
 
-        storage/SFile.cpp
-        storage/SFiles.cpp
+        plugins/tabs/PTabPlugin.cpp
+        plugins/Plugin.cpp
+        widgets/files/WFile.cpp
+        widgets/files/WFileIcon.cpp
+        widgets/files/WFiles.cpp
+
+        plugins/tabs/PTabFile.cpp
+        plugins/tabs/PTabFiles.cpp
         storage/SMigrations.cpp
         storage/Storage.cpp
         storage/SSecure.cpp
@@ -50,10 +58,6 @@ SET(M_S
         utils/UScrollArea.cpp
         utils/USingleton.cpp
         utils/UTray.cpp
-
-        widgets/WFile.cpp
-        widgets/WFileIcon.cpp
-        widgets/WFiles.cpp
         widgets/WMain.cpp
         widgets/WSync.cpp
         widgets/WTabs.cpp
@@ -69,6 +73,8 @@ SET(M_H
 
         tabs/editors/MEdTab.h
 
+        tabs/files/MFlGroup.h
+
         tabs/links/MLink.h
         tabs/links/MGroup.h
 
@@ -82,8 +88,14 @@ SET(M_H
         network/Network.h
         network/NSync.h
 
-        storage/SFile.h
-        storage/SFiles.h
+        plugins/tabs/PTabPlugin.h
+        plugins/Plugin.h
+        widgets/files/WFile.h
+        widgets/files/WFileIcon.h
+        widgets/files/WFiles.h
+
+        plugins/tabs/PTabFile.h
+        plugins/tabs/PTabFiles.h
         storage/SMigrations.h
         storage/Storage.h
         storage/SSecure.h
@@ -96,10 +108,6 @@ SET(M_H
         utils/UScrollArea.h
         utils/USingleton.h
         utils/UTray.h
-
-        widgets/WFile.h
-        widgets/WFileIcon.h
-        widgets/WFiles.h
         widgets/WMain.h
         widgets/WSync.h
         widgets/WTabs.h
