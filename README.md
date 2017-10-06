@@ -12,14 +12,42 @@ Using markdown code from [cpp-markdown](https://github.com/sevenjay/cpp-markdown
 
 
 ### Detailed info
-WIP
+### Storage
+All in 1 file: storage.json
+
+Default:
+```
+ "sync": false
+
+ "docs": [
+   {
+     "name": <doc name, string>,
+     "type": <doc type, int>,
+     "last_updated": <last save datetime>,
+     "content": <doc data, QJsonValue>,
+     "version": <doc version, int>,
+   
+     // Custom fields
+     "files": [
+       {
+         name: <file_name>,
+         hash: <sha256 of file, used for verification>,
+         size: <size string>
+         type: <name for icon>,
+       },...
+     ],
+     "file_key": <tab_folder_key>
+   },...
+ ],
+ 
+ "version": <storage version>
+```
 
 #### Migrations
 Support for loading old versions of storage file (So, if current version 5 and file version is 2, class will apply migrations 3, 4, 5)
 
 
 ### TODO order
-- Files
 - README
 - FIXME's
 - Markdown toolbar
@@ -30,11 +58,6 @@ Support for loading old versions of storage file (So, if current version 5 and f
 - Moving tabs does not affect storage
 
 ##### Big TODO's
-
-- Add files storage (copy to 'encrypted_storage', and encrypt if needed)
-  - Maybe as FilesGroup, with possible encryption (each group with separate key)
-  - 
-
 - Prepare for first release
   - Add support for compiling from .pro
   - Check minimal qt version (ex. 5.5, or 5.2)
