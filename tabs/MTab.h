@@ -1,3 +1,9 @@
+/*
+	Copyright (c) 2017 by Ilya Barykin
+	Released under the MIT License.
+	See the provided LICENSE.TXT file for details.
+*/
+
 #ifndef ORGANIZER_MTAB_H
 #define ORGANIZER_MTAB_H
 
@@ -8,13 +14,13 @@
 
 class MTab : public QWidget {
 public:
-    enum TabType : int {
-	    Text = 1,
-	    List = 2,
-	    LinksGroup = 4,
-	    FilesGroup = 8,
-	    NewTab = 1024
-    };
+	enum TabType : int {
+		Text = 1,
+		List = 2,
+		LinksGroup = 4,
+		FilesGroup = 8,
+		NewTab = 1024
+	};
 
 	enum TabGroup : int {
 		All = Text | List | LinksGroup | FilesGroup,
@@ -38,9 +44,9 @@ protected:
 public:
 	explicit MTab() = default;
 
-    explicit MTab(const QJsonObject &o, TabType t = NewTab);
+	explicit MTab(const QJsonObject &o, TabType t = NewTab);
 
-    void load(QJsonObject o = QJsonObject());
+	void load(QJsonObject o = QJsonObject());
 
 	QJsonObject save();
 

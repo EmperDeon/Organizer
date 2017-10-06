@@ -1,3 +1,9 @@
+/*
+	Copyright (c) 2017 by Ilya Barykin
+	Released under the MIT License.
+	See the provided LICENSE.TXT file for details.
+*/
+
 #ifndef ORGANIZER_MEDITORS_H
 #define ORGANIZER_MEDITORS_H
 
@@ -16,7 +22,7 @@ class NSync;
 
 class MTabsController {
 	WMain *wnd;
-    NSync *sync;
+	NSync *sync;
 
 public:
 	QMap<QString, MTab *> tabs;

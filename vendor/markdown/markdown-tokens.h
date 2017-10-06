@@ -1,4 +1,10 @@
 /*
+	Copyright (c) 2017 by Ilya Barykin
+	Released under the MIT License.
+	See the provided LICENSE.TXT file for details.
+*/
+
+/*
 	The MIT License
 
     Copyright (c) 2009 by Chad Nelson
@@ -220,7 +226,7 @@ namespace markdown {
 
             virtual void writeToken(std::ostream &out) const {
                 out << "Header " <<
-                    mLevel << ": " << *text() << "\n";
+                                 mLevel << ": " << *text() << "\n";
             }
 
             virtual bool inhibitParagraphs() const { return true; }

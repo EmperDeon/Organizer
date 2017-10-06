@@ -1,3 +1,9 @@
+/*
+	Copyright (c) 2017 by Ilya Barykin
+	Released under the MIT License.
+	See the provided LICENSE.TXT file for details.
+*/
+
 #include <QtWidgets/QVBoxLayout>
 #include <storage/Storage.h>
 #include "WFile.h"

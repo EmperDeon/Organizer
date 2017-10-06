@@ -1,13 +1,19 @@
+/*
+	Copyright (c) 2017 by Ilya Barykin
+	Released under the MIT License.
+	See the provided LICENSE.TXT file for details.
+*/
+
 #include <QtCore/QTimer>
 #include <QtCore/QDateTime>
 #include <storage/Storage.h>
 #include "MTab.h"
 
 MTab::MTab(const QJsonObject &o, TabType t) {
-    obj = o;
-    name = obj["name"].toString();
-    type = t;
-    u_last = static_cast<qint64>(o["last_updated"].toDouble());
+	obj = o;
+	name = obj["name"].toString();
+	type = t;
+	u_last = static_cast<qint64>(o["last_updated"].toDouble());
 }
 
 void MTab::updated() {
@@ -50,7 +56,7 @@ void MTab::load(QJsonObject o) {
 QJsonObject MTab::save() {
 	obj["content"] = toJson();
 	obj["last_updated"] = u_last;
-    obj["type"] = type;
+	obj["type"] = type;
 
 	saveCustomParams(obj);
 

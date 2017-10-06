@@ -1,4 +1,10 @@
 /*
+	Copyright (c) 2017 by Ilya Barykin
+	Released under the MIT License.
+	See the provided LICENSE.TXT file for details.
+*/
+
+/*
 	The MIT License
 
     Copyright (c) 2009 by Chad Nelson
@@ -263,7 +269,7 @@ namespace markdown {
                             if (boost::regex_search(prevtag, endtag, mtag, cAttributeStrings)) {
                                 tgttag += std::string(prevtag, mtag[0].first);
                                 tgttag += "\x01@" + boost::lexical_cast<std::string>(replacements.size()) +
-                                          "@htmlTagAttr\x01";
+                                        "@htmlTagAttr\x01";
                                 prevtag = mtag[0].second;
 
                                 replacements.push_back(
@@ -447,7 +453,7 @@ namespace markdown {
                             replacements.push_back(TokenPtr(new HtmlAnchorTag(url, title)));
                             tgt += contentsOrAlttext;
                             tgt += "\x01@" + boost::lexical_cast<std::string>(replacements.size()) +
-                                   "@links&Images2\x01";
+                                    "@links&Images2\x01";
                             replacements.push_back(TokenPtr(new HtmlTag("/a")));
                         }
                     } else {
@@ -682,8 +688,8 @@ namespace markdown {
 
         HtmlAnchorTag::HtmlAnchorTag(const std::string &url, const std::string &title) :
                 TextHolder("<a href=\"" + encodeString(url, cQuotes | cAmps) + "\""
-                           + (title.empty() ? std::string() : " title=\"" + encodeString(title, cQuotes | cAmps) + "\"")
-                           + ">", false, 0) {
+                                                                               + (title.empty() ? std::string() : " title=\"" + encodeString(title, cQuotes | cAmps) + "\"")
+                                                                               + ">", false, 0) {
             // This space deliberately blank. ;-)
         }
 
@@ -779,10 +785,10 @@ namespace markdown {
                 } else {
                     if (mOpenMarker)
                         out << "Unmatched bold/italic open marker: " <<
-                            std::string(mSize, mTokenCharacter) << endl;
+                                                                     std::string(mSize, mTokenCharacter) << endl;
                     else
                         out << "Unmatched bold/italic close marker: " <<
-                            std::string(mSize, mTokenCharacter) << endl;
+                                                                      std::string(mSize, mTokenCharacter) << endl;
                 }
             }
         }

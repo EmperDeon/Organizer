@@ -1,3 +1,9 @@
+/*
+	Copyright (c) 2017 by Ilya Barykin
+	Released under the MIT License.
+	See the provided LICENSE.TXT file for details.
+*/
+
 #ifndef ORGANIZER_SMVER1_H
 #define ORGANIZER_SMVER1_H
 

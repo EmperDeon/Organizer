@@ -1,10 +1,16 @@
+/*
+	Copyright (c) 2017 by Ilya Barykin
+	Released under the MIT License.
+	See the provided LICENSE.TXT file for details.
+*/
+
 #include <QtGui/QDesktopServices>
 #include <QtCore/QEvent>
 #include <QtCore/QUrl>
 #include "MLink.h"
 
 MLink::MLink(MGroup *g, QJsonObject o) : group(g) {
-	auto *l = new QVBoxLayout;
+    auto *l = new QVBoxLayout;
 
     l_name = new QLineEdit(o["name"].toString());
     l_link = new QLineEdit(o["link"].toString());
@@ -18,9 +24,9 @@ MLink::MLink(MGroup *g, QJsonObject o) : group(g) {
     l->addWidget(l_name);
     l->addWidget(l_link);
 
-	setContextMenuPolicy(Qt::NoContextMenu);
-	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-	setLayout(l);
+    setContextMenuPolicy(Qt::NoContextMenu);
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    setLayout(l);
 }
 
 void MLink::editChange() {
@@ -35,9 +41,9 @@ QJsonObject MLink::getJson() const {
 }
 
 bool MLink::eventFilter(QObject *object, QEvent *event) {
-	if (event->type() == QEvent::MouseButtonDblClick) {
+    if (event->type() == QEvent::MouseButtonDblClick) {
         QDesktopServices::openUrl(l_link->text());
-	}
+    }
 
-	return QObject::eventFilter(object, event);
+    return QObject::eventFilter(object, event);
 }

@@ -1,3 +1,9 @@
+/*
+	Copyright (c) 2017 by Ilya Barykin
+	Released under the MIT License.
+	See the provided LICENSE.TXT file for details.
+*/
+
 #include "CAes.h"
 
 QString CAes::encrypt(QString message) {
@@ -30,24 +36,24 @@ QByteArray CAes::decryptAr(const QByteArray &message) {
 
 
 CAes::CAes(QString cipher_name, QString k, QString i) :
-		key(fromBase(k)), iv(fromBase(i)), cipher("aes" + cipher_name, AES_MODE, AES_PADDING) {
+        key(fromBase(k)), iv(fromBase(i)), cipher("aes" + cipher_name, AES_MODE, AES_PADDING) {
 
-	encryption = true;
-	cipher.setup(QCA::Encode, key, iv);
+    encryption = true;
+    cipher.setup(QCA::Encode, key, iv);
 }
 
 QString CAes::createKey(int key_size) {
-	QCA::SymmetricKey key(key_size);
+    QCA::SymmetricKey key(key_size);
 
-	return toBase(key);
+    return toBase(key);
 }
 
 QString CAes::createKey(QString k) {
-	return toBase(k.toStdString().c_str());
+    return toBase(k.toStdString().c_str());
 }
 
 QString CAes::createIV() {
-	QCA::InitializationVector iv(16);
+    QCA::InitializationVector iv(16);
 
-	return toBase(iv);
+    return toBase(iv);
 }

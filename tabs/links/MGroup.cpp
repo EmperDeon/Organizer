@@ -1,92 +1,98 @@
+/*
+	Copyright (c) 2017 by Ilya Barykin
+	Released under the MIT License.
+	See the provided LICENSE.TXT file for details.
+*/
+
 #include <QtCore/QJsonArray>
 #include <utils/UScrollArea.h>
 #include "MGroup.h"
 
 MGroup::MGroup(const QJsonObject &o) : MTab(o, MTab::LinksGroup) {
-	auto *scrollLayout = new QVBoxLayout;
+    auto *scrollLayout = new QVBoxLayout;
 
-	list = new QVBoxLayout;
-	list->setAlignment(Qt::AlignTop);
+    list = new QVBoxLayout;
+    list->setAlignment(Qt::AlignTop);
 
-	auto *scroll = new UScrollArea(list);
+    auto *scroll = new UScrollArea(list);
 
-	scrollLayout->addWidget(scroll);
-	scrollLayout->setMargin(0);
+    scrollLayout->addWidget(scroll);
+    scrollLayout->setMargin(0);
 
-	setLayout(scrollLayout);
+    setLayout(scrollLayout);
 
-	load();
+    load();
 }
 
 void MGroup::addLink(QJsonObject o) {
-	MLink *link = new MLink(this, o);
+    MLink *link = new MLink(this, o);
 
-	links << link;
-	list->addWidget(link);
+    links << link;
+    list->addWidget(link);
 }
 
 void MGroup::updateLinks() {
-	if (!links.isEmpty() && !links.last()->isEmpty()) {
-		addLink();
-	}
+    if (!links.isEmpty() && !links.last()->isEmpty()) {
+        addLink();
+    }
 
-	updated();
+    updated();
 }
 
 QString MGroup::getDesc() {
-	return "Links group: " + name;
+    return "Links group: " + name;
 }
 
 void MGroup::importFrom(QString s) {
-	if (links.last()->isEmpty())
-		links.last()->deleteLater(),
-				links.removeLast();
+    if (links.last()->isEmpty())
+        links.last()->deleteLater(),
+                links.removeLast();
 
-	QString nm, ln;
-	int i;
-	for (QString l : s.split("\n")) { // TODO: Refactor
-		if ((i = l.indexOf(": ")) != -1) {
-			nm = QStringRef(&l, 0, i).toString();
-			ln = QStringRef(&l, i + 2, l.size() - i - 2).toString();
+    QString nm, ln;
+    int i;
+    for (QString l : s.split("\n")) { // TODO: Refactor
+        if ((i = l.indexOf(": ")) != -1) {
+            nm = QStringRef(&l, 0, i).toString();
+            ln = QStringRef(&l, i + 2, l.size() - i - 2).toString();
 
-		} else if ((i = l.indexOf(" - ")) != -1) {
-			nm = QStringRef(&l, 0, i).toString();
-			ln = QStringRef(&l, i + 3, l.size() - i - 3).toString();
+        } else if ((i = l.indexOf(" - ")) != -1) {
+            nm = QStringRef(&l, 0, i).toString();
+            ln = QStringRef(&l, i + 3, l.size() - i - 3).toString();
 
-		} else {
-			ln = l;
-		}
+        } else {
+            ln = l;
+        }
 
-		QJsonObject o;
-		o["name"] = nm;
-		o["link"] = ln;
-		addLink(o);
-	}
+        QJsonObject o;
+        o["name"] = nm;
+        o["link"] = ln;
+        addLink(o);
+    }
 }
 
 QString MGroup::exportTo() { // TODO: Write export
-	return nullptr;
+    return nullptr;
 }
 
 void MGroup::fromJson(QJsonValue v) {
-	QJsonArray arr = v.toArray();
+    QJsonArray arr = v.toArray();
 
-	for (QJsonValue t : arr)
-		addLink(t.toObject());
+    for (QJsonValue t : arr)
+        addLink(t.toObject());
 
-	if (arr.empty())
-		addLink();
+    if (arr.empty())
+        addLink();
 
-	for (MLink *l : links)
-		l->editChange();
+    for (MLink *l : links)
+        l->editChange();
 }
 
 QJsonValue MGroup::toJson() {
-	QJsonArray r;
-	for (MLink *l : links) {
-		if (!l->isEmpty())
-			r << l->getJson();
-	}
+    QJsonArray r;
+    for (MLink *l : links) {
+        if (!l->isEmpty())
+            r << l->getJson();
+    }
 
-	return r;
+    return r;
 }

@@ -1,3 +1,9 @@
+/*
+	Copyright (c) 2017 by Ilya Barykin
+	Released under the MIT License.
+	See the provided LICENSE.TXT file for details.
+*/
+
 #ifndef ORGANIZER_MGROUP_H
 #define ORGANIZER_MGROUP_H
 
@@ -10,27 +16,27 @@ class MLink;
 
 
 class MGroup : public MTab {
-	QList<MLink *> links;
+    QList<MLink *> links;
 
-	QVBoxLayout *list;
+    QVBoxLayout *list;
 
 
 public:
-	explicit MGroup(const QJsonObject &o);
+    explicit MGroup(const QJsonObject &o);
 
-	void addLink(QJsonObject o = QJsonObject());
+    void addLink(QJsonObject o = QJsonObject());
 
-	void updateLinks();
+    void updateLinks();
 
-	QString getDesc() override;
+    QString getDesc() override;
 
-	void fromJson(QJsonValue v) override;
+    void fromJson(QJsonValue v) override;
 
-	QJsonValue toJson() override;
+    QJsonValue toJson() override;
 
-	void importFrom(QString s) override;
+    void importFrom(QString s) override;
 
-	QString exportTo() override;
+    QString exportTo() override;
 };
 
 

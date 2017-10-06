@@ -1,3 +1,9 @@
+/*
+	Copyright (c) 2017 by Ilya Barykin
+	Released under the MIT License.
+	See the provided LICENSE.TXT file for details.
+*/
+
 #ifndef ORGANIZER_MNEWED_H
 #define ORGANIZER_MNEWED_H
 
@@ -12,17 +18,17 @@ class MTabsController;
 
 class MNewEd : public MTab {
     WMain *wnd;
-	MTabsController *contr;
+    MTabsController *contr;
 
-	QComboBox *type;
-	QLineEdit *name;
+    QComboBox *type;
+    QLineEdit *name;
 
 public:
     MNewEd(WMain *w, MTabsController *c);
 
-	QString getDesc() override { return "New Tab"; }
+    QString getDesc() override { return "New Tab"; }
 
-	void addClick();
+    void addClick();
 
     friend class WMain;
 };

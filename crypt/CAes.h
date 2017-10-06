@@ -1,3 +1,9 @@
+/*
+	Copyright (c) 2017 by Ilya Barykin
+	Released under the MIT License.
+	See the provided LICENSE.TXT file for details.
+*/
+
 #ifndef ORGANIZER_AES_H
 #define ORGANIZER_AES_H
 
@@ -6,33 +12,33 @@
 #include "CTools.h"
 
 class CAes {
-	QCA::SymmetricKey key;
-	QCA::InitializationVector iv;
+    QCA::SymmetricKey key;
+    QCA::InitializationVector iv;
 
-	QCA::Cipher cipher;
+    QCA::Cipher cipher;
 
-	bool encryption;
+    bool encryption;
 
-	static QCA::SecureArray fromBase(const QString &str) { return CTools::fromBase(str); }
+    static QCA::SecureArray fromBase(const QString &str) { return CTools::fromBase(str); }
 
-	static QString toBase(const QCA::SecureArray &mem) { return CTools::toBase(mem); }
+    static QString toBase(const QCA::SecureArray &mem) { return CTools::toBase(mem); }
 
 public:
-	CAes(QString cipher_name, QString k, QString i = AES_IV);
+    CAes(QString cipher_name, QString k, QString i = AES_IV);
 
-	QString encrypt(QString message);
+    QString encrypt(QString message);
 
-	QByteArray encryptAr(QByteArray message);
+    QByteArray encryptAr(QByteArray message);
 
-	QString decrypt(const QString &message);
+    QString decrypt(const QString &message);
 
-	QByteArray decryptAr(const QByteArray &message);
+    QByteArray decryptAr(const QByteArray &message);
 
     static QString createKey(int key_size = AES_DEF_KEY_SIZE);
 
-	static QString createKey(QString k);
+    static QString createKey(QString k);
 
-	static QString createIV();
+    static QString createIV();
 
 };
 

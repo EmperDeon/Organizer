@@ -1,3 +1,9 @@
+/*
+	Copyright (c) 2017 by Ilya Barykin
+	Released under the MIT License.
+	See the provided LICENSE.TXT file for details.
+*/
+
 #include <QtWidgets/QApplication>
 #include <QtCore/QFile>
 #include <widgets/WMain.h>
@@ -11,10 +17,10 @@ int main(int argc, char **argv) {
 	QString StyleSheet = QLatin1String(File.readAll());
 	a.setStyleSheet(StyleSheet);
 
-    qApp->setWindowIcon(QIcon(":/icon.ico"));
+	qApp->setWindowIcon(QIcon(":/icon.ico"));
 
 	auto *wnd = WMain::getInstance();
-    wnd->show();
+	wnd->show();
 
 	return a.exec();
 }

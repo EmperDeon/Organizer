@@ -1,4 +1,10 @@
 /*
+	Copyright (c) 2017 by Ilya Barykin
+	Released under the MIT License.
+	See the provided LICENSE.TXT file for details.
+*/
+
+/*
 	The MIT License
 
     Copyright (c) 2009 by Chad Nelson
@@ -372,10 +378,10 @@ namespace {
                 static const boost::regex cContinuedItemExpression("^ *([^ ].*)$");
 
                 boost::regex continuedAfterBlankLineExpression("^ {" +
-                                                               boost::lexical_cast<std::string>(indent + 4) +
-                                                               "}([^ ].*)$");
+                                                                       boost::lexical_cast<std::string>(indent + 4) +
+                                                                       "}([^ ].*)$");
                 boost::regex codeBlockAfterBlankLineExpression("^ {" +
-                                                               boost::lexical_cast<std::string>(indent + 8) + "}(.*)$");
+                                                                       boost::lexical_cast<std::string>(indent + 8) + "}(.*)$");
 
                 enum NextItemType {
                     cUnknown, cEndOfList, cAnotherItem
@@ -730,7 +736,7 @@ namespace markdown {
                 TokenGroup::const_iterator i2 = i;
                 ++i2;
                 if (i2 != tokens->subTokens().end() && (*i2)->text() &&
-                    boost::regex_match(*(*i2)->text(), cHtmlTokenEnd)) {
+                        boost::regex_match(*(*i2)->text(), cHtmlTokenEnd)) {
                     processed.push_back(TokenPtr(new markdown::token::RawText(*(*i)->text() + ' ' + *(*i2)->text())));
                     ++i;
                     continue;

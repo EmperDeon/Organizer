@@ -1,3 +1,9 @@
+/*
+	Copyright (c) 2017 by Ilya Barykin
+	Released under the MIT License.
+	See the provided LICENSE.TXT file for details.
+*/
+
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QLabel>
@@ -15,10 +21,10 @@ MNewEd::MNewEd(WMain *w, MTabsController *c) : wnd(w), contr(c) {
 	QPushButton *submit = new QPushButton(tr("Create"));
 	submit->setProperty("newLineButton", "true");
 
-    type->addItem("Plain text", MTab::Text);
-    type->addItem("List", MTab::List);
-    type->addItem("Links group", MTab::LinksGroup);
-    type->addItem("Files group", MTab::FilesGroup);
+	type->addItem("Plain text", MTab::Text);
+	type->addItem("List", MTab::List);
+	type->addItem("Links group", MTab::LinksGroup);
+	type->addItem("Files group", MTab::FilesGroup);
 
 	l->addRow(label);
 	l->addRow(tr("Name: "), name);
@@ -41,12 +47,12 @@ MNewEd::MNewEd(WMain *w, MTabsController *c) : wnd(w), contr(c) {
 void MNewEd::addClick() {
 	if (name->text() == "") return;
 	QJsonObject o = {
-            {"name", name->text()},
-            {"type", type->currentData().toInt()},
-            {"version", STORAGE_CUR_VERSION}
+			{"name", name->text()},
+			{"type", type->currentData().toInt()},
+			{"version", STORAGE_CUR_VERSION}
 	};
 
 	QTabWidget *tabs = wnd->tabs;
-    contr->addNewTab(name->text(), o, tabs->count() - 2);
+	contr->addNewTab(name->text(), o, tabs->count() - 2);
 	tabs->setCurrentIndex(tabs->count() - 3);
 }

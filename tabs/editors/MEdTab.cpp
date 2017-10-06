@@ -1,10 +1,16 @@
+/*
+	Copyright (c) 2017 by Ilya Barykin
+	Released under the MIT License.
+	See the provided LICENSE.TXT file for details.
+*/
+
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QPushButton>
 #include <vendor/markdown/markdown.h>
 #include "MEdTab.h"
 
 MEdTab::MEdTab(const QJsonObject &o) : MTab(o, MTab::Text) {
-	auto *l = new QVBoxLayout;
+    auto *l = new QVBoxLayout;
 
     // Top menu, TODO: Move to MEdToolbar
     auto *m_l = new QHBoxLayout;
@@ -37,7 +43,7 @@ MEdTab::MEdTab(const QJsonObject &o) : MTab(o, MTab::Text) {
     // Editor
     m_layout = new QHBoxLayout;
 
-	edit = new QPlainTextEdit;
+    edit = new QPlainTextEdit;
     view = new QTextEdit;
 
     edit->setTabStopWidth(15);
@@ -60,7 +66,7 @@ MEdTab::MEdTab(const QJsonObject &o) : MTab(o, MTab::Text) {
     l->addLayout(m_layout);
     // Editor
 
-	load();
+    load();
 
     m_buttons->button(cur_mode)->setChecked(true);
     changeMode(cur_mode, true);
@@ -73,19 +79,19 @@ QString MEdTab::getDesc() {
 }
 
 void MEdTab::importFrom(QString s) {
-	edit->setPlainText(edit->toPlainText() + "\n" + s);
+    edit->setPlainText(edit->toPlainText() + "\n" + s);
 }
 
 QString MEdTab::exportTo() {
-	return edit->toPlainText();
+    return edit->toPlainText();
 }
 
 void MEdTab::fromJson(QJsonValue v) {
-	edit->setPlainText(v.toString());
+    edit->setPlainText(v.toString());
 }
 
 QJsonValue MEdTab::toJson() {
-	return edit->toPlainText();
+    return edit->toPlainText();
 }
 
 void MEdTab::loadCustomParams(const QJsonObject &o) {

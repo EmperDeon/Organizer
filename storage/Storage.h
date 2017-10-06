@@ -1,3 +1,9 @@
+/*
+	Copyright (c) 2017 by Ilya Barykin
+	Released under the MIT License.
+	See the provided LICENSE.TXT file for details.
+*/
+
 #ifndef ORGANIZER_MIO_H
 #define ORGANIZER_MIO_H
 
@@ -15,22 +21,22 @@ class Storage : public USingleton<Storage> {
     QJsonObject original;
     QJsonArray docs;
 
-	SSecure *secure;
+    SSecure *secure;
     SMigrations *migrations;
 
 public:
-	Storage();
+    Storage();
 
-	// redirect to original Json
-	QJsonValue get(const QString &k) { return original.value(k); }
+    // redirect to original Json
+    QJsonValue get(const QString &k) { return original.value(k); }
 
-	QString getS(const QString &k) { return get(k).toString(); }
+    QString getS(const QString &k) { return get(k).toString(); }
 
-	bool getB(const QString &k) { return get(k).toBool(); }
+    bool getB(const QString &k) { return get(k).toBool(); }
 
-	void set(const QString &k, const QJsonValue &v) { original.insert(k, v); }
+    void set(const QString &k, const QJsonValue &v) { original.insert(k, v); }
 
-	void remove(const QString &k) { original.remove(k); }
+    void remove(const QString &k) { original.remove(k); }
 
     QJsonArray getDocs() { return docs; }
 
@@ -39,21 +45,21 @@ public:
     // IO
     void loadJson();
 
-	void saveJson();
+    void saveJson();
 
     void sendDocsToServer();
 
     // Docs, TODO: Review, maybe move to separate file
     void loadDocs(QString d);
 
-	QString saveDocs();
+    QString saveDocs();
 
 
-	static SSecure *secureStorage() {
-		Storage *st = getInstance();
+    static SSecure *secureStorage() {
+        Storage *st = getInstance();
 
-		return st->secure;
-	}
+        return st->secure;
+    }
 };
 
 #endif //ORGANIZER_MIO_H

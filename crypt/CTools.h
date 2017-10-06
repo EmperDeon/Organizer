@@ -1,3 +1,9 @@
+/*
+	Copyright (c) 2017 by Ilya Barykin
+	Released under the MIT License.
+	See the provided LICENSE.TXT file for details.
+*/
+
 #ifndef ORGANIZER_CTOOLS_H
 #define ORGANIZER_CTOOLS_H
 
@@ -7,21 +13,21 @@
 
 class CTools {
 public:
-	static QCA::SecureArray fromBase(const QString &str);
+    static QCA::SecureArray fromBase(const QString &str);
 
-	static QString toBase(const QCA::SecureArray &mem);
+    static QString toBase(const QCA::SecureArray &mem);
 
-	static QString hash(const QString &str);
+    static QString hash(const QString &str);
 
-	static QString toJson(QJsonArray ob, QJsonDocument::JsonFormat format = QJsonDocument::Compact);
+    static QString toJson(QJsonArray ob, QJsonDocument::JsonFormat format = QJsonDocument::Compact);
 
-	static QString toJson(QJsonObject ob, QJsonDocument::JsonFormat format = QJsonDocument::Compact);
+    static QString toJson(QJsonObject ob, QJsonDocument::JsonFormat format = QJsonDocument::Compact);
 
-	static QJsonObject fromJson(const QString &str);
+    static QJsonObject fromJson(const QString &str);
 
-	static QJsonArray fromJsonA(const QString &str);
+    static QJsonArray fromJsonA(const QString &str);
 
-	static QString randomStr(int size);
+    static QString randomStr(int size);
 };
 
 

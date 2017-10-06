@@ -1,3 +1,9 @@
+#
+# Copyright (c) 2017 by Ilya Barykin
+# Released under the MIT License.
+# See the provided LICENSE.TXT file for details.
+#
+
 cmake_minimum_required(VERSION 3.0)
 project(Organizer)
 
@@ -11,7 +17,6 @@ find_package(Qca-qt5)
 
 
 set(CMAKE_CXX_FLAGS "-std=c++14")
-# -fPIC ${Qt5Core_EXECUTABLE_COMPILE_FLAGS}
 
 
 SET(M_S
