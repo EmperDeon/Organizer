@@ -14,19 +14,33 @@ Organizer is an open source, cross-platform app for keeping documents (text note
 - Auto save information after editing
 - Hiding to tray
 - Migration of documents on load (Support for loading old-version docs)
+- Backups
 
 #### License
-
 Organizer is released under the MIT license. See the LICENSE.TXT file that accompanies this distribution for all the details that only a lawyer could love, but the general idea is that you can do pretty much anything you want with the code except claim that it's your own work.
     
+
 ## Detailed info
 Each document is separate tab.
 
-### Storage
-All in 1 file: storage.json
+### Files
+Storage folder:
+- Linux: `~/.organizer/`
+- Windows: `%HOME/.organizer/`
 
-Default:
+Structure:
+- `storage.json` - Main storage (docs, configs)
+- `backup_week.json` - Weekly backup
+- `backup_last.json` - Backup for last 3 launches
+- `encrypted_files/` - Dir for "FilesGroup" tabs
+
+
+### Storage
+Main file, for storing configs and docs.
+
+Structure:
 ```
+{
  "sync": false
 
  "docs": [
@@ -51,10 +65,32 @@ Default:
  ],
  
  "version": <storage version>
+}
 ```
+
 
 ### Migrations
 Support for loading old versions of storage file (So, if current version 5 and file version is 2, class will apply migrations 3, 4, 5)
+
+
+### Backups
+Backup is created at storage loading, after migrations are applied
+
+Structure:
+```
+{
+  <Date, formatted as 'ISO86801'>: {
+    "docs": "...",
+    <Any fields, required for docs loading>
+  },...
+}
+```
+
+#### Weekly Backups
+Backup is done at the start of the week (if program is launched in that week).
+
+#### Last backups
+Storing docs at last 3 launches
 
 
 ## TODO's
@@ -62,6 +98,7 @@ Support for loading old versions of storage file (So, if current version 5 and f
 - README
 - Markdown toolbar
 - Prepare for first release
+
 
 ### Big TODO's
 - Prepare for first release
@@ -74,7 +111,10 @@ Support for loading old versions of storage file (So, if current version 5 and f
   - Write requirements and build instructions
   - Screenshots
 
+
 ### Small TODO's
+- Remove List Tab type completely. Now you can organize lists in Editor Tab (Markdown). [Or rewrite. Anyway, this tab is not too useful]
+
 - Add markdown syntax highlighting and toolbar
 
 - Themes [Light, Dark] as default, and custom (JSON)
@@ -82,8 +122,10 @@ Support for loading old versions of storage file (So, if current version 5 and f
 - Custom groups of tabs
 
 - Moving tabs does not affect storage
-    
-   
+
+- Options for compression, encryption(yes, return the old deleted system), backups and encryption of whole storage file
+
+
 #### Other 
 ##### Needs further checking
 - network/NCrypt:decrypt - Validation error prints only to console and message decryption isn't stopped

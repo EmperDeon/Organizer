@@ -6,6 +6,7 @@
 
 #include <crypt/CAes.h>
 #include "Storage.h"
+#include "SBackup.h"
 #include <utils/UPassDialog.h>
 #include <QtCore/QFile>
 #include <QDebug>
@@ -33,6 +34,10 @@ void Storage::loadJson() {
 
         json = fileAes.decrypt(json);
     }
+
+#ifdef STORAGE_BACKUP
+    SBackup::addDocs(json);
+#endif
 
     original = CTools::fromJson(json);
     original = migrations->processFull(original);

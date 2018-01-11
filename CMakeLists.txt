@@ -49,6 +49,7 @@ SET(M_S
         plugins/tabs/PTabFile.cpp
         plugins/tabs/PTabFiles.cpp
 
+        storage/SBackup.cpp
         storage/SMigrations.cpp
         storage/Storage.cpp
         storage/SSecure.cpp
@@ -99,6 +100,7 @@ SET(M_H
         plugins/tabs/PTabFile.h
         plugins/tabs/PTabFiles.h
 
+        storage/SBackup.h
         storage/SMigrations.h
         storage/Storage.h
         storage/SSecure.h
