@@ -8,7 +8,6 @@
 #include "Storage.h"
 #include "SBackup.h"
 #include <utils/UPassDialog.h>
-#include <QtCore/QFile>
 #include <QDebug>
 #include <network/Network.h>
 #include <widgets/WMain.h>

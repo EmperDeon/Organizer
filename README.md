@@ -119,8 +119,6 @@ Storing docs at last 3 launches
 
 - Custom groups of tabs
 
-- Moving tabs does not affect storage
-
 - Options for compression, encryption(yes, return the old deleted system), backups and encryption of whole storage file
 
 - Encryption of storage with local password

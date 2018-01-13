@@ -20,14 +20,18 @@ class MTab;
 class NSync;
 
 
-class MTabsController {
+class MTabsController : public QObject {
 	WMain *wnd;
 	NSync *sync;
 
 public:
-	QMap<QString, MTab *> tabs;
+	QList<MTab *> tabs;
 
 	explicit MTabsController(WMain *w);
+
+	MTab *find(const QString &name);
+
+	bool contains(const QString &name);
 
 	void load();
 
@@ -35,11 +39,13 @@ public:
 
 	void tabDel(QString name);
 
-	~MTabsController() = default;
+	~MTabsController() override = default;
 
 	void addNewTab(const QString &name, const QJsonObject &o, int i = -1);
 
 	QList<MTab *> selectByGroup(MTab::TabGroup gr);
+
+	void move(int from, int to);
 };
 
 

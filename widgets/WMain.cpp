@@ -21,7 +21,7 @@ WMain::WMain() {
     constructMenuBar();
 
     contr->load();
-//    tabs->setMovable(true);
+    tabs->setMovable(true);
 
     tabs->groupBy();
 

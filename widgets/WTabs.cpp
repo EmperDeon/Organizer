@@ -14,7 +14,7 @@ WTabs::WTabs(WMain *m) : main(m), contr(main->contr) {
     };
 
     connect(this, &QTabWidget::currentChanged, this, &WTabs::tabChange);
-
+    connect(this->tabBar(), &QTabBar::tabMoved, contr, &MTabsController::move);
 }
 
 void WTabs::tabNew() {

@@ -8,9 +8,23 @@
 #include "tabs/editors/MEdTab.h"
 #include "tabs/links/MGroup.h"
 #include "tabs/MTabsController.h"
+#include <QDebug>
 
 MTabsController::MTabsController(WMain *w) : wnd(w) {
     sync = new NSync(this);
+}
+
+MTab *MTabsController::find(const QString &name) {
+    for (MTab *t : tabs) {
+        if (t->getName() == name)
+            return t;
+    }
+
+    return nullptr;
+}
+
+bool MTabsController::contains(const QString &name) {
+    return find(name) != nullptr;
 }
 
 void MTabsController::load() {
@@ -20,8 +34,8 @@ void MTabsController::load() {
         QJsonObject ob = o.toObject();
         QString name = ob["name"].toString("Error");
 
-        if (tabs.contains(name)) {
-            tabs[name]->load(ob);
+        if (contains(name)) {
+            find(name)->load(ob);
 
         } else {
             addNewTab(name, ob);
@@ -52,7 +66,7 @@ void MTabsController::addNewTab(const QString &name, const QJsonObject &o, int i
 
     if (w != nullptr) {
         wnd->tabs->addTab(w, name);
-        tabs[name] = w;
+        tabs << w;
 
         if (i != -1) {
             wnd->tabs->insertTab(i, w, name);
@@ -63,7 +77,7 @@ void MTabsController::addNewTab(const QString &name, const QJsonObject &o, int i
 void MTabsController::save() {
     QJsonArray obj;
 
-    for (MTab *t : tabs.values()) {
+    for (MTab *t : tabs) {
         if (t != nullptr)
             obj << t->save();
     }
@@ -72,17 +86,21 @@ void MTabsController::save() {
 }
 
 void MTabsController::tabDel(QString name) {
-    tabs.remove(name);
+    tabs.removeAll(find(name));
 }
 
 QList<MTab *> MTabsController::selectByGroup(MTab::TabGroup gr) {
     auto r = QList<MTab *>();
 
-    for (const auto &n : tabs.keys()) {
-        if (tabs[n]->isInGroup(gr)) {
-            r << tabs[n];
+    for (MTab *n : tabs) {
+        if (n->isInGroup(gr)) {
+            r << n;
         }
     }
 
     return r;
+}
+
+void MTabsController::move(int from, int to) {
+    tabs.move(from, to);
 }
