@@ -8,9 +8,9 @@
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
-#include "MNewEd.h"
+#include "MNewTab.h"
 
-MNewEd::MNewEd(WMain *w, MTabsController *c) : wnd(w), contr(c) {
+MNewTab::MNewTab(WMain *w, MTabsController *c) : wnd(w), contr(c) {
 	QWidget *wgt = new QWidget;
 	auto *v = new QVBoxLayout;
 	auto *l = new QFormLayout;
@@ -22,7 +22,6 @@ MNewEd::MNewEd(WMain *w, MTabsController *c) : wnd(w), contr(c) {
 	submit->setProperty("newLineButton", "true");
 
 	type->addItem("Plain text", MTab::Text);
-	type->addItem("List", MTab::List);
 	type->addItem("Links group", MTab::LinksGroup);
 	type->addItem("Files group", MTab::FilesGroup);
 
@@ -39,12 +38,12 @@ MNewEd::MNewEd(WMain *w, MTabsController *c) : wnd(w), contr(c) {
 	wgt->setMaximumSize(650, 150);
 	v->addWidget(wgt);
 
-	connect(submit, &QPushButton::clicked, this, &MNewEd::addClick);
+	connect(submit, &QPushButton::clicked, this, &MNewTab::addClick);
 
 	setLayout(v);
 }
 
-void MNewEd::addClick() {
+void MNewTab::addClick() {
 	if (name->text() == "") return;
 	QJsonObject o = {
 			{"name", name->text()},

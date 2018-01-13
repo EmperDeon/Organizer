@@ -5,7 +5,7 @@
 */
 
 #include <QtWidgets/QMessageBox>
-#include <tabs/MNewEd.h>
+#include <tabs/MNewTab.h>
 
 WTabs::WTabs(WMain *m) : main(m), contr(main->contr) {
     tab_groups = {{"Editors", MTab::Editors},
@@ -20,7 +20,7 @@ WTabs::WTabs(WMain *m) : main(m), contr(main->contr) {
 void WTabs::tabNew() {
     // TODO: Delete newTab from TabBar, not itself
     if (newTab == nullptr && contr != nullptr && count() > 0) {
-        newTab = new MNewEd(main, contr);
+        newTab = new MNewTab(main, contr);
         insertTab(count() - 1, newTab, "New Tab");
         setCurrentIndex(count() - 2);
 

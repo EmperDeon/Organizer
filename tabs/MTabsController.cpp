@@ -7,7 +7,6 @@
 #include <tabs/files/MFlGroup.h>
 #include "tabs/editors/MEdTab.h"
 #include "tabs/links/MGroup.h"
-#include "tabs/lists/MLsTab.h"
 #include "tabs/MTabsController.h"
 
 MTabsController::MTabsController(WMain *w) : wnd(w) {
@@ -38,9 +37,6 @@ void MTabsController::addNewTab(const QString &name, const QJsonObject &o, int i
     switch (type) {
         case MTab::Text:
             w = new MEdTab(o);
-            break;
-        case MTab::List:
-            w = new MLsTab(o);
             break;
         case MTab::LinksGroup:
             w = new MGroup(o);

@@ -7,8 +7,8 @@
 #include "SMVer1.h"
 #include <crypt/CTools.h>
 
-int SMVer1::getVersion() {
-    return 1;
+QString SMVer1::getVersion() {
+    return "1";
 }
 
 QJsonObject SMVer1::processF(QJsonObject o) {
@@ -33,7 +33,6 @@ QJsonObject SMVer1::processF(QJsonObject o) {
     }
 
     o["docs"] = CTools::toJson(r);
-    o["version"] = getVersion();
 
     return o;
 }
@@ -61,6 +60,5 @@ QJsonObject SMVer1::processD(QJsonObject o) {
         default:;
     }
 
-    o["version"] = getVersion();
     return o;
 }

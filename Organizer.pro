@@ -11,7 +11,7 @@ SOURCES += main.cpp \
 mio.cpp \
 mwgt.cpp \
 editors/MTabsController.cpp \
-editors/MNewEd.cpp \
+editors/MNewTab.cpp \
 editors/MEdTab.cpp \
 editors/MLsTab.cpp \
 links/MLinksController.cpp \
@@ -22,7 +22,7 @@ links/MNewGr.cpp
 HEADERS += mio.h \
 mwgt.h \
 editors/MTabsController.h \
-editors/MNewEd.h \
+editors/MNewTab.h \
 editors/MEdTab.h \
 editors/MLsTab.h \
 links/MLinksController.h \

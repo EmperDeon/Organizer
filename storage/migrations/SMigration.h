@@ -14,14 +14,10 @@ class SMigration {
 public:
     SMigration() = default;
 
-    virtual int getVersion() = 0;
+    virtual QString getVersion() = 0;
 
-    virtual bool isNeededF(const QJsonObject &o) {
-        return o["version"].toInt() < getVersion();
-    }
-
-    virtual bool isNeededD(const QJsonObject &o) {
-        return o["version"].toInt() < getVersion();
+    virtual bool isNeeded(const QJsonObject &o) {
+        return o["version"].toString() < getVersion();
     }
 
     // Full object

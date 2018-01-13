@@ -34,9 +34,7 @@ SET(M_S
         tabs/links/MLink.cpp
         tabs/links/MGroup.cpp
 
-        tabs/lists/MLsTab.cpp
-
-        tabs/MNewEd.cpp
+        tabs/MNewTab.cpp
         tabs/MTab.cpp
         tabs/MTabsController.cpp
 
@@ -55,6 +53,7 @@ SET(M_S
         storage/SSecure.cpp
 
         storage/migrations/SMVer1.cpp
+        storage/migrations/SMVer11.cpp
 
         utils/ULoginDialog.cpp
         utils/UPassDialog.cpp
@@ -85,9 +84,7 @@ SET(M_H
         tabs/links/MLink.h
         tabs/links/MGroup.h
 
-        tabs/lists/MLsTab.h
-
-        tabs/MNewEd.h
+        tabs/MNewTab.h
         tabs/MTab.h
         tabs/MTabsController.h
 
@@ -107,6 +104,7 @@ SET(M_H
 
         storage/migrations/SMigration.h
         storage/migrations/SMVer1.h
+        storage/migrations/SMVer11.h
 
         utils/ULoginDialog.h
         utils/UPassDialog.h

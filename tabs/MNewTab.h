@@ -16,7 +16,7 @@ class WMain;
 
 class MTabsController;
 
-class MNewEd : public MTab {
+class MNewTab : public MTab {
     WMain *wnd;
     MTabsController *contr;
 
@@ -24,7 +24,7 @@ class MNewEd : public MTab {
     QLineEdit *name;
 
 public:
-    MNewEd(WMain *w, MTabsController *c);
+    MNewTab(WMain *w, MTabsController *c);
 
     QString getDesc() override { return "New Tab"; }
 

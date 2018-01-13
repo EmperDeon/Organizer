@@ -16,15 +16,14 @@ class MTab : public QWidget {
 public:
 	enum TabType : int {
 		Text = 1,
-		List = 2,
-		LinksGroup = 4,
-		FilesGroup = 8,
+        LinksGroup = 2,
+        FilesGroup = 4,
 		NewTab = 1024
 	};
 
 	enum TabGroup : int {
-		All = Text | List | LinksGroup | FilesGroup,
-		Editors = Text | List,
+        All = Text | LinksGroup | FilesGroup,
+        Editors = Text,
 		Links = LinksGroup,
 		Files = FilesGroup
 	};

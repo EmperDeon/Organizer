@@ -113,8 +113,6 @@ Storing docs at last 3 launches
 
 
 ### Small TODO's
-- Remove List Tab type completely. Now you can organize lists in Editor Tab (Markdown). [Or rewrite. Anyway, this tab is not too useful]
-
 - Add markdown syntax highlighting and toolbar
 
 - Themes [Light, Dark] as default, and custom (JSON)
@@ -124,6 +122,9 @@ Storing docs at last 3 launches
 - Moving tabs does not affect storage
 
 - Options for compression, encryption(yes, return the old deleted system), backups and encryption of whole storage file
+
+- Encryption of storage with local password
+  - Remember me, for time set by user
 
 
 #### Other 
