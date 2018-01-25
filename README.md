@@ -113,13 +113,23 @@ Storing docs at last 3 launches
 
 
 ### Small TODO's
-- Add markdown syntax highlighting and toolbar
+- Sorting of tabs (WTSorter) should reload tabs (and add to menu)
 
-- Themes [Light, Dark] as default, and custom (JSON)
+- A diary (Encrypted, in separate file)
 
 - Custom groups of tabs
 
 - Options for compression, encryption(yes, return the old deleted system), backups and encryption of whole storage file
+
+- Write docs in code
+
+- Restore and Diff for Backup
+
+- View-only mode for LinkGroup
+
+- Add markdown syntax highlighting and toolbar
+
+- Themes [Light, Dark] as default, and custom (JSON)
 
 - Encryption of storage with local password
   - Remember me, for time set by user
@@ -131,5 +141,6 @@ Storing docs at last 3 launches
 
 
 ##### Maybe
+- Rewrite to Model-View, to cleanup code and use ?less? code
 - Move all "secure" variables from storage to separate file or leave there but encrypted like docs (for ex. to SSecure)
 - Move login/register logic to SSecure

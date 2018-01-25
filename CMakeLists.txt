@@ -61,9 +61,14 @@ SET(M_S
         utils/USingleton.cpp
         utils/UTray.cpp
 
+        utils/widgets/UTreeWidget.cpp
+
         widgets/files/WFile.cpp
         widgets/files/WFileIcon.cpp
         widgets/files/WFiles.cpp
+
+        widgets/links/WTSorter.cpp
+
         widgets/WMain.cpp
         widgets/WSync.cpp
         widgets/WTabs.cpp
@@ -112,9 +117,14 @@ SET(M_H
         utils/USingleton.h
         utils/UTray.h
 
+        utils/widgets/UTreeWidget.h
+
         widgets/files/WFile.h
         widgets/files/WFileIcon.h
         widgets/files/WFiles.h
+
+        widgets/links/WTSorter.h
+
         widgets/WMain.h
         widgets/WSync.h
         widgets/WTabs.h

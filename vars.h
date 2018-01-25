@@ -28,7 +28,7 @@
 // Storage
 #define STORAGE_DIR QDir::home().filePath(".organizer") + QDir::separator()
 #define STORAGE_CUR_VERSION 1
-#define STORAGE_FILE (STORAGE_DIR + "storage.json")
+#define STORAGE_FILE (STORAGE_DIR + "storage2.json")
 #define STORAGE_KEY "ttpGxMkT4wk7QJx77ak75dtYqaUdRQB5fJQO1NzzYFc="
 #define STORAGE_CIPHER "128"
 

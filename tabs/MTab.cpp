@@ -62,3 +62,18 @@ QJsonObject MTab::save() {
 
 	return obj;
 }
+
+const QString MTab::type_name(const QJsonObject &tab) {
+	switch (static_cast<MTab::TabType>(tab["type"].toInt(100))) {
+		case Text:
+			return tr("Text");
+		case LinksGroup:
+			return tr("Links");
+		case FilesGroup:
+			return tr("Files");
+		default:
+			break;
+	}
+
+	return QString();
+}

@@ -68,6 +68,8 @@ public:
 	virtual void loadCustomParams(const QJsonObject &o) {}
 
 	virtual void saveCustomParams(QJsonObject &o) {}
+
+	static const QString type_name(const QJsonObject &tab);
 };
 
 
