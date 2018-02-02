@@ -8,6 +8,7 @@
 #include "tabs/editors/MEdTab.h"
 #include "tabs/links/MGroup.h"
 #include "tabs/MTabsController.h"
+#include <tabs/journals/TJournalTab.h>
 #include <QDebug>
 
 MTabsController::MTabsController(WMain *w) : wnd(w) {
@@ -57,6 +58,9 @@ void MTabsController::addNewTab(const QString &name, const QJsonObject &o, int i
             break;
         case MTab::FilesGroup:
             w = new MFlGroup(o);
+            break;
+        case MTab::Journal:
+            w = new TJournalTab(o);
             break;
 
         default:

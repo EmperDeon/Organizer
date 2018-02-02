@@ -8,9 +8,10 @@
 #include <tabs/MNewTab.h>
 
 WTabs::WTabs(WMain *m) : main(m), contr(main->contr) {
-    tab_groups = {{"Editors", MTab::Editors},
-                  {"Links",   MTab::Links},
-                  {"Files",   MTab::Files}
+    tab_groups = {{"Editors",  MTab::Editors},
+                  {"Links",    MTab::Links},
+                  {"Files",    MTab::Files},
+                  {"Journals", MTab::Journals}
     };
 
     connect(this, &QTabWidget::currentChanged, this, &WTabs::tabChange);

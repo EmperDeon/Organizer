@@ -29,6 +29,8 @@ SET(M_S
 
         tabs/editors/MEdTab.cpp
 
+        tabs/journals/TJournalTab.cpp
+
         tabs/files/MFlGroup.cpp
 
         tabs/links/MLink.cpp
@@ -61,6 +63,8 @@ SET(M_S
         utils/USingleton.cpp
         utils/UTray.cpp
 
+        utils/widgets/UDateDialog.cpp
+        utils/widgets/UDatesWidget.cpp
         utils/widgets/UTreeWidget.cpp
 
         widgets/files/WFile.cpp
@@ -85,6 +89,8 @@ SET(M_H
         tabs/editors/MEdTab.h
 
         tabs/files/MFlGroup.h
+
+        tabs/journals/TJournalTab.h
 
         tabs/links/MLink.h
         tabs/links/MGroup.h
@@ -117,6 +123,8 @@ SET(M_H
         utils/USingleton.h
         utils/UTray.h
 
+        utils/widgets/UDateDialog.h
+        utils/widgets/UDatesWidget.h
         utils/widgets/UTreeWidget.h
 
         widgets/files/WFile.h

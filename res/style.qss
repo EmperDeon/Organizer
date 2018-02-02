@@ -92,3 +92,20 @@ QDialog QPushButton {
     font-size: 12pt;
     margin-top: 0;
 }
+
+UDateItem {
+    background: #323232;
+}
+
+UDateItem[active_item="true"] {
+    background: #4a4a4a;
+}
+
+UDateItem QLabel {
+    padding: 0;
+    background: transparent;
+}
+
+UDateItem QLabel[class="first_line"] {
+    color: #9abbff;
+}

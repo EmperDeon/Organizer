@@ -20,14 +20,14 @@
 #define RSA_ENC_ALG QCA::EME_PKCS1v15
 #define RSA_SIGN_ALG QCA::EMSA3_SHA256
 
-// Sync
+// Documents
 #define S_UID_SIZE 32
 #define S_DOC_KEY_SIZE 64
 #define S_DOC_CIPHER "128"
 
 // Storage
 #define STORAGE_DIR QDir::home().filePath(".organizer") + QDir::separator()
-#define STORAGE_CUR_VERSION 1
+#define STORAGE_CUR_VERSION "1.1"
 #define STORAGE_FILE (STORAGE_DIR + "storage2.json")
 #define STORAGE_KEY "ttpGxMkT4wk7QJx77ak75dtYqaUdRQB5fJQO1NzzYFc="
 #define STORAGE_CIPHER "128"
@@ -35,6 +35,12 @@
 // Storage Backup
 #define BACKUP_FILE_WEEK (STORAGE_DIR + "backup_week.json")
 #define BACKUP_FILE_LAST (STORAGE_DIR + "backup_last.json")
+
+// Journal
+#define JOURNAL_CIPHER "128"
+#define JOURNAL_KEY ""
+#define DATE_FORMAT "dd.MM.yyyy"
+#define TIME_FORMAT "hh:mm"
 
 
 // File Storage
@@ -63,5 +69,7 @@
 //#define ENCRYPT_OUT // Encrypt storage output
 //#define OPTION_SYNC // Enable sync (send on save, load on timer, sync menu in WMain MenuBar)
 //#define STORAGE_BACKUP // Backup saved docs
+
+//#define ENCRYPT_JOURNAL // Always encrypt journals output
 
 #endif //ORGANIZER_VARS_H

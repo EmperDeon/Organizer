@@ -12,8 +12,8 @@
 #include <tabs/MTabsController.h>
 
 class WMain;
-
 class MTabsController;
+
 
 class WTabs : public QTabWidget {
     WMain *main;

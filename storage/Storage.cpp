@@ -28,7 +28,7 @@ void Storage::loadJson() {
     QString json = f.readAll();
 
     // Check if storage file is encrypted
-    if (!json.startsWith('{')) {
+    if (!(json.isEmpty() || json.startsWith('{'))) {
         CAes fileAes(STORAGE_CIPHER, STORAGE_KEY);
 
         json = fileAes.decrypt(json);

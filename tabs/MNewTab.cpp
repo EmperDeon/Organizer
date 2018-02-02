@@ -24,6 +24,7 @@ MNewTab::MNewTab(WMain *w, MTabsController *c) : wnd(w), contr(c) {
 	type->addItem("Plain text", MTab::Text);
 	type->addItem("Links group", MTab::LinksGroup);
 	type->addItem("Files group", MTab::FilesGroup);
+    type->addItem("Journal", MTab::Journal);
 
 	l->addRow(label);
 	l->addRow(tr("Name: "), name);

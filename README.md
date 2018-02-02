@@ -113,9 +113,9 @@ Storing docs at last 3 launches
 
 
 ### Small TODO's
-- Sorting of tabs (WTSorter) should reload tabs (and add to menu)
+- A diary (With possible encryption) [Done, but crash on removing of date fomr list]
 
-- A diary (Encrypted, in separate file)
+- Sorting of tabs (WTSorter) should reload tabs (and add to menu)
 
 - Custom groups of tabs
 
@@ -128,6 +128,8 @@ Storing docs at last 3 launches
 - View-only mode for LinkGroup
 
 - Add markdown syntax highlighting and toolbar
+
+- Double-Shift or some other shortcut to quickly go to any tab | switch options
 
 - Themes [Light, Dark] as default, and custom (JSON)
 
@@ -144,3 +146,4 @@ Storing docs at last 3 launches
 - Rewrite to Model-View, to cleanup code and use ?less? code
 - Move all "secure" variables from storage to separate file or leave there but encrypted like docs (for ex. to SSecure)
 - Move login/register logic to SSecure
+  - TOTP [repo 1](https://github.com/RavuAlHemio/cpptotp), [repo 2](https://github.com/andreagrandi/QGoogleAuth)

@@ -18,14 +18,16 @@ public:
 		Text = 1,
         LinksGroup = 2,
         FilesGroup = 4,
+        Journal = 8,
 		NewTab = 1024
 	};
 
 	enum TabGroup : int {
-        All = Text | LinksGroup | FilesGroup,
+        All = Text | LinksGroup | FilesGroup | Journal,
         Editors = Text,
 		Links = LinksGroup,
-		Files = FilesGroup
+        Files = FilesGroup,
+        Journals = Journal
 	};
 
 private:
