@@ -113,13 +113,16 @@ Storing docs at last 3 launches
 
 
 ### Small TODO's
-- A diary (With possible encryption) [Done, but crash on removing of date fomr list]
+- A diary [Done, but crash on removing of date fomr list]
 
 - Sorting of tabs (WTSorter) should reload tabs (and add to menu)
 
 - Custom groups of tabs
 
 - Options for compression, encryption(yes, return the old deleted system), backups and encryption of whole storage file
+  - Like encryption of all docs, with password dialog on docs loading ? Or, instead use `encryption plugin` for all. That will leave metadata(name, last edit) unencrypted, but who cares ?
+
+- Tab Plugin for content encryption (Show dialog when tab opens)
 
 - Write docs in code
 
@@ -146,4 +149,5 @@ Storing docs at last 3 launches
 - Rewrite to Model-View, to cleanup code and use ?less? code
 - Move all "secure" variables from storage to separate file or leave there but encrypted like docs (for ex. to SSecure)
 - Move login/register logic to SSecure
+- Sync:
   - TOTP [repo 1](https://github.com/RavuAlHemio/cpptotp), [repo 2](https://github.com/andreagrandi/QGoogleAuth)

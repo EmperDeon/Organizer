@@ -49,8 +49,11 @@ public:
 
     void selectDate(const QString &name);
 
-protected:
+    void changeDate(const QString &name, const QStringList &lines = {});
+
     void addItem(const QString &name, const QStringList &lines);
+
+protected:
 
     // Find by name and exec function
     void findAndDo(const QString &name, const std::function<void(UDateItem *item)> &func);
@@ -58,15 +61,13 @@ protected:
     // Slots
     void createDate();
 
-    void changeDate(const QString &name, const QStringList &lines = {});
-
     void removeDate(const QString &name);
 
 Q_SIGNALS:
 
     void createdDate(const QString &name);
 
-    void changedDate(const QString &name);
+    void changedDate(const QString &old, const QString &name);
 
     void removedDate(const QString &name);
 

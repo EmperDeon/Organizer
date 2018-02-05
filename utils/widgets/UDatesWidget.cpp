@@ -20,6 +20,7 @@ UDatesWidget::UDatesWidget() {
     layout = new QVBoxLayout;
     auto *scroll = new UScrollArea(layout);
     scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Expanding);
 
     auto *b_add = new QPushButton(tr("Create"));
     b_add->setProperty("newLineButton", "true");
@@ -31,9 +32,9 @@ UDatesWidget::UDatesWidget() {
     l->setMargin(0);
     l->setContentsMargins(0, 0, 0, 0);
 
-    l->addWidget(scroll, 0, Qt::AlignTop);
+    l->addWidget(b_add, 0, Qt::AlignTop);
     l->addSpacing(5);
-    l->addWidget(b_add, 0, Qt::AlignBottom);
+    l->addWidget(scroll);
 
     setLayout(l);
 }
@@ -79,9 +80,21 @@ void UDatesWidget::createDate() {
 }
 
 void UDatesWidget::changeDate(const QString &name, const QStringList &lines) {
-    findAndDo(name, [name, lines](UDateItem *item) { item->setContents(name, lines); });
+    QString new_name;
 
-    emit changedDate(name);
+    if (lines.size() > 0 && lines[0] == "date_edit") {
+        new_name = UDateDialog::getDate(is_with_name, is_with_time, name);
+
+        items[new_name] = items[name];
+        items.remove(name);
+
+        emit changedDate(name, new_name);
+
+    } else {
+        new_name = name;
+    }
+
+    findAndDo(new_name, [new_name, lines](UDateItem *item) { item->setContents(new_name, lines); });
 }
 
 void UDatesWidget::removeDate(const QString &name) {
@@ -130,7 +143,7 @@ UDateItem::UDateItem(const QString &nm, const QStringList &lines) : i_name(nm) {
 }
 
 void UDateItem::edit_item() {
-    emit edit(i_name, {});
+    emit edit(i_name, {"date_edit"});
 }
 
 void UDateItem::remove_item() {

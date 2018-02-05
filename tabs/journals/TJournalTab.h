@@ -53,11 +53,13 @@ protected:
     // Slots
     void createdDate(const QString &name);
 
-    void changedDate(const QString &name);
+    void changedDate(const QString &old, const QString &name);
 
     void removedDate(const QString &name);
 
     void selectedDate(const QString &from, const QString &to);
+
+    QStringList additionalInfo(const QString &name);
 };
 
 #endif //ORGANIZER_TJOURNALTAB_H

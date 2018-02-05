@@ -101,16 +101,16 @@ void TJournalTab::fromJson(QJsonValue v) {
 
     entries = CTools::fromJson(j);
 
-    QMap<QString, QStringList> dates_map;
+    if (!entries.isEmpty()) {
+        QMap<QString, QStringList> dates_map;
 
-    for (const QString &name : entries.keys()) {
-        QStringList list = {"tst"};
-        dates_map[name] = list;
+        for (const QString &name : entries.keys())
+            dates_map[name] = additionalInfo(name);
+
+        dates->load(dates_map);
+
+        dates->selectDate(entries.keys().last());
     }
-
-    dates->load(dates_map);
-
-    dates->selectDate(entries.keys().last());
 }
 
 QJsonValue TJournalTab::toJson() {
@@ -172,22 +172,26 @@ void TJournalTab::loadDate(const QString &name) {
 }
 
 void TJournalTab::saveDate(const QString &name) {
-    QJsonObject date = entries[name].toObject();
+    if (!name.isEmpty()) {
+        QJsonObject date = entries[name].toObject();
 
-    date["content"] = edit->toPlainText();
+        date["content"] = edit->toPlainText();
 
-    entries[name] = date;
+        entries[name] = date;
+    }
 }
 
 void TJournalTab::createdDate(const QString &name) {
     entries[name] = {};
 
-
+    dates->addItem(name, additionalInfo(name));
 }
 
-void TJournalTab::changedDate(const QString &name) {
-    entries[name] = entries[dates->currentDate()];
-    entries.remove(dates->currentDate());
+void TJournalTab::changedDate(const QString &old, const QString &name) {
+    entries[name] = entries[old];
+    entries.remove(old);
+
+    dates->changeDate(name, additionalInfo(name));
 }
 
 void TJournalTab::removedDate(const QString &name) {
@@ -195,9 +199,11 @@ void TJournalTab::removedDate(const QString &name) {
 }
 
 void TJournalTab::selectedDate(const QString &from, const QString &to) {
-    if (!from.isEmpty()) {
-        saveDate(from);
-    }
+    saveDate(from);
 
     loadDate(to);
+}
+
+QStringList TJournalTab::additionalInfo(const QString &name) {
+    return QStringList{"tst"};
 }
