@@ -47,19 +47,19 @@ public:
 
     void loadDate(const QString &name);
 
-    void saveDate(const QString &name);
+    void saveDate(const QString &id);
 
 protected:
     // Slots
-    void createdDate(const QString &name);
+    void createdDate(UDateItem *item);
 
-    void changedDate(const QString &old, const QString &name);
+    void changedDate(const QString &old_id, UDateItem *item);
 
     void removedDate(const QString &name);
 
     void selectedDate(const QString &from, const QString &to);
 
-    QStringList additionalInfo(const QString &name);
+    QStringList additionalInfo(const QString &id);
 };
 
 #endif //ORGANIZER_TJOURNALTAB_H

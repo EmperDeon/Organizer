@@ -6,16 +6,13 @@
 
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QPushButton>
-#include <vars.h>
-#include <QtWidgets/QDialog>
+#include <crypt/CTools.h>
 #include "UDateDialog.h"
 
-UDateDialog::UDateDialog(bool with_name, bool with_time, const QString &current) : is_with_name(with_name),
-                                                                                   is_with_time(with_time) {
+UDateDialog::UDateDialog(bool with_name, UDateItem *item) : is_with_name(with_name) {
     auto *l = new QVBoxLayout;
 
     date = new QCalendarWidget;
-    time = new QTimeEdit;
     l_name = new QLineEdit;
 
 
@@ -23,8 +20,6 @@ UDateDialog::UDateDialog(bool with_name, bool with_time, const QString &current)
 
     l->addWidget(date);
 
-    if (is_with_time)
-        l->addWidget(time);
     if (is_with_name)
         l->addWidget(l_name);
 
@@ -35,47 +30,27 @@ UDateDialog::UDateDialog(bool with_name, bool with_time, const QString &current)
     h_l->addWidget(b_rej);
     l->addLayout(h_l);
 
+    if (item != nullptr && !item->id().isEmpty()) {
+        date->setSelectedDate(CTools::dateFromString(item->id()));
+        l_name->setText(item->name());
+    }
+
     connect(b_acc, &QPushButton::clicked, this, &UDateDialog::accept);
     connect(b_rej, &QPushButton::clicked, this, &UDateDialog::reject);
 
     setLayout(l);
 }
 
-QString UDateDialog::getDate(bool with_name, bool with_time, const QString &current) {
-    auto *d = new UDateDialog(with_name, with_time, current);
-    d->fromString(current);
+QString UDateDialog::setDate(UDatesWidget *wgt, UDateItem *item) {
+    auto *d = new UDateDialog(wgt->withName(), item);
 
     if (d->exec()) {
-        return d->toString();
+        QString new_id = wgt->insertNewDate(d->date->selectedDate(), item->id());
+        item->setContents(new_id, d->l_name->text(), item->lines());
+
+        return new_id;
 
     } else {
         return "";
     }
-}
-
-void UDateDialog::fromString(const QString &name) {
-    if (name.isEmpty())
-        return;
-
-    QStringList args = name.split(' ');
-    date->setSelectedDate(QDate::fromString(args.takeFirst(), DATE_FORMAT));
-
-    if (is_with_time)
-        time->setTime(QTime::fromString(args.takeFirst(), TIME_FORMAT));
-
-    if (is_with_name)
-        l_name->setText(args.join(' '));
-}
-
-QString UDateDialog::toString() {
-    QStringList args;
-    args << date->selectedDate().toString(DATE_FORMAT);
-
-    if (is_with_time)
-        args << time->time().toString(TIME_FORMAT);
-
-    if (is_with_name)
-        args << l_name->text();
-
-    return args.join(' ');
 }

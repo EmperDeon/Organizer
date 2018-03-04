@@ -8,6 +8,7 @@
 #include <QtWidgets/QPushButton>
 #include <vendor/markdown/markdown.h>
 #include <crypt/CAes.h>
+#include <QDebug>
 #include "TJournalTab.h"
 
 TJournalTab::TJournalTab(const QJsonObject &o) : MTab(o, MTab::Journal) {
@@ -102,10 +103,10 @@ void TJournalTab::fromJson(QJsonValue v) {
     entries = CTools::fromJson(j);
 
     if (!entries.isEmpty()) {
-        QMap<QString, QStringList> dates_map;
+        QMap<QString, UDateItem *> dates_map;
 
-        for (const QString &name : entries.keys())
-            dates_map[name] = additionalInfo(name);
+        for (const QString &id : entries.keys())
+            dates_map[id] = new UDateItem(id, entries[id].toObject()["name"].toString(), additionalInfo(id));
 
         dates->load(dates_map);
 
@@ -171,27 +172,42 @@ void TJournalTab::loadDate(const QString &name) {
     edit->setPlainText(date["content"].toString());
 }
 
-void TJournalTab::saveDate(const QString &name) {
-    if (!name.isEmpty()) {
-        QJsonObject date = entries[name].toObject();
+void TJournalTab::saveDate(const QString &id) {
+    if (!id.isEmpty()) {
+        QJsonObject date = entries[id].toObject();
+
+//        qDebug() << "Saving: " << id << ", data:" << date;
 
         date["content"] = edit->toPlainText();
 
-        entries[name] = date;
+        entries[id] = date;
     }
 }
 
-void TJournalTab::createdDate(const QString &name) {
-    entries[name] = {};
+void TJournalTab::createdDate(UDateItem *item) {
+    entries[item->id()] = QJsonObject{
+            {"name", item->name()}
+    };
 
-    dates->addItem(name, additionalInfo(name));
+//    qDebug() << "Created with: " << item->id() << ", name: " << item->name();
+
+    item->setContents(item->id(), item->name(), additionalInfo(item->id()));
+
+    dates->addItem(item);
 }
 
-void TJournalTab::changedDate(const QString &old, const QString &name) {
-    entries[name] = entries[old];
-    entries.remove(old);
+void TJournalTab::changedDate(const QString &old_id, UDateItem *item) {
+//    qDebug() << old_id << " " << item->id();
 
-    dates->changeDate(name, additionalInfo(name));
+    if (old_id != item->id()) {
+        entries[item->id()] = entries[old_id];
+        entries.remove(old_id);
+    }
+
+    QJsonObject obj = entries[item->id()].toObject();
+
+    obj["name"] = item->name();
+    entries[item->id()] = obj;
 }
 
 void TJournalTab::removedDate(const QString &name) {
@@ -199,11 +215,13 @@ void TJournalTab::removedDate(const QString &name) {
 }
 
 void TJournalTab::selectedDate(const QString &from, const QString &to) {
+//    qDebug() << "Selected: " << from << ", to: " << to;
+
     saveDate(from);
 
     loadDate(to);
 }
 
-QStringList TJournalTab::additionalInfo(const QString &name) {
-    return QStringList{"tst"};
+QStringList TJournalTab::additionalInfo(const QString &id) {
+    return QStringList();
 }

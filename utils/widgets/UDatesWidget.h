@@ -13,6 +13,8 @@
 #include <QtGui/QMouseEvent>
 #include <QtWidgets/QMenu>
 #include <functional>
+#include <utils/widgets/dates/UDateItem.h>
+
 
 class UDateItem;
 
@@ -22,10 +24,9 @@ Q_OBJECT
     QVBoxLayout *layout;
 
     bool is_with_name = false;
-    bool is_with_time = false;
     bool is_reverse = false;
 
-    QString current_item;
+    QString current_id;
     QMap<QString, UDateItem *> items;
 
 public:
@@ -35,76 +36,46 @@ public:
 
     void setWithName(bool n) { is_with_name = n; }
 
-    bool withTime() { return is_with_time; }
-
-    void setWithTime(bool t) { is_with_time = t; }
-
     bool reverse() { return is_reverse; }
 
     void setReverse(bool r) { is_reverse = r; }
 
-    QString currentDate() { return current_item; }
+    QString currentDate() { return current_id; }
 
-    void load(const QMap<QString, QStringList> &l);
+    UDateItem *currentDateItem() { return items.value(current_id, nullptr); }
 
-    void selectDate(const QString &name);
+    void load(const QMap<QString, UDateItem *> &l);
 
-    void changeDate(const QString &name, const QStringList &lines = {});
+    void selectDate(const QString &id);
 
-    void addItem(const QString &name, const QStringList &lines);
+    void addItem(UDateItem *item);
 
 protected:
 
     // Find by name and exec function
-    void findAndDo(const QString &name, const std::function<void(UDateItem *item)> &func);
+    void findAndDo(const QString &id, const std::function<void(UDateItem *item)> &func);
 
     // Slots
     void createDate();
 
-    void removeDate(const QString &name);
+    void changeDate(QString id);
+
+    void removeDate(const QString &id);
+
+    QString insertNewDate(const QDate &new_date, const QString &old_id);
 
 Q_SIGNALS:
 
-    void createdDate(const QString &name);
+    void createdDate(UDateItem *item);
 
-    void changedDate(const QString &old, const QString &name);
+    // Called even if id isn't changed, because name could be changed
+    void changedDate(const QString &old_id, UDateItem *item);
 
-    void removedDate(const QString &name);
+    void removedDate(const QString &id);
 
     void selectedDate(const QString &from, const QString &to);
-};
 
-
-class UDateItem : public QFrame {
-Q_OBJECT
-
-    QVBoxLayout *layout;
-    QString i_name;
-    QMenu *context_menu;
-
-public:
-    explicit UDateItem(const QString &nm, const QStringList &lines);
-
-    QString name() { return i_name; }
-
-    void setActive(bool active);
-
-    void setContents(const QString &nm, const QStringList &lines = {});
-
-protected:
-    void edit_item();
-
-    void remove_item();
-
-    void mouseReleaseEvent(QMouseEvent *event) override;
-
-Q_SIGNALS:
-
-    void select(const QString &name);
-
-    void edit(const QString &name, const QStringList &lines);
-
-    void remove(const QString &name);
+    friend class UDateDialog;
 };
 
 #endif //ORGANIZER_UDATESWIDGET_H

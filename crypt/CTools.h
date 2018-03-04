@@ -28,6 +28,8 @@ public:
     static QJsonArray fromJsonA(const QString &str);
 
     static QString randomStr(int size);
+
+    static QDate dateFromString(const QString &date);
 };
 
 

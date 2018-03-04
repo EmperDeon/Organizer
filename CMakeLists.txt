@@ -63,6 +63,7 @@ SET(M_S
         utils/USingleton.cpp
         utils/UTray.cpp
 
+        utils/widgets/dates/UDateItem.cpp
         utils/widgets/UDateDialog.cpp
         utils/widgets/UDatesWidget.cpp
         utils/widgets/UTreeWidget.cpp
@@ -123,6 +124,7 @@ SET(M_H
         utils/USingleton.h
         utils/UTray.h
 
+        utils/widgets/dates/UDateItem.h
         utils/widgets/UDateDialog.h
         utils/widgets/UDatesWidget.h
         utils/widgets/UTreeWidget.h

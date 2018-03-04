@@ -11,25 +11,24 @@
 #include <QtWidgets/QCalendarWidget>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QTimeEdit>
+#include <utils/widgets/dates/UDateItem.h>
+#include "UDatesWidget.h"
+
+class UDatesWidget;
+
+class UDateItem;
 
 
 class UDateDialog : public QDialog {
     QCalendarWidget *date;
     QLineEdit *l_name;
-    QTimeEdit *time;
 
     bool is_with_name;
-    bool is_with_time;
 
 public:
-    explicit UDateDialog(bool with_name = false, bool with_time = false, const QString &current = "");
+    explicit UDateDialog(bool with_name = false, UDateItem *item = nullptr);
 
-    static QString getDate(bool with_name, bool with_time, const QString &current = "");
-
-protected:
-    void fromString(const QString &name);
-
-    QString toString();
+    static QString setDate(UDatesWidget *wgt, UDateItem *item);
 };
 
 

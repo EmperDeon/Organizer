@@ -47,3 +47,7 @@ QString CTools::randomStr(int size) {
 
     return toBase(mem);
 }
+
+QDate CTools::dateFromString(const QString &date) {
+    return QDateTime::fromSecsSinceEpoch(date.toULongLong()).date();
+}
