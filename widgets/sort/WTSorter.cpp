@@ -7,6 +7,7 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QPushButton>
 #include <storage/Storage.h>
+#include <widgets/WMain.h>
 #include "WTSorter.h"
 
 WTSorter::WTSorter() {
@@ -23,10 +24,10 @@ WTSorter::WTSorter() {
     auto *h_l = new QHBoxLayout;
 
     auto *b_c = new QPushButton(tr("Clear")),
-            *b_q = new QPushButton(tr("Save and Quit"));
+            *b_q = new QPushButton(tr("Save and Reload tabs"));
 
     connect(b_c, &QPushButton::clicked, this, &WTSorter::reload);
-    connect(b_q, &QPushButton::clicked, this, &WTSorter::save);
+    connect(b_q, &QPushButton::clicked, this, &WTSorter::accept);
 
     h_l->addWidget(b_c);
     h_l->addWidget(b_q);
@@ -39,7 +40,7 @@ WTSorter::WTSorter() {
 
 void WTSorter::reload() {
     tree->clear();
-    tree->addRoot(tr("Link groups"));
+    tree->addRoot(tr("Tabs"));
 
     QJsonArray groups = Storage::getInstance()->getDocs();
 
@@ -61,11 +62,7 @@ void WTSorter::reload() {
     }
 }
 
-void WTSorter::save() {
-    close();
-}
-
-void WTSorter::closeEvent(QCloseEvent *event) {
+QJsonArray WTSorter::toDocs() {
     auto *root = tree->topLevelItem(0);
 
     QJsonArray docs;
@@ -97,5 +94,19 @@ void WTSorter::closeEvent(QCloseEvent *event) {
         docs << o_group;
     }
 
-    Storage::getInstance()->setDocs(docs);
+    return docs;
+}
+
+void WTSorter::sortTabs() {
+    // To save any unsaved data
+    WMain::getInstance()->contr->save();
+
+    auto *w = new WTSorter;
+
+    if (w->exec()) { // Reorder only if clicked "Save"
+        QJsonArray docs = w->toDocs();
+
+        Storage::getInstance()->setDocs(docs);
+        WMain::getInstance()->recreateTabs();
+    }
 }

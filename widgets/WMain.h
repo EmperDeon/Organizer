@@ -47,6 +47,9 @@ public:
 
     void constructMenuBar();
 
+    // Not just reload data "in tabs", but to reorder them [Called from WTSorter, TODO: Maybe make `reorder` method]
+    void recreateTabs();
+
 };
 
 

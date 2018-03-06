@@ -72,7 +72,7 @@ SET(M_S
         widgets/files/WFileIcon.cpp
         widgets/files/WFiles.cpp
 
-        widgets/links/WTSorter.cpp
+        widgets/sort/WTSorter.cpp
 
         widgets/WMain.cpp
         widgets/WSync.cpp
@@ -133,7 +133,7 @@ SET(M_H
         widgets/files/WFileIcon.h
         widgets/files/WFiles.h
 
-        widgets/links/WTSorter.h
+        widgets/sort/WTSorter.h
 
         widgets/WMain.h
         widgets/WSync.h

@@ -7,12 +7,12 @@
 #ifndef ORGANIZER_WLSORTER_H
 #define ORGANIZER_WLSORTER_H
 
-#include <QtWidgets/QWidget>
+#include <QtWidgets/QDialog>
 #include <utils/widgets/UTreeWidget.h>
 
 
-// Widget for sorting Links in linkGroups
-class WTSorter : public QWidget {
+// Widget for sorting tabs
+class WTSorter : public QDialog {
     UTreeWidget *tree;
 
 public:
@@ -21,12 +21,12 @@ public:
     // Loads information about LinkGroups to QTreeWidget
     void reload();
 
-    // Calls close
-    void save();
+    // Opens dialog
+    static void sortTabs();
 
 protected:
     // Saves information about LinkGroups back to Storage
-    void closeEvent(QCloseEvent *event) override;
+    QJsonArray toDocs();
 };
 
 

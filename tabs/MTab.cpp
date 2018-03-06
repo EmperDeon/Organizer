@@ -72,7 +72,7 @@ const QString MTab::type_name(const QJsonObject &tab) {
 		case FilesGroup:
 			return tr("Files");
         case Journal:
-            return tr("Files");
+            return tr("Journal");
 		default:
 			break;
 	}

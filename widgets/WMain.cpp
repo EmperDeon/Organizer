@@ -8,6 +8,7 @@
 #include <QtWidgets/QApplication>
 #include <QtGui/QHideEvent>
 #include <QtWidgets/QInputDialog>
+#include <widgets/sort/WTSorter.h>
 
 
 // Constructor
@@ -42,6 +43,7 @@ void WMain::constructMenuBar() {
     QMenu *mtabs = new QMenu("Tabs");
     mtabs->addAction("Add new tab", tabs, &WTabs::tabNew);
     mtabs->addAction("Delete tab", tabs, &WTabs::tabClose);
+    mtabs->addAction("Manual sort of tabs", []() { WTSorter::sortTabs(); });
 
     QAction *chAction = new QAction("Editors");
     connect(chAction, &QAction::triggered, tabs, &WTabs::cycleGroup);
@@ -91,4 +93,15 @@ void WMain::hideEvent(QHideEvent *e) {
 
     Storage::getInstance()->saveJson();
     e->accept();
+}
+
+void WMain::recreateTabs() {
+    tabs->clear();
+
+    for (auto *tab : contr->tabs)
+        tab->deleteLater();
+
+    contr->tabs.clear();
+
+    contr->load();
 }

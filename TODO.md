@@ -17,8 +17,6 @@
 
 
 ### Current TODO's (before release)
-- Sorting of tabs (WTSorter) should reload tabs (and add to menu)
-
 - Custom groups of tabs
 
 - Logging. Seriously, why it isn't there yet ? (Store as array of objs, with message, level, class[if it's possible]). 
