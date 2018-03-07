@@ -9,10 +9,10 @@
 #include "tabs/links/MGroup.h"
 #include "tabs/MTabsController.h"
 #include <tabs/journals/TJournalTab.h>
-#include <QDebug>
+//#include <QDebug>
 
 MTabsController::MTabsController(WMain *w) : wnd(w) {
-    sync = new NSync(this);
+//    sync = new NSync(this);
 }
 
 MTab *MTabsController::find(const QString &name) {
@@ -93,14 +93,12 @@ void MTabsController::tabDel(QString name) {
     tabs.removeAll(find(name));
 }
 
-QList<MTab *> MTabsController::selectByGroup(MTab::TabGroup gr) {
-    auto r = QList<MTab *>();
+QList<MTab *> MTabsController::selectByGroup(const QString &group) {
+    QList<MTab *> r;
 
-    for (MTab *n : tabs) {
-        if (n->isInGroup(gr)) {
-            r << n;
-        }
-    }
+    select_if(tabs, r, [group](MTab *t) {
+        return t->isInGroup(group);
+    });
 
     return r;
 }

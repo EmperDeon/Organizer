@@ -7,19 +7,14 @@
 #include <QtWidgets/QMessageBox>
 #include <tabs/MNewTab.h>
 
-WTabs::WTabs(WMain *m) : main(m), contr(main->contr) {
-    tab_groups = {{"Editors",  MTab::Editors},
-                  {"Links",    MTab::Links},
-                  {"Files",    MTab::Files},
-                  {"Journals", MTab::Journals}
-    };
+WTabs::WTabs(WMain *m) : main(m), contr(m->contr) {
+    groups = new WTGroups(this);
 
     connect(this, &QTabWidget::currentChanged, this, &WTabs::tabChange);
     connect(this->tabBar(), &QTabBar::tabMoved, contr, &MTabsController::move);
 }
 
 void WTabs::tabNew() {
-    // TODO: Delete newTab from TabBar, not itself
     if (newTab == nullptr && contr != nullptr && count() > 0) {
         newTab = new MNewTab(main, contr);
         insertTab(count() - 1, newTab, "New Tab");
@@ -33,7 +28,7 @@ void WTabs::tabNew() {
 void WTabs::tabClose() {
     const QString &name = tabText(currentIndex());
 
-    if (name == "New Tab" || QMessageBox::question(this, tr("Close tab ?"), name) == QMessageBox::Yes) {
+    if (name == "New Tab" || QMessageBox::question(this, QObject::tr("Close tab ?"), name) == QMessageBox::Yes) {
         contr->tabDel(name);
         removeTab(currentIndex());
     }
@@ -56,77 +51,30 @@ void WTabs::tabChange(int i) {
         for (int j = 0; j < count(); j++) {
             auto t = getTab(j);
             if (t && t->getDesc() == "New Tab") {
-                t->deleteLater();
+                t->deleteLater(); // TODO: Delete newTab from TabBar, not itself
             }
         }
         newTab = nullptr;
     }
 }
 
-void WTabs::setAction(QAction *act) {
-    this->action = act;
-}
-
 void WTabs::cycleGroup() {
-    if (action != nullptr) {
-        QString name;
-
-        if (current_group == MTab::All) {
-            name = "Editors";
-        } else {
-            name = findGroupName(current_group);
-            name = findGroupAfter(name);
-        }
-
-        groupBy(tab_groups[name]);
-    }
+    groupBy(groups->findGroupAfterCurrent());
 }
 
-void WTabs::groupBy(MTab::TabGroup gr) {
-    if (action != nullptr) {
-        action->setText(findGroupName(gr));
+void WTabs::groupBy(QString group) {
+    group = groups->setSelectedGroup(group);
 
-        current_group = gr;
+    clear(); // FIXME: Maybe causes memory leaks
 
-        // FIXME: Maybe causes memory leaks
-        clear();
-
-        for (MTab *t : contr->selectByGroup(gr)) {
-            addTab(t, t->getName());
-        }
-
-        addTab(new QWidget, "+");
-        setCurrentIndex(1);
+    for (MTab *t : contr->selectByGroup(group)) {
+        addTab(t, t->getName());
     }
+
+    addTab(new QWidget, "+");
+    setCurrentIndex(1);
 }
 
-QString WTabs::findGroupName(MTab::TabGroup gr) {
-    QString ret = "All";
-
-    for (const QString &k : tab_groups.keys()) {
-        if (tab_groups[k] == gr) {
-            ret = k;
-            break;
-        }
-    }
-
-    return ret;
-}
-
-QString WTabs::findGroupAfter(QString name) {
-    const QList<QString> &keys = tab_groups.keys();
-
-    for (int i = 0; i < keys.size(); i++) {
-        if (keys[i] == name) {
-            if (i + 1 == keys.size()) { // Last key
-                return keys.first();
-
-            } else {
-                return keys[i + 1];
-
-            }
-        }
-    }
-
-    return name;
+void WTabs::setGroupsMenu(QMenu *menu) {
+    groups->setGroupsMenu(menu);
 }

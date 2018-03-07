@@ -40,11 +40,12 @@ void WSync::login() {
 }
 
 void WSync::logout() {
-    if (QMessageBox::question(menu, tr("Logout"), tr("Are you sure, you want to logout ?")) == QMessageBox::Yes) {
+    if (QMessageBox::question(menu, QObject::tr("Logout"), QObject::tr("Are you sure, you want to logout ?")) ==
+        QMessageBox::Yes) {
         auto st = Storage::getInstance();
         st->set("sync", false);
 
-        if (QMessageBox::question(menu, tr("Logout"), tr("Keep docs ?")) == QMessageBox::No) {
+        if (QMessageBox::question(menu, QObject::tr("Logout"), QObject::tr("Keep docs ?")) == QMessageBox::No) {
             // TODO: Destroy docs and reload tabs
         }
 

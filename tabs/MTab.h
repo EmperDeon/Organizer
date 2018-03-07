@@ -30,6 +30,8 @@ public:
         Journals = Journal
 	};
 
+	const QString NO_GROUP = QObject::tr("Other tabs");
+
 private:
 	qint64 u_time = 0, u_last = 0;
 	bool timer_not_started = true;
@@ -39,6 +41,7 @@ private:
 
 protected:
 	QString name;
+	QStringList t_groups;
 
 	void saveStorage();
 
@@ -55,7 +58,13 @@ public:
 
 	QString getName() { return name; }
 
-	bool isInGroup(TabGroup gr) { return gr & type; }
+	bool isInGroup(const QString &gr);
+
+	const QStringList &groups() { return t_groups; }
+
+	void addGroup(const QString &group) { t_groups << group; }
+
+	void removeGroup(const QString &group) { t_groups.removeAll(group); }
 
 	virtual QString getDesc() = 0;
 

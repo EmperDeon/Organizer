@@ -71,5 +71,6 @@
 //#define STORAGE_BACKUP // Backup saved docs
 
 //#define ENCRYPT_JOURNAL // Always encrypt journals output
+#define GROUP_SELECTED_IF_NULL(gr) gr.first()
 
 #endif //ORGANIZER_VARS_H

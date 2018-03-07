@@ -77,6 +77,8 @@ SET(M_S
         widgets/WMain.cpp
         widgets/WSync.cpp
         widgets/WTabs.cpp
+
+        widgets/tabs/WTGroups.cpp
         )
 
 
@@ -138,6 +140,8 @@ SET(M_H
         widgets/WMain.h
         widgets/WSync.h
         widgets/WTabs.h
+
+        widgets/tabs/WTGroups.h
         )
 
 add_subdirectory(vendor/markdown)

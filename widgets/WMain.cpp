@@ -19,10 +19,10 @@ WMain::WMain() {
     contr = new MTabsController(this);
     tabs = new WTabs(this);
 
-    constructMenuBar();
-
     contr->load();
     tabs->setMovable(true);
+
+    constructMenuBar();
 
     tabs->groupBy();
 
@@ -33,29 +33,28 @@ WMain::WMain() {
 void WMain::constructMenuBar() {
     QMenuBar *menu = this->menuBar();
 
-    QMenu *mfile = new QMenu("File");
-    mfile->addAction("Import", this, &WMain::importFrom);
-    mfile->addAction("Export", this, &WMain::exportTo);
-    mfile->addSeparator();
-    mfile->addAction("Save", [=]() { contr->save(); }, QKeySequence::Save);
-    mfile->addAction("Exit", this, &WMain::close, QKeySequence(Qt::CTRL + Qt::Key_Q));
+    QMenu *m_file = new QMenu("File");
+    m_file->addAction("Import", this, &WMain::importFrom);
+    m_file->addAction("Export", this, &WMain::exportTo);
+    m_file->addSeparator();
+    m_file->addAction("Save", [=]() { contr->save(); }, QKeySequence::Save);
+    m_file->addAction("Exit", this, &WMain::close, QKeySequence(Qt::CTRL + Qt::Key_Q));
 
-    QMenu *mtabs = new QMenu("Tabs");
-    mtabs->addAction("Add new tab", tabs, &WTabs::tabNew);
-    mtabs->addAction("Delete tab", tabs, &WTabs::tabClose);
-    mtabs->addAction("Manual sort of tabs", []() { WTSorter::sortTabs(); });
+    QMenu *m_tabs = new QMenu("Tabs");
+    m_tabs->addAction("Add new tab", tabs, &WTabs::tabNew);
+    m_tabs->addAction("Delete tab", tabs, &WTabs::tabClose);
+    m_tabs->addAction("Manual sort of tabs", []() { WTSorter::sortTabs(); });
 
-    QAction *chAction = new QAction("Editors");
-    connect(chAction, &QAction::triggered, tabs, &WTabs::cycleGroup);
-    tabs->setAction(chAction);
+    QMenu *m_groups = new QMenu("Groups");
+    tabs->setGroupsMenu(m_groups);
 
-    QMenu *mhelp = new QMenu("Help");
-    mhelp->addAction("About program");
+    QMenu *m_help = new QMenu("Help");
+    m_help->addAction("About program");
 
-    menu->addMenu(mfile);
-    menu->addMenu(mtabs);
-    menu->addAction(chAction);
-    menu->addMenu(mhelp);
+    menu->addMenu(m_file);
+    menu->addMenu(m_tabs);
+    menu->addMenu(m_groups);
+    menu->addMenu(m_help);
 
 #ifdef OPTION_SYNC
     menu->addMenu(w_sync->getMenu());

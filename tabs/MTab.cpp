@@ -38,25 +38,36 @@ void MTab::saveStorage() {
 	}
 }
 
+bool MTab::isInGroup(const QString &gr) {
+	if (gr == NO_GROUP) {
+		return t_groups.isEmpty();
+	} else {
+		return t_groups.contains(gr);
+	}
+}
+
 void MTab::load(QJsonObject o) {
 //	qint64 n_last = static_cast<qint64>(o["last_updated"].toDouble());
 //
 //	if (n_last > u_last)
 
 	if (o.empty()) {
-		fromJson(obj["content"]);
-		loadCustomParams(obj);
-
-	} else {
-		fromJson(o["content"]);
-		loadCustomParams(o);
+		o = obj;
 	}
+
+	name = o["name"].toString();
+	u_last = static_cast<qint64>(o["last_updated"].toDouble());
+	t_groups = CTools::arrayFromJson(o["groups"]);
+
+	fromJson(o["content"]);
+	loadCustomParams(o);
 }
 
 QJsonObject MTab::save() {
 	obj["content"] = toJson();
 	obj["last_updated"] = u_last;
 	obj["type"] = type;
+	obj["groups"] = CTools::arrayToJson(t_groups);
 
 	saveCustomParams(obj);
 
@@ -66,13 +77,13 @@ QJsonObject MTab::save() {
 const QString MTab::type_name(const QJsonObject &tab) {
 	switch (static_cast<MTab::TabType>(tab["type"].toInt(100))) {
 		case Text:
-			return tr("Text");
+			return QObject::tr("Text");
 		case LinksGroup:
-			return tr("Links");
+			return QObject::tr("Links");
 		case FilesGroup:
-			return tr("Files");
+			return QObject::tr("Files");
         case Journal:
-            return tr("Journal");
+	        return QObject::tr("Journal");
 		default:
 			break;
 	}

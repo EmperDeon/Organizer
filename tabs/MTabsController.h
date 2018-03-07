@@ -17,12 +17,9 @@ class Storage;
 
 class MTab;
 
-class NSync;
-
 
 class MTabsController : public QObject {
 	WMain *wnd;
-	NSync *sync;
 
 public:
 	QList<MTab *> tabs;
@@ -43,7 +40,7 @@ public:
 
 	void addNewTab(const QString &name, const QJsonObject &o, int i = -1);
 
-	QList<MTab *> selectByGroup(MTab::TabGroup gr);
+	QList<MTab *> selectByGroup(const QString &group);
 
 	void move(int from, int to);
 };

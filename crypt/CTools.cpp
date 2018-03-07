@@ -51,3 +51,15 @@ QString CTools::randomStr(int size) {
 QDate CTools::dateFromString(const QString &date) {
     return QDateTime::fromSecsSinceEpoch(date.toULongLong()).date();
 }
+
+QJsonArray CTools::arrayToJson(const QStringList &list) {
+    QJsonArray r;
+    for (const QString &s : list) r << s;
+    return r;
+}
+
+QStringList CTools::arrayFromJson(const QJsonValue &value) {
+    QStringList r;
+    for (const auto &s : value.toArray()) r << s.toString();
+    return r;
+}

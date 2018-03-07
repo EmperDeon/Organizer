@@ -10,9 +10,12 @@
 #include <QtWidgets/QTabWidget>
 #include <tabs/MTab.h>
 #include <tabs/MTabsController.h>
+#include <widgets/tabs/WTGroups.h>
 
 class WMain;
 class MTabsController;
+
+class WTGroups;
 
 
 class WTabs : public QTabWidget {
@@ -21,10 +24,7 @@ class WTabs : public QTabWidget {
 
     MTab *newTab = nullptr;
 
-    // Groups cycle variables
-    QAction *action = nullptr;
-    MTab::TabGroup current_group = MTab::All;
-    QMap<QString, MTab::TabGroup> tab_groups;
+    WTGroups *groups;
 
 public:
     explicit WTabs(WMain *m);
@@ -41,13 +41,11 @@ public:
 
     void cycleGroup();
 
-    void groupBy(MTab::TabGroup gr = MTab::All);
+    void groupBy(QString group = "");
 
-    void setAction(QAction *act);
+    void setGroupsMenu(QMenu *menu);
 
-    QString findGroupName(MTab::TabGroup gr);
-
-    QString findGroupAfter(QString name);
+    friend class WTGroups;
 };
 
 

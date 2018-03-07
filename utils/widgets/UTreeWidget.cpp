@@ -28,7 +28,7 @@ void UTreeWidget::moveItem(UTreeItem *from, UTreeItem *to) {
 }
 
 void UTreeWidget::renameItem(UTreeItem *item, int column) {
-    const QString &text = QInputDialog::getText(this, tr("Tree item editing"), tr("Enter new text: "),
+    const QString &text = QInputDialog::getText(this, QObject::tr("Tree item editing"), QObject::tr("Enter new text: "),
                                                 QLineEdit::Normal,
                                                 item->data(column, Qt::DisplayRole).toString()
     );

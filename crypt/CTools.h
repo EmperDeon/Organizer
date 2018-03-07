@@ -11,6 +11,10 @@
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonArray>
 
+
+#define select_if(from, to, predicate) std::copy_if((from).begin(), (from).end(), std::back_inserter(to), predicate)
+
+
 class CTools {
 public:
     static QCA::SecureArray fromBase(const QString &str);
@@ -30,6 +34,10 @@ public:
     static QString randomStr(int size);
 
     static QDate dateFromString(const QString &date);
+
+    static QJsonArray arrayToJson(const QStringList &list);
+
+    static QStringList arrayFromJson(const QJsonValue &value);
 };
 
 

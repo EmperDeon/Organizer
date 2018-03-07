@@ -51,7 +51,7 @@ void WFiles::updateFileList() {
 }
 
 void WFiles::addFile() {
-    files->addFile(QFileDialog::getOpenFileName(this, tr("Choose file to be added")));
+    files->addFile(QFileDialog::getOpenFileName(this, QObject::tr("Choose file to be added")));
 
     updateFileList();
 }
@@ -65,7 +65,7 @@ void WFiles::delFile(const PTabFile &f) {
 }
 
 void WFiles::saveFile(const PTabFile &f) {
-    files->saveFile(QFileDialog::getExistingDirectory(this, tr("Choose folder to save file")), f);
+    files->saveFile(QFileDialog::getExistingDirectory(this, QObject::tr("Choose folder to save file")), f);
 }
 
 void WFiles::editFile(const PTabFile &f) {

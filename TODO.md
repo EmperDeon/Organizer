@@ -1,10 +1,3 @@
-## TODO's
-### TODO order
-- README
-- Markdown toolbar
-- Prepare for first release
-
-
 ### Big TODO's
 - Prepare for first release
   - Add support for compiling from .pro [Added in branch `static_build`]
@@ -17,21 +10,21 @@
 
 
 ### Current TODO's (before release)
-- Custom groups of tabs
+- Custom groups of tabs[Almost finished]
 
 - Logging. Seriously, why it isn't there yet ? (Store as array of objs, with message, level, class[if it's possible]). 
   - Widget to view logs in app.
   - Add logging to already written code for debug/bug hunting.
+
+- Tab Plugin for content encryption (Show dialog when tab opens)
 
 - Options for compression, encryption(yes, return the old deleted system), backups and encryption of whole storage file
   - Like encryption of all docs, with password dialog on docs loading ? Or, instead use `encryption plugin` for all. That will leave metadata(name, last edit) unencrypted, but who cares ?
 
 - Fix 2 bugs:
   - Windows blinks multiple times on start
+    - Multiple (10-12) random saves after app starts (Maybe it's just auto save after edit ?)
   - Don't work correctly with dock until hidden to tray and shown back
-  - Multiple (10-12) random saves after app starts (Maybe it's just auto save after edit ?)
-
-- Tab Plugin for content encryption (Show dialog when tab opens)
 
 ### Low priority TODO's
 - Write docs in code
