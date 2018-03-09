@@ -10,7 +10,7 @@
 #include <QtWidgets/QTabWidget>
 #include <tabs/MTab.h>
 #include <tabs/MTabsController.h>
-#include <widgets/tabs/WTGroups.h>
+#include <widgets/groups/WTGroups.h>
 
 class WMain;
 class MTabsController;

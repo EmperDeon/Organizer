@@ -7,25 +7,31 @@
 #include <tabs/MTab.h>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QInputDialog>
+#include <QtWidgets/QStatusBar>
 #include "WTGroups.h"
 
 WTGroups::WTGroups(WTabs *t) : tabs(t), contr(t->contr) {
+    l_group = new WTGroupLabel(this);
 
+    tabs->main->statusBar()->addPermanentWidget(l_group);
 }
 
 void WTGroups::addCurrentToGroup(const QString &group) {
-    if (group == NO_GROUP)
+    if (group == NO_GROUP || tabs->getCurrentTab()->isInGroup(group))
         return;
 
     tabs->getCurrentTab()->addGroup(group);
 
-    // FIXME: Remove tab from WTabs
+    tabs->removeTab(tabs->currentIndex());
 }
 
 void WTGroups::removeCurrentFromGroup() {
-    tabs->getCurrentTab()->addGroup(current_group);
+    if (current_group == NO_GROUP || !tabs->getCurrentTab()->isInGroup(current_group))
+        return;
 
-    // FIXME: Remove tab from WTabs
+    tabs->getCurrentTab()->removeGroup(current_group);
+
+    tabs->removeTab(tabs->currentIndex());
 }
 
 void WTGroups::createGroup(bool add_to) {
@@ -61,7 +67,7 @@ void WTGroups::setGroupsMenu(QMenu *m) {
     m_groups = m;
 
     m_add = m_groups->addMenu(tr("Add current tab to: "));
-    a_rem_from = m_groups->addAction("Remove from current group", [this]() { this->removeCurrentFromGroup(); });
+    m_groups->addAction("Remove from current group", [this]() { this->removeCurrentFromGroup(); });
 
     m_groups->addSeparator();
 
@@ -87,8 +93,7 @@ void WTGroups::updateGroupsMenu() {
         if (group == NO_GROUP)
             continue;
 
-        auto *a = m_add->addAction(group, [this, group]() { this->addCurrentToGroup(group); });
-        a->setDisabled(tabs->getCurrentTab()->isInGroup(group));
+        m_add->addAction(group, [this, group]() { this->addCurrentToGroup(group); });
     }
 
     m_goto->clear();
@@ -107,9 +112,9 @@ QString WTGroups::setSelectedGroup(QString group) {
 
     current_group = group;
 
-    updateGroupsMenu();
+    l_group->setGroup(current_group);
 
-    // TODO: Change current in bottom ow window
+    updateGroupsMenu();
 
     return group;
 }

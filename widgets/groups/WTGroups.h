@@ -10,11 +10,13 @@
 #include <QtCore/QObject>
 #include <QtWidgets/QMenu>
 #include <widgets/WTabs.h>
+#include "WTGroupLabel.h"
 
 class WTabs;
 
 class MTabsController;
 
+class WTGroupLabel;
 
 class WTGroups : public QObject {
     WTabs *tabs;
@@ -22,12 +24,13 @@ class WTGroups : public QObject {
 
     QStringList l_groups;
     QString current_group = "";
+    WTGroupLabel *l_group;
 
     const QString NO_GROUP = QObject::tr("Other tabs");
 
     // Menu and actions
     QMenu *m_groups = nullptr, *m_add = nullptr, *m_goto = nullptr;
-    QAction *a_rem_from = nullptr, *a_del_group = nullptr;
+    QAction *a_del_group = nullptr;
 
 public:
 
@@ -52,6 +55,8 @@ public:
     QString findGroupAfterCurrent();
 
     QStringList groupNames();
+
+    friend class WTGroupLabel;
 };
 
 

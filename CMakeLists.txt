@@ -72,13 +72,14 @@ SET(M_S
         widgets/files/WFileIcon.cpp
         widgets/files/WFiles.cpp
 
+        widgets/groups/WTGroupLabel.cpp
+        widgets/groups/WTGroups.cpp
+
         widgets/sort/WTSorter.cpp
 
         widgets/WMain.cpp
         widgets/WSync.cpp
         widgets/WTabs.cpp
-
-        widgets/tabs/WTGroups.cpp
         )
 
 
@@ -135,13 +136,14 @@ SET(M_H
         widgets/files/WFileIcon.h
         widgets/files/WFiles.h
 
+        widgets/groups/WTGroupLabel.h
+        widgets/groups/WTGroups.h
+
         widgets/sort/WTSorter.h
 
         widgets/WMain.h
         widgets/WSync.h
         widgets/WTabs.h
-
-        widgets/tabs/WTGroups.h
         )
 
 add_subdirectory(vendor/markdown)

@@ -10,7 +10,7 @@
 
 
 ### Current TODO's (before release)
-- Custom groups of tabs[Almost finished]
+- Welcome screen with quick links to groups/last edited tabs/settings
 
 - Logging. Seriously, why it isn't there yet ? (Store as array of objs, with message, level, class[if it's possible]). 
   - Widget to view logs in app.
@@ -18,7 +18,7 @@
 
 - Tab Plugin for content encryption (Show dialog when tab opens)
 
-- Options for compression, encryption(yes, return the old deleted system), backups and encryption of whole storage file
+- Settings for compression, encryption(yes, return the old deleted system), backups and encryption of whole storage file
   - Like encryption of all docs, with password dialog on docs loading ? Or, instead use `encryption plugin` for all. That will leave metadata(name, last edit) unencrypted, but who cares ?
 
 - Fix 2 bugs:
