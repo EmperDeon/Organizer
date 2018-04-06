@@ -53,6 +53,7 @@ SET(M_S
         storage/SMigrations.cpp
         storage/Storage.cpp
         storage/SSecure.cpp
+        storage/SSettings.cpp
 
         storage/migrations/SMVer1.cpp
         storage/migrations/SMVer11.cpp
@@ -74,6 +75,10 @@ SET(M_S
 
         widgets/groups/WTGroupLabel.cpp
         widgets/groups/WTGroups.cpp
+
+        widgets/settings/WSCheckbox.cpp
+        widgets/settings/WSettings.cpp
+        widgets/settings/WSetting.cpp
 
         widgets/sort/WTSorter.cpp
 
@@ -116,6 +121,7 @@ SET(M_H
         storage/SMigrations.h
         storage/Storage.h
         storage/SSecure.h
+        storage/SSettings.h
 
         storage/migrations/SMigration.h
         storage/migrations/SMVer1.h
@@ -138,6 +144,10 @@ SET(M_H
 
         widgets/groups/WTGroupLabel.h
         widgets/groups/WTGroups.h
+
+        widgets/settings/WSCheckbox.h
+        widgets/settings/WSettings.h
+        widgets/settings/WSetting.h
 
         widgets/sort/WTSorter.h
 

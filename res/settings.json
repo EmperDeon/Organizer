@@ -1,0 +1,59 @@
+[
+  {
+    "name": "Basic",
+    "entries": [
+      {
+        "name": "storage_compress",
+        "description": "Compress storage.json on save ?",
+        "default": false,
+        "type": "boolean"
+      },
+      {
+        "name": "storage_backup",
+        "description": "Backup storage.json on load ?",
+        "default": true,
+        "type": "boolean"
+      },
+      {
+        "name": "storage_encrypt",
+        "description": "Encrypt(AES) storage.json on save with predefined key ?",
+        "default": false,
+        "type": "boolean"
+      }
+    ]
+  },
+  {
+    "name": "Advanced",
+    "entries": [
+      {
+        "name": "test_option_a",
+        "description": "Test 1",
+        "default": 123,
+        "type": "integer"
+      },
+      {
+        "name": "test_option_b",
+        "description": "Test 2",
+        "default": "custom default string",
+        "type": "string"
+      },
+      {
+        "name": "test_option_c",
+        "description": "Test 3",
+        "default": 1,
+        "type": "select",
+        "list": [
+          "Option 1",
+          "Option 2",
+          "Option 3"
+        ]
+      },
+      {
+        "name": "test_option_d",
+        "description": "Test 4",
+        "default": "1, 2",
+        "type": "list"
+      }
+    ]
+  }
+]

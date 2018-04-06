@@ -34,7 +34,10 @@ public:
 
     bool getB(const QString &k) { return get(k).toBool(); }
 
-    void set(const QString &k, const QJsonValue &v) { original.insert(k, v); }
+    Storage *set(const QString &k, const QJsonValue &v) {
+        original.insert(k, v);
+        return this;
+    }
 
     void remove(const QString &k) { original.remove(k); }
 

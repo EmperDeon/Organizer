@@ -92,6 +92,20 @@ Backup is done at the start of the week (if program is launched in that week).
 #### Last backups
 Storing docs at last 3 launches
 
+
+### Settings
+Setting entries are stored in res/settings.json
+Values (configured by user) are stored in `Storage.settings`
+
+Types on setting entries:
+- boolean: CheckBox
+- integer: LineEdit
+- string: LineEdit
+- select: ComboBox
+- list: LineEdit
+
+
+
 ## Versions
 Current version is 0.<somewhere between 10 and 40>
 
