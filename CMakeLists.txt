@@ -76,9 +76,11 @@ SET(M_S
         widgets/groups/WTGroupLabel.cpp
         widgets/groups/WTGroups.cpp
 
-        widgets/settings/WSCheckbox.cpp
+        widgets/settings/WSCheckBox.cpp
+        widgets/settings/WSComboBox.cpp
         widgets/settings/WSettings.cpp
         widgets/settings/WSetting.cpp
+        widgets/settings/WSLineEdit.cpp
 
         widgets/sort/WTSorter.cpp
 
@@ -145,9 +147,11 @@ SET(M_H
         widgets/groups/WTGroupLabel.h
         widgets/groups/WTGroups.h
 
-        widgets/settings/WSCheckbox.h
+        widgets/settings/WSCheckBox.h
+        widgets/settings/WSComboBox.h
         widgets/settings/WSettings.h
         widgets/settings/WSetting.h
+        widgets/settings/WSLineEdit.h
 
         widgets/sort/WTSorter.h
 

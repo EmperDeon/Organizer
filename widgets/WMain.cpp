@@ -9,6 +9,7 @@
 #include <QtGui/QHideEvent>
 #include <QtWidgets/QInputDialog>
 #include <widgets/sort/WTSorter.h>
+#include <widgets/settings/WSettings.h>
 
 
 // Constructor
@@ -37,6 +38,7 @@ void WMain::constructMenuBar() {
     m_file->addAction("Import", this, &WMain::importFrom);
     m_file->addAction("Export", this, &WMain::exportTo);
     m_file->addSeparator();
+    m_file->addAction("Settings", [=]() { (new WSettings)->show(); });
     m_file->addAction("Save", [=]() { contr->save(); }, QKeySequence::Save);
     m_file->addAction("Exit", this, &WMain::close, QKeySequence(Qt::CTRL + Qt::Key_Q));
 

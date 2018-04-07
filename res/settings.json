@@ -40,12 +40,21 @@
       {
         "name": "test_option_c",
         "description": "Test 3",
-        "default": 1,
+        "default": "val1",
         "type": "select",
         "list": [
-          "Option 1",
-          "Option 2",
-          "Option 3"
+          [
+            "Option 1",
+            "val1"
+          ],
+          [
+            "Option 2",
+            "val2"
+          ],
+          [
+            "Option 3",
+            "val3"
+          ]
         ]
       },
       {

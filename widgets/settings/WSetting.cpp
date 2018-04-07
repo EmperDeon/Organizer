@@ -4,18 +4,16 @@
 	See the provided LICENSE.TXT file for details.
 */
 
-#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <storage/SSettings.h>
 #include "WSetting.h"
 
 WSetting::WSetting(const QJsonObject &obj) {
-    auto *l = new QHBoxLayout;
+    layout = new QHBoxLayout;
 
-    l->addWidget(new QLabel(obj["description"].toString()));
+    s_name = obj["name"].toString();
 
-    widget = createWidget(SSettings::get(obj["name"].toString()));
-    l->addWidget(widget);
+    layout->addWidget(new QLabel(obj["description"].toString()));
 
-    setLayout(l);
+    setLayout(layout);
 }

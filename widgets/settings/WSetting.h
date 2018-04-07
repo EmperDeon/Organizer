@@ -9,16 +9,18 @@
 
 #include <QtWidgets/QWidget>
 #include <QtCore/QJsonValue>
+#include <QtWidgets/QHBoxLayout>
 
 
 class WSetting : public QWidget {
 protected:
-    QWidget *widget;
+    QHBoxLayout *layout;
+    QString s_name;
 
 public:
     explicit WSetting(const QJsonObject &obj);
 
-    virtual QWidget *createWidget(const QJsonValue &value) = 0;
+    QString name() { return s_name; }
 
     virtual QJsonValue value() = 0;
 };

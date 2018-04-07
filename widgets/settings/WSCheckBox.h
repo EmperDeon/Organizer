@@ -8,14 +8,15 @@
 #define ORGANIZER_WSBASIC_H
 
 #include <QtWidgets/QWidget>
+#include <QtWidgets/QCheckBox>
 #include "WSetting.h"
 
 
-class WSCheckbox : public WSetting {
-public:
-    explicit WSCheckbox(const QJsonObject &obj) : WSetting(obj) {}
+class WSCheckBox : public WSetting {
+    QCheckBox *widget;
 
-    QWidget *createWidget(const QJsonValue &value) override;
+public:
+    explicit WSCheckBox(const QJsonObject &obj);
 
     QJsonValue value() override;
 };

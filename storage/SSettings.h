@@ -8,6 +8,7 @@
 #define ORGANIZER_SSETTINGS_H
 
 #include <QtCore/QJsonObject>
+#include <QtCore/QJsonArray>
 
 
 class SSettings {
@@ -19,6 +20,8 @@ public:
     static bool getB(const QString &key);
 
     static QString getS(const QString &key);
+
+    static int getI(const QString &key);
 
     static void set(const QString &key, const QJsonValue &val);
 

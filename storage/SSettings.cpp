@@ -30,6 +30,10 @@ QString SSettings::getS(const QString &key) {
     return get(key).toString();
 }
 
+int SSettings::getI(const QString &key) {
+    return get(key).toInt();
+}
+
 void SSettings::set(const QString &key, const QJsonValue &val) {
     QJsonObject obj = object();
     obj[key] = val;
@@ -44,6 +48,8 @@ QJsonArray SSettings::allSettings() {
 }
 
 void SSettings::initializeDefaults() {
+//    qDebug() << "Settings key not found, initializingDefaults";
+
     QJsonObject obj = object();
 
     for (const auto &level : allSettings()) {
@@ -52,7 +58,7 @@ void SSettings::initializeDefaults() {
             const QString &name = entry["name"].toString();
 
             if (!obj.contains(name)) {
-                obj[name] = obj["default"];
+                obj[name] = entry["default"];
             }
         }
     }
