@@ -99,12 +99,58 @@ Values (configured by user) are stored in `Storage.settings`
 
 Types on setting entries:
 - boolean: CheckBox
-- integer: LineEdit
+- integer: LineEdit with IntValidator
 - string: LineEdit
 - select: ComboBox
 - list: LineEdit
 
-
+Example:
+```
+{
+  "name": "storage_encrypt",
+  "description": "Encrypt(AES) storage.json on save with predefined key ?",
+  "default": false,
+  "type": "boolean"
+},
+{
+  "name": "test_option_a",
+  "description": "Test 1",
+  "default": 123,
+  "type": "integer"
+},
+{
+  "name": "test_option_b",
+  "description": "Test 2",
+  "default": "custom default string",
+  "type": "string"
+},
+{
+  "name": "test_option_c",
+  "description": "Test 3",
+  "default": "val1",
+  "type": "select",
+  "list": [
+    [
+      "Option 1",
+      "val1"
+    ],
+    [
+      "Option 2",
+      "val2"
+    ],
+    [
+      "Option 3",
+      "val3"
+    ]
+  ]
+},
+{
+  "name": "test_option_d",
+  "description": "Test 4",
+  "default": "1, 2",
+  "type": "list"
+}
+```
 
 ## Versions
 Current version is 0.<somewhere between 10 and 40>

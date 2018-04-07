@@ -117,15 +117,7 @@ void TJournalTab::fromJson(QJsonValue v) {
 QJsonValue TJournalTab::toJson() {
     saveDate(dates->currentDate());
 
-    QString j = CTools::toJson(entries);
-
-#ifdef ENCRYPT_JOURNAL
-    CAes aes(JOURNAL_CIPHER, JOURNAL_KEY);
-
-    j = aes.encrypt(j);
-#endif
-
-    return j;
+    return CTools::toJson(entries);
 }
 
 void TJournalTab::loadCustomParams(const QJsonObject &o) {

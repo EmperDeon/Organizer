@@ -5,10 +5,15 @@
 */
 
 #include "SSettings.h"
-#include "Storage.h"
+
+SSettings::SSettings(Storage *stor) : storage(stor) {
+    if (storage == nullptr) {
+        storage = Storage::getInstance();
+    }
+}
 
 QJsonObject SSettings::object() {
-    return Storage::getInstance()->get("settings").toObject();
+    return storage->get("settings").toObject();
 }
 
 QJsonValue SSettings::get(const QString &key) {
@@ -37,7 +42,7 @@ int SSettings::getI(const QString &key) {
 void SSettings::set(const QString &key, const QJsonValue &val) {
     QJsonObject obj = object();
     obj[key] = val;
-    Storage::getInstance()->set("settings", obj)->saveJson();
+    storage->set("settings", obj)->saveJson();
 }
 
 QJsonArray SSettings::allSettings() {
@@ -63,5 +68,5 @@ void SSettings::initializeDefaults() {
         }
     }
 
-    Storage::getInstance()->set("settings", obj)->saveJson();
+    storage->set("settings", obj)->saveJson();
 }

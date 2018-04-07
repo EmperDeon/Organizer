@@ -9,25 +9,31 @@
 
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonArray>
+#include "Storage.h"
 
+class Storage;
 
 class SSettings {
+    Storage *storage;
+
 public:
-    static QJsonObject object();
+    SSettings(Storage *stor = nullptr);
 
-    static QJsonValue get(const QString &key);
+    QJsonObject object();
 
-    static bool getB(const QString &key);
+    QJsonValue get(const QString &key);
 
-    static QString getS(const QString &key);
+    bool getB(const QString &key);
 
-    static int getI(const QString &key);
+    QString getS(const QString &key);
 
-    static void set(const QString &key, const QJsonValue &val);
+    int getI(const QString &key);
+
+    void set(const QString &key, const QJsonValue &val);
 
     static QJsonArray allSettings();
 
-    static void initializeDefaults();
+    void initializeDefaults();
 };
 
 

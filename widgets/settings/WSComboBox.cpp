@@ -10,7 +10,7 @@
 WSComboBox::WSComboBox(const QJsonObject &obj) : WSetting(obj) {
     widget = new QComboBox;
 
-    const QString &curr = SSettings::getS(s_name);
+    const QString &curr = SSettings().getS(s_name);
 
     int i = 0;
     for (const auto &entry : obj["list"].toArray()) {

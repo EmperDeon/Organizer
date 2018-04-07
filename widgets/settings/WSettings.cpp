@@ -83,6 +83,8 @@ void WSettings::save() {
 //    qDebug() << "Saving settings";
 
     for (auto *entry : entries) {
-        SSettings::set(entry->name(), entry->value());
+        SSettings().set(entry->name(), entry->value());
     }
+
+    close();
 }

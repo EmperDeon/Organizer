@@ -34,20 +34,24 @@ void Storage::loadJson() {
         json = fileAes.decrypt(json);
     }
 
-#ifdef STORAGE_BACKUP
-    SBackup::addDocs(json);
-#endif
-
     original = CTools::fromJson(json);
     original = migrations->processFull(original);
+
+    if (SSettings(this).getB("storage_backup"))
+        SBackup::addDocs(json);
 
     // Here, because needs original json, but decrypt may need access to *secure
     secure = new SSecure(&original);
 
     loadDocs(original["docs"].toString());
+
+    loaded = true;
 }
 
 void Storage::saveJson() {
+    if (!loaded)
+        return;
+
     WMain *receiver = WMain::getInstance();
     receiver->contr->save();
 
@@ -63,11 +67,12 @@ void Storage::saveJson() {
 
     QString json = CTools::toJson(original, QJsonDocument::Indented);
 
-// Encrypt output ?
-#ifdef ENCRYPT_OUT
-    CAes aes(STORAGE_CIPHER, STORAGE_KEY);
-    json = aes.encrypt(json);
-#endif
+    // Encrypt output ?
+    if (SSettings(this).getB("storage_encrypt")) {
+        CAes aes(STORAGE_CIPHER, STORAGE_KEY);
+        json = aes.encrypt(json);
+    }
+
 
     QFile f(STORAGE_FILE);
     f.open(QFile::WriteOnly);
@@ -89,7 +94,7 @@ void Storage::loadDocs(QString d) {
         d = aes.decrypt(d);
     }
 
-    if (getB("is_compress")) {
+    if (SSettings(this).getB("storage_compress")) {
         d = QString::fromUtf8(qUncompress(CTools::fromBase(d).toByteArray()));
     }
 
@@ -106,7 +111,7 @@ QString Storage::saveDocs() {
         out = aes.encrypt(out);
     }
 
-    if (getB("is_compress")) {
+    if (SSettings(this).getB("storage_compress")) {
         out = CTools::toBase(qCompress(out.toUtf8()));
     }
 

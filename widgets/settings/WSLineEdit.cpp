@@ -12,11 +12,11 @@ WSLineEdit::WSLineEdit(const QJsonObject &obj, Type t) : WSetting(obj), type(t) 
     widget = new QLineEdit;
 
     if (type == Integer) {
-        widget->setText(QString::number(SSettings::getI(obj["name"].toString())));
+        widget->setText(QString::number(SSettings().getI(obj["name"].toString())));
         widget->setValidator(new QIntValidator);
 
     } else {
-        widget->setText(SSettings::getS(obj["name"].toString()));
+        widget->setText(SSettings().getS(obj["name"].toString()));
     }
 
     layout->addWidget(widget);

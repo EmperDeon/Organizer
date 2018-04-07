@@ -11,7 +11,7 @@
 WSCheckBox::WSCheckBox(const QJsonObject &obj) : WSetting(obj) {
     widget = new QCheckBox;
 
-    widget->setChecked(SSettings::getB(obj["name"].toString()));
+    widget->setChecked(SSettings().getB(obj["name"].toString()));
 
     layout->addWidget(widget);
 }

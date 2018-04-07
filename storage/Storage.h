@@ -11,11 +11,14 @@
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonArray>
 #include <storage/SSecure.h>
+#include <storage/SSettings.h>
 #include <storage/SMigrations.h>
 #include <utils/USingleton.h>
 #include "plugins/tabs/PTabFiles.h"
 
 class PTabFiles;
+
+class SSettings;
 
 class Storage : public USingleton<Storage> {
     QJsonObject original;
@@ -23,6 +26,8 @@ class Storage : public USingleton<Storage> {
 
     SSecure *secure;
     SMigrations *migrations;
+
+    bool loaded = false;
 
 public:
     Storage();

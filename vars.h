@@ -28,13 +28,13 @@
 // Storage
 #define STORAGE_DIR QDir::home().filePath(".organizer") + QDir::separator()
 #define STORAGE_CUR_VERSION "1.1"
-#define STORAGE_FILE (STORAGE_DIR + "storage2.json")
+#define STORAGE_FILE (STORAGE_DIR + "storage_testing.json")
 #define STORAGE_KEY "ttpGxMkT4wk7QJx77ak75dtYqaUdRQB5fJQO1NzzYFc="
 #define STORAGE_CIPHER "128"
 
 // Storage Backup
-#define BACKUP_FILE_WEEK (STORAGE_DIR + "backup_week.json")
-#define BACKUP_FILE_LAST (STORAGE_DIR + "backup_last.json")
+#define BACKUP_FILE_WEEK (STORAGE_DIR + "backup_week_testing.json")
+#define BACKUP_FILE_LAST (STORAGE_DIR + "backup_last_testing.json")
 
 // Journal
 #define JOURNAL_CIPHER "128"
@@ -66,11 +66,8 @@
 // Options
 //
 
-//#define ENCRYPT_OUT // Encrypt storage output
 //#define OPTION_SYNC // Enable sync (send on save, load on timer, sync menu in WMain MenuBar)
-//#define STORAGE_BACKUP // Backup saved docs
 
-//#define ENCRYPT_JOURNAL // Always encrypt journals output
 #define GROUP_SELECTED_IF_NULL(gr) gr.first()
 
 #endif //ORGANIZER_VARS_H
