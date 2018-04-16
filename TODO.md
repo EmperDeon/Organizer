@@ -12,10 +12,12 @@
 ### Current TODO's (before release)
 - Welcome screen with quick links to groups/last edited tabs/settings
 
-- Logging. Seriously, why it isn't there yet ? (Store as array of objs, with message, level, class[if it's possible]). 
+- Logging. Seriously, why it isn't there yet ?
   - Widget to view logs in app.
+  - Archiving old logs (store unzipped 2-3 files, rest is in logs.zip)
   - Add logging to already written code for debug/bug hunting.
   - Send logs with button (dunno, host an app for it ?)
+  - Check `Q_FUNC_INFO` on other compilers/platforms
 
 - Tab Plugin for content encryption (Show dialog when tab opens)
 

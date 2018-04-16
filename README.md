@@ -152,6 +152,17 @@ Example:
 }
 ```
 
+### Logs
+Logging to console/file.
+
+Levels:
+- Error - Unexpected behavior
+- Warning - Expected, but unwanted
+- Info - Ordinary events, like file loading
+- Debug - For developer, for debugging
+- Verbose - Hidden by default, used for dumping strings/json, or very frequent events
+
+
 ## Versions
 Current version is 0.<somewhere between 10 and 40>
 

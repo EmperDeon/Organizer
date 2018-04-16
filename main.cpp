@@ -7,10 +7,13 @@
 #include <QtWidgets/QApplication>
 #include <QtCore/QFile>
 #include <widgets/WMain.h>
+#include <utils/logs/ULogger.h>
 
 int main(int argc, char **argv) {
 	QApplication a(argc, argv);
 	QCA::Initializer init;
+	ULogger::getInstance();
+	Storage::getInstance();
 
 	QFile File(":/style.qss");
 	File.open(QFile::ReadOnly);
@@ -21,6 +24,8 @@ int main(int argc, char **argv) {
 
 	auto *wnd = WMain::getInstance();
 	wnd->show();
+
+	logD("WMain showed");
 
 	return a.exec();
 }

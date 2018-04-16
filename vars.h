@@ -62,11 +62,17 @@
 #define NETWORK_DEF_KEY "+7QqHqbuJEursfbU+uaJUmN1obOcZEza3oRUtmS+Qz8="
 
 
+// Logs
+#define LOG_FILE (STORAGE_DIR + "log.log")
+#define LOG_COMPRESSION 0
+
 //
 // Options
 //
 
 //#define OPTION_SYNC // Enable sync (send on save, load on timer, sync menu in WMain MenuBar)
+#define DEBUG
+#define LOG_INCLUDE_METHOD
 
 #define GROUP_SELECTED_IF_NULL(gr) gr.first()
 

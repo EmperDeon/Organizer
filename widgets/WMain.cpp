@@ -10,10 +10,13 @@
 #include <QtWidgets/QInputDialog>
 #include <widgets/sort/WTSorter.h>
 #include <widgets/settings/WSettings.h>
+#include <utils/logs/ULogger.h>
 
 
 // Constructor
 WMain::WMain() {
+    logD("Construction started");
+
     w_sync = new WSync;
     tray = new UTray(this);
 
@@ -29,6 +32,8 @@ WMain::WMain() {
 
     setCentralWidget(tabs);
     setGeometry(100, 100, 750, 500);
+
+    logD("Constructed");
 }
 
 void WMain::constructMenuBar() {
@@ -61,6 +66,8 @@ void WMain::constructMenuBar() {
 #ifdef OPTION_SYNC
     menu->addMenu(w_sync->getMenu());
 #endif
+
+    logD("Menu items created");
 }
 // Constructor
 
@@ -84,6 +91,8 @@ void WMain::exportTo() {
 void WMain::closeEvent(QCloseEvent *e) {
     Q_UNUSED(e)
 
+    logI("Closing application");
+
     contr->save();
     Storage::getInstance()->saveJson();
     tray->hide();
@@ -97,6 +106,8 @@ void WMain::hideEvent(QHideEvent *e) {
 }
 
 void WMain::recreateTabs() {
+    logI("Recreating tabs");
+
     tabs->clear();
 
     for (auto *tab : contr->tabs)

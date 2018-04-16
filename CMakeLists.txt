@@ -64,6 +64,8 @@ SET(M_S
         utils/USingleton.cpp
         utils/UTray.cpp
 
+        utils/logs/ULogger.cpp
+
         utils/widgets/dates/UDateItem.cpp
         utils/widgets/UDateDialog.cpp
         utils/widgets/UDatesWidget.cpp
@@ -134,6 +136,8 @@ SET(M_H
         utils/UScrollArea.h
         utils/USingleton.h
         utils/UTray.h
+
+        utils/logs/ULogger.h
 
         utils/widgets/dates/UDateItem.h
         utils/widgets/UDateDialog.h

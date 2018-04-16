@@ -71,7 +71,12 @@ Encrypted:
 
 
 ## Network
+By default (with my server) this is not used, because of strict HTTPS.
+But, if you use own server, and don't want to deal with HTTPS, you can enable HTTP mode, and it will use mechanism described below.
+
 ### Requests and responses
+First request (when no symmetric key is generated) will be encrypted with Public RSA server key.
+To ensure that Man-In-The-Middle can't access or modify data, you will need to copy Public RSA server key to field in the settings. 
 All parameters are encrypted with AES-128 and signed with RSA
 
 ### On first request

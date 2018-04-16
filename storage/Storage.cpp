@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <network/Network.h>
 #include <widgets/WMain.h>
+#include <utils/logs/ULogger.h>
 
 Storage::Storage() {
     migrations = new SMigrations;
@@ -19,10 +20,11 @@ Storage::Storage() {
 }
 
 void Storage::loadJson() {
+    logD("Loading " + STORAGE_FILE);
     QFile f(STORAGE_FILE);
 
     if (!f.open(QFile::ReadOnly)) {
-        qWarning() << QString("Can't open ") + STORAGE_FILE;
+        logW("Can't open " + STORAGE_FILE);
     }
 
     QString json = f.readAll();
@@ -32,6 +34,7 @@ void Storage::loadJson() {
         CAes fileAes(STORAGE_CIPHER, STORAGE_KEY);
 
         json = fileAes.decrypt(json);
+        logD("Decrypted successfully");
     }
 
     original = CTools::fromJson(json);
@@ -46,12 +49,14 @@ void Storage::loadJson() {
     loadDocs(original["docs"].toString());
 
     loaded = true;
+    logD("Loaded");
 }
 
 void Storage::saveJson() {
     if (!loaded)
         return;
 
+    logD("Saving started");
     WMain *receiver = WMain::getInstance();
     receiver->contr->save();
 
@@ -71,13 +76,20 @@ void Storage::saveJson() {
     if (SSettings(this).getB("storage_encrypt")) {
         CAes aes(STORAGE_CIPHER, STORAGE_KEY);
         json = aes.encrypt(json);
+
+        logD("Encrypted successfully");
     }
 
 
     QFile f(STORAGE_FILE);
-    f.open(QFile::WriteOnly);
-    f.write(json.toUtf8());
-    f.close();
+    if (f.open(QFile::WriteOnly)) {
+        f.write(json.toUtf8());
+        f.close();
+    } else {
+        logW("Can't save to " + STORAGE_FILE);
+    }
+
+    logD("Saved");
 }
 
 void Storage::sendDocsToServer() {

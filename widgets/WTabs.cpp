@@ -6,12 +6,16 @@
 
 #include <QtWidgets/QMessageBox>
 #include <tabs/MNewTab.h>
+#include <utils/logs/ULogger.h>
 
 WTabs::WTabs(WMain *m) : main(m), contr(m->contr) {
+    logD("Construction stared");
     groups = new WTGroups(this);
 
     connect(this, &QTabWidget::currentChanged, this, &WTabs::tabChange);
     connect(this->tabBar(), &QTabBar::tabMoved, contr, &MTabsController::move);
+
+    logD("Constructed");
 }
 
 void WTabs::tabNew() {
@@ -19,6 +23,7 @@ void WTabs::tabNew() {
         newTab = new MNewTab(main, contr);
         insertTab(count() - 1, newTab, "New Tab");
         setCurrentIndex(count() - 2);
+        logV("Added MNewTab");
 
     } else {
         setCurrentIndex(count() - 2);
@@ -31,6 +36,7 @@ void WTabs::tabClose() {
     if (name == "New Tab" || QMessageBox::question(this, QObject::tr("Close tab ?"), name) == QMessageBox::Yes) {
         contr->tabDel(name);
         removeTab(currentIndex());
+        logV("Removed MNewTab");
     }
 
     if (name == "New Tab")
@@ -52,6 +58,7 @@ void WTabs::tabChange(int i) {
             auto t = getTab(j);
             if (t && t->getDesc() == "New Tab") {
                 t->deleteLater(); // TODO: Delete newTab from TabBar, not itself
+                logV("Removed MNewTab");
             }
         }
         newTab = nullptr;
@@ -73,6 +80,7 @@ void WTabs::groupBy(QString group) {
 
     addTab(new QWidget, "+");
     setCurrentIndex(1);
+    logD("Tabs regrouped");
 }
 
 void WTabs::setGroupsMenu(QMenu *menu) {
