@@ -9,15 +9,9 @@
   - Screenshots
 
 
-### Current TODO's (before release)
-- Welcome screen with quick links to groups/last edited tabs/settings
-
-- Logging. Seriously, why it isn't there yet ?
-  - Widget to view logs in app.
-  - Archiving old logs (store unzipped 2-3 files, rest is in logs.zip)
+### Current TODO's
+- Logging
   - Add logging to already written code for debug/bug hunting.
-  - Send logs with button (dunno, host an app for it ?)
-  - Check `Q_FUNC_INFO` on other compilers/platforms
 
 - Tab Plugin for content encryption (Show dialog when tab opens)
 
@@ -27,15 +21,22 @@
   - Don't work correctly with dock until hidden to tray and shown back
 
 ### Low priority TODO's
+- Logs widget [WIP in branch `logs_widget`]
+  - Archiving old logs (store unzipped 2-3 files, rest is in logs.zip)
+  - Send logs with button (dunno, host an app for it ?)
+  - Check `Q_FUNC_INFO` on other compilers/platforms
+
+- Double-Shift or some other shortcut to quickly go to any tab | switch options
+  
+- Welcome screen with quick links to groups/last edited tabs/settings
+  
 - Write docs in code
 
-- Restore and Diff for Backup
+- Restore and Diff for Backup [Move to sync ?]
 
 - View-only mode for LinkGroup
 
 - Add markdown syntax highlighting and toolbar
-
-- Double-Shift or some other shortcut to quickly go to any tab | switch options
 
 - Themes [Light, Dark] as default, and custom (JSON)
 
@@ -49,7 +50,7 @@
 
 
 ##### Maybe
-- Rewrite to Model-View, to cleanup code and use ?less? code
+- Rewrite to Model-View, to cleanup code and use less code
 - Move all "secure" variables from storage to separate file or leave there but encrypted like docs (for ex. to SSecure)
 - Move login/register logic to SSecure
 - Sync:

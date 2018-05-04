@@ -13,6 +13,7 @@
 
 
 #define select_if(from, to, predicate) std::copy_if((from).begin(), (from).end(), std::back_inserter(to), predicate)
+#define collect(from, to, lambda) std::transform((from).begin(), (from).end(), std::back_inserter(to), lambda)
 
 
 class CTools {

@@ -10,6 +10,7 @@
 #include <crypt/CTools.h>
 #include <QtCore/QTimer>
 #include <QtWidgets/QApplication>
+#include <QtCore/QSaveFile>
 #include "ULogger.h"
 
 /*
@@ -20,10 +21,13 @@ ULogger::ULogger() {
     mutex = new QMutex;
 
     auto *timer = new QTimer;
-    connect(timer, &QTimer::timeout, this, &ULogger::save);
-    timer->start(1000);
 
+    connect(timer, &QTimer::timeout, this, &ULogger::save);
     connect(qApp, &QApplication::aboutToQuit, this, &ULogger::save);
+
+    moveOldLogs();
+
+    timer->start(1000);
 }
 
 void ULogger::log(ULogger::Level lev, const QDateTime &time, const QString &func, const QString &mess) {
@@ -36,33 +40,33 @@ void ULogger::log(ULogger::Level lev, const QDateTime &time, const QString &func
     if (lev == Error || lev == Warning)
         logger->save();
 
+    l.unlock();
+
+    emit logger->logEntryAdded(entry);
+
 #ifdef DEBUG
-    if (lev != Verbose)
-        puts(entry.toStdString().c_str());
+    puts(entry.toStdString().c_str());
 #endif
 }
 
 void ULogger::save() {
-    QMutexLocker l(mutex);
     QByteArray bytes;
+    bytes = logs().toUtf8();
 
-    if (queue.isEmpty())
+    if (!changed)
         return;
 
-    while (!queue.isEmpty()) {
-        logs += queue.dequeue() + '\n';
-    }
-
-    QFile f(LOG_FILE);
+    QSaveFile f(LOG_FILE);
     f.open(QFile::WriteOnly);
-    bytes = logs.toUtf8();
 
 #if LOG_COMPRESSION > 0
     bytes = qCompress(bytes, LOG_COMPRESSION);
 #endif
 
     f.write(bytes);
-    f.close();
+    f.commit();
+
+    changed = false;
 }
 
 QString ULogger::toLogEntry(ULogger::Level level, const QDateTime &time, const QString &func, const QString &mess) {
@@ -101,5 +105,39 @@ const QString ULogger::levelToString(ULogger::Level level) {
             return "D";
         case Verbose:
             return "V";
+    }
+}
+
+void ULogger::moveOldLogs() {
+    // TODO: Rename files, and zip excess
+}
+
+const QString ULogger::logs() {
+    auto *inst = getInstance();
+    QMutexLocker l(inst->mutex);
+
+    while (!inst->queue.isEmpty()) {
+        inst->output += inst->queue.dequeue() + '\n';
+
+        inst->changed = true;
+    }
+
+    return inst->output;
+}
+
+const ULogger::Level ULogger::levelFromString(const QString &level) {
+    switch (level.at(0).toLatin1()) {
+        case 'E':
+            return Error;
+        case 'W':
+            return Warning;
+        case 'I':
+            return Info;
+        case 'D':
+            return Debug;
+        case 'V':
+            return Verbose;
+        default:
+            return Info;
     }
 }

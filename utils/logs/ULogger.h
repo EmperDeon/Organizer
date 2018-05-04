@@ -20,7 +20,8 @@
 #define logD(m) ULogger::log(ULogger::Debug, QDateTime::currentDateTime(), Q_FUNC_INFO, m)
 #define logV(m) ULogger::log(ULogger::Verbose, QDateTime::currentDateTime(), Q_FUNC_INFO, m)
 
-class ULogEntry;
+#define ULOG_LEVEL_LIST QList<ULogger::Level> level_list = { ULogger::Error, ULogger::Warning, ULogger::Info, ULogger::Debug, ULogger::Verbose };
+
 
 class ULogger : public QObject, public USingleton<ULogger> {
 Q_OBJECT
@@ -33,7 +34,16 @@ public:
 protected:
     QMutex *mutex;
     QQueue<QString> queue;
-    QString logs;
+
+    // FIXME: Possibly could break, if more than 4 billion chars is written to log. Check
+    // TODO:
+    QString output;
+
+    bool changed = false;
+
+Q_SIGNALS:
+
+    void logEntryAdded(const QString &log);
 
 public:
     ULogger();
@@ -44,7 +54,13 @@ public:
 
     static const QString levelToString(ULogger::Level level);
 
+    static const Level levelFromString(const QString &level);
+
+    static const QString logs();
+
     void save();
+
+    void moveOldLogs();
 };
 
 #endif //ORGANIZER_ULOGGER_H

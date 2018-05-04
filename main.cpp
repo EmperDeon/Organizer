@@ -8,32 +8,33 @@
 #include <QtCore/QFile>
 #include <widgets/WMain.h>
 #include <utils/logs/ULogger.h>
+#include <utils/logs/ULogsWidget.h>
 
 int main(int argc, char **argv) {
-	QApplication a(argc, argv);
-	QCA::Initializer init;
-	ULogger::getInstance();
-	Storage::getInstance();
+    QApplication a(argc, argv);
+    QCA::Initializer init;
+    ULogger::getInstance();
+    Storage::getInstance();
 
-	QFile File(":/style.qss");
-	File.open(QFile::ReadOnly);
-	QString StyleSheet = QLatin1String(File.readAll());
-	a.setStyleSheet(StyleSheet);
+    QFile File(":/style.qss");
+    File.open(QFile::ReadOnly);
+    QString StyleSheet = QLatin1String(File.readAll());
+    a.setStyleSheet(StyleSheet);
 
-	qApp->setWindowIcon(QIcon(":/icon.ico"));
+    qApp->setWindowIcon(QIcon(":/icon.ico"));
 
-	auto *wnd = WMain::getInstance();
-	wnd->show();
+    auto *wnd = WMain::getInstance();
+    wnd->show();
 
-	logD("WMain showed");
+    logD("WMain showed");
 
-	return a.exec();
+    return a.exec();
 }
 
 void operator delete(void *p, std::size_t /*unused*/) {
-	std::free(p);
+    std::free(p);
 }
 
 void operator delete[](void *p, std::size_t /*unused*/) {
-	std::free(p);
+    std::free(p);
 }

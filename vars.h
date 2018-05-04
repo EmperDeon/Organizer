@@ -63,7 +63,7 @@
 
 
 // Logs
-#define LOG_FILE (STORAGE_DIR + "log.log")
+#define LOG_FILE (STORAGE_DIR + "log-test.log")
 #define LOG_COMPRESSION 0
 
 //
@@ -71,7 +71,7 @@
 //
 
 //#define OPTION_SYNC // Enable sync (send on save, load on timer, sync menu in WMain MenuBar)
-#define DEBUG
+//#define DEBUG
 #define LOG_INCLUDE_METHOD
 
 #define GROUP_SELECTED_IF_NULL(gr) gr.first()
