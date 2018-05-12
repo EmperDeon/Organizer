@@ -4,13 +4,18 @@
 	See the provided LICENSE.TXT file for details.
 */
 
-#ifndef ORGANIZER_VARS_H
-#define ORGANIZER_VARS_H
+//#ifndef ORGANIZER_VARS_H
+//#define ORGANIZER_VARS_H
 
 #include <QtCore/QDir>
 
+#define VERSION "@ORGANIZER_VERSION_STRING@"
+//#define VERSION_MAJOR @ORGANIZER_MAJOR_VERSION@
+//#define VERSION_MINOR @ORGANIZER_MINOR_VERSION@
+//#define VERSION_PATCH @ORGANIZER_PATCH_VERSION@
+
 // Cryptography
-#define AES_IV "jFPXFv/5WGlOou7EG8nIvA=="
+#define AES_IV "jFPXFv/5WGlOou7EG8nIvA==" // TODO: Modify to include IV to AES Encrypted text
 #define AES_DEF_KEY_SIZE 32
 #define AES_MODE QCA::Cipher::CBC
 #define AES_PADDING QCA::Cipher::PKCS7
@@ -71,9 +76,7 @@
 //
 
 //#define OPTION_SYNC // Enable sync (send on save, load on timer, sync menu in WMain MenuBar)
-//#define DEBUG
+#define DEBUG
 #define LOG_INCLUDE_METHOD
 
 #define GROUP_SELECTED_IF_NULL(gr) gr.first()
-
-#endif //ORGANIZER_VARS_H

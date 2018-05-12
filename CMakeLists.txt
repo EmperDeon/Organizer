@@ -9,15 +9,19 @@ project(Organizer)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_CXX_FLAGS "-std=c++14")
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/vendor")
+set(ORGANIZER_MAJOR_VERSION "0")
+set(ORGANIZER_MINOR_VERSION "1")
+set(ORGANIZER_PATCH_VERSION "0")
+set(ORGANIZER_VERSION_STRING "${ORGANIZER_MAJOR_VERSION}.${ORGANIZER_MINOR_VERSION}.${ORGANIZER_PATCH_VERSION}")
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Widgets)
 find_package(Qt5Network)
 find_package(Qca-qt5)
 
-
-set(CMAKE_CXX_FLAGS "-std=c++14")
-
+configure_file(vars.h.in vars.h)
 
 SET(M_S
         main.cpp

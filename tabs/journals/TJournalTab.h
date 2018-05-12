@@ -27,12 +27,6 @@ class TJournalTab : public MTab {
 public:
     explicit TJournalTab(const QJsonObject &o);
 
-    QString getDesc() override;
-
-    void importFrom(QString s) override {};
-
-    QString exportTo() override { return ""; }
-
     void fromJson(QJsonValue v) override;
 
     QJsonValue toJson() override;

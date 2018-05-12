@@ -39,41 +39,6 @@ void MGroup::updateLinks() {
     updated();
 }
 
-QString MGroup::getDesc() {
-    return "Links group: " + name;
-}
-
-void MGroup::importFrom(QString s) {
-    if (links.last()->isEmpty())
-        links.last()->deleteLater(),
-                links.removeLast();
-
-    QString nm, ln;
-    int i;
-    for (QString l : s.split("\n")) { // TODO: Refactor
-        if ((i = l.indexOf(": ")) != -1) {
-            nm = QStringRef(&l, 0, i).toString();
-            ln = QStringRef(&l, i + 2, l.size() - i - 2).toString();
-
-        } else if ((i = l.indexOf(" - ")) != -1) {
-            nm = QStringRef(&l, 0, i).toString();
-            ln = QStringRef(&l, i + 3, l.size() - i - 3).toString();
-
-        } else {
-            ln = l;
-        }
-
-        QJsonObject o;
-        o["name"] = nm;
-        o["link"] = ln;
-        addLink(o);
-    }
-}
-
-QString MGroup::exportTo() { // TODO: Write export
-    return nullptr;
-}
-
 void MGroup::fromJson(QJsonValue v) {
     QJsonArray arr = v.toArray();
 

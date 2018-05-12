@@ -90,3 +90,7 @@ const QString MTab::type_name(const QJsonObject &tab) {
 
 	return QString();
 }
+
+const QString MTab::getDesc() {
+    return type_name(obj) + " " + getName();
+}

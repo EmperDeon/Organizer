@@ -74,18 +74,6 @@ MEdTab::MEdTab(const QJsonObject &o) : MTab(o, MTab::Text) {
     setLayout(l);
 }
 
-QString MEdTab::getDesc() {
-    return "Text: " + name;
-}
-
-void MEdTab::importFrom(QString s) {
-    edit->setPlainText(edit->toPlainText() + "\n" + s);
-}
-
-QString MEdTab::exportTo() {
-    return edit->toPlainText();
-}
-
 void MEdTab::fromJson(QJsonValue v) {
     edit->setPlainText(v.toString());
 }

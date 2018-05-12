@@ -86,10 +86,6 @@ TJournalTab::TJournalTab(const QJsonObject &o) : MTab(o, MTab::Journal) {
     setLayout(l);
 }
 
-QString TJournalTab::getDesc() {
-    return "Journal: " + name;
-}
-
 void TJournalTab::fromJson(QJsonValue v) {
     QString j = v.toString();
 

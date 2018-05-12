@@ -46,17 +46,12 @@ void WTabs::tabClose() {
 void WTabs::tabChange(int i) {
     if (i == (count() - 1)) {
         tabNew();
-
-    } else {
-        MTab *t = getCurrentTab();
-        if (t != nullptr)
-            setWindowTitle(t->getDesc());
     }
 
     if (newTab != nullptr && newTab != getCurrentTab()) {
         for (int j = 0; j < count(); j++) {
             auto t = getTab(j);
-            if (t && t->getDesc() == "New Tab") {
+            if (t && t->getDesc() == " ") {
                 t->deleteLater(); // TODO: Delete newTab from TabBar, not itself
                 logV("Removed MNewTab");
             }

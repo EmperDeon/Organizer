@@ -40,9 +40,6 @@ void WMain::constructMenuBar() {
     QMenuBar *menu = this->menuBar();
 
     QMenu *m_file = new QMenu("File");
-    m_file->addAction("Import", this, &WMain::importFrom);
-    m_file->addAction("Export", this, &WMain::exportTo);
-    m_file->addSeparator();
     m_file->addAction("Settings", [=]() { (new WSettings)->show(); });
     m_file->addAction("Save", [=]() { contr->save(); }, QKeySequence::Save);
     m_file->addAction("Exit", this, &WMain::close, QKeySequence(Qt::CTRL + Qt::Key_Q));
@@ -70,21 +67,6 @@ void WMain::constructMenuBar() {
     logD("Menu items created");
 }
 // Constructor
-
-
-// Menu Slots
-void WMain::importFrom() {
-    bool ok;
-    QString s = QInputDialog::getMultiLineText(this, "Enter text", "Text: ", "", &ok);
-
-    if (ok)
-        tabs->getCurrentTab()->importFrom(s);
-}
-
-void WMain::exportTo() {
-    QInputDialog::getMultiLineText(this, "Exported text", "Text: ", tabs->getCurrentTab()->exportTo());
-}
-// Menu Slots
 
 
 // Widget events

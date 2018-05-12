@@ -25,12 +25,6 @@ class MEdTab : public MTab {
 public:
     explicit MEdTab(const QJsonObject &o);
 
-    QString getDesc() override;
-
-    void importFrom(QString s) override;
-
-    QString exportTo() override;
-
     void fromJson(QJsonValue v) override;
 
     QJsonValue toJson() override;

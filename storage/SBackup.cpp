@@ -21,8 +21,7 @@ void SBackup::addDocs(QString docs) {
     };
 
     QFile f(BACKUP_FILE_WEEK);
-    if (f.exists()) {
-        f.open(QFile::ReadOnly);
+    if (f.exists() && f.open(QFile::ReadOnly)) {
         week_backup = QJsonDocument::fromJson(f.readAll()).object();
         f.close();
     }
@@ -37,8 +36,7 @@ void SBackup::addDocs(QString docs) {
 
 
     f.setFileName(BACKUP_FILE_LAST);
-    if (f.exists()) {
-        f.open(QFile::ReadOnly);
+    if (f.exists() && f.open(QFile::ReadOnly)) {
         last_backup = QJsonDocument::fromJson(f.readAll()).object();
         f.close();
     }

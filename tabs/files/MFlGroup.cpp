@@ -19,10 +19,6 @@ MFlGroup::MFlGroup(const QJsonObject &o) : MTab(o, MTab::FilesGroup) {
     load();
 }
 
-QString MFlGroup::getDesc() {
-    return "Files: " + name;
-}
-
 void MFlGroup::loadCustomParams(const QJsonObject &o) {
     files->initIfNeeded(this, o);
 

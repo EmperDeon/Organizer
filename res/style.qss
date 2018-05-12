@@ -4,11 +4,13 @@
     border: none;
     /*border: 1px solid #000;*/
     /*border: #545454;*/
+    font-family: "Roboto", serif;
+    font-size: 13px;
 }
 
 QMenu, QMenu::item, QMenuBar, QMenuBar::item {
     background-color: #3c3f41;
-    font-size: 8pt;
+    font-size: 12px;
 }
 
 QMenuBar, QMenuBar::item {
@@ -50,7 +52,7 @@ QTabBar::tab:selected {
 
 QPlainTextEdit {
     background-color: #2a2a2a;
-    font-size: 14px;
+    font-size: 13px;
     padding: 5px;
     selection-background-color: #454545;
     border: 1px solid black;
@@ -58,14 +60,14 @@ QPlainTextEdit {
 
 QLineEdit, QLineEdit:hover {
     background-color: #2a2a2a;
-    font-size: 10pt;
+    font-size: 13px;
     padding: 2px 2px 0 2px;
     selection-background-color: #454545;
     border-bottom: 1px solid #454545;
 }
 
 QLineEdit[link="true"] {
-    font-size: 8pt;
+    font-size: 13px;
     padding: 2px 2px 0 2px;
     color: #9abbff;
 }
@@ -78,7 +80,7 @@ QPushButton {
 QPushButton[newLineButton="true"] {
     margin-top: 10px;
     font-weight: bold;
-    font-size: 14pt;
+    font-size: 13px;
     padding: 10px;
 }
 
@@ -89,7 +91,7 @@ QPushButton[transparentBackground="true"] {
 QDialog QPushButton {
     background-color: #232323;
     padding: 5px 10px;
-    font-size: 12pt;
+    font-size: 12px;
     margin-top: 0;
 }
 

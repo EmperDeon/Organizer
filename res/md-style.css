@@ -31,8 +31,8 @@ body {
     -ms-text-size-adjust: 100%;
     text-size-adjust: 100%;
     color: #cccccc;
-    font-family: Helvetica, Arial, freesans, sans-serif;
-    font-size: 17px;
+    font-family: "Roboto", serif;
+    font-size: 13px;
 }
 
 @font-face {
@@ -99,10 +99,6 @@ input[type="checkbox"] {
 
 body * {
     /*box-sizing: border-box;*/
-}
-
-input {
-    font: 13px/1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 a {
@@ -198,14 +194,12 @@ dd {
 }
 
 code {
-    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
     font-size: 14px;
 }
 
 pre {
     margin-top: 0;
     margin-bottom: 0;
-    font: 14px Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 
 .octicon {

@@ -31,10 +31,6 @@ class WMain : public QMainWindow, public USingleton<WMain> {
 public:
     WTabs *tabs;
 
-    void importFrom();
-
-    void exportTo();
-
     MTabsController *contr = nullptr;
 
 protected:

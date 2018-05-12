@@ -10,6 +10,7 @@
 #include <QDebug>
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QMessageBox>
+#include <utils/logs/ULogger.h>
 
 PTabFiles::PTabFiles() {
     w_files = new WFiles(this);
@@ -17,6 +18,8 @@ PTabFiles::PTabFiles() {
 
 void PTabFiles::addFile(const QString &file) {
     QDir dir;
+
+    logI("Adding file");
 
     dir.mkpath(FILES_DIR);
     dir.cd(FILES_DIR);
@@ -32,11 +35,11 @@ void PTabFiles::addFile(const QString &file) {
         if (QMessageBox::question(w_files, QObject::tr("File adding"),
                                   QObject::tr("Are you sure you want to overwrite existing file ?")) ==
             QMessageBox::No) {
-            qDebug() << "no";
-
             return;
         }
     }
+
+    logD(QString("Copying and encrypting file %1 to %2").arg(file).arg(dir.relativeFilePath(s_file.name_enc)));
 
     PTabFiles::moveIn(file, dir.filePath(s_file.name_enc), [this](QByteArray in) {
         return this->aes->encryptAr(in);
@@ -48,27 +51,6 @@ void PTabFiles::addFile(const QString &file) {
     } else {
         files[existing_file] = s_file;
     }
-
-//    QByteArray read_data, write_data;
-//    QFile f_in(s_file.name), f_out(dir.filePath(s_file.name_enc));
-//
-//    f_in.open(QFile::ReadOnly);
-//    f_out.open(QFile::WriteOnly);
-//
-//    QDataStream s_out(&f_out);
-//    s_out.setVersion(QDataStream::Qt_5_0);
-//
-//    do {
-//        read_data = f_in.read(FILES_BUFFER_SIZE);
-//
-//        write_data = aes.encryptAr(read_data);
-//
-//        s_out << write_data.size();
-//        s_out << write_data;
-//    } while (read_data.size() != 0);
-//
-//    f_in.close();
-//    f_out.close();
 }
 
 void PTabFiles::saveFile(const QString &path, const PTabFile &file) {
@@ -78,46 +60,29 @@ void PTabFiles::saveFile(const QString &path, const PTabFile &file) {
     const QString &f_in = dir.filePath(file.name_enc);
     const QString &f_out = QDir(path).filePath(file.name);
 
+    logD(QString("Copying and decryptind file %1 to %2").arg(f_in).arg(f_out));
+
     PTabFiles::moveOut(f_in, f_out, [this](QByteArray in) {
         return this->aes->decryptAr(in);
     });
-
-//    QByteArray read_data, write_data;
-//
-//    QFile f_in(dir.filePath(f_info.fileName())), f_out(QDir(save_path).filePath(f_info.fileName()));
-//
-//    f_in.open(QFile::ReadOnly);
-//    f_out.open(QFile::WriteOnly);
-//
-//    int block_size;
-//    QDataStream s_in(&f_in);
-//    s_in.setVersion(QDataStream::Qt_5_0);
-//
-//    do {
-//        s_in >> block_size;
-//        s_in.skipRawData(4);
-//
-//        auto *block = new char[block_size];
-//        s_in.readRawData(block, block_size);
-//
-//        read_data = QByteArray::fromRawData(block, block_size);
-//
-//
-//        write_data = aes.decryptAr(read_data);
-//
-//        f_out.write(write_data);
-//    } while (read_data.size() != 0);
-//
-//    f_in.close();
-//    f_out.close();
 }
 
+// TODO: Review
 void PTabFiles::moveIn(const QString &f_in, const QString &f_out, const std::function<QByteArray(QByteArray)> &func) {
     QByteArray read_data, write_data;
     QFile in(f_in), out(f_out);
 
-    in.open(QFile::ReadOnly);
-    out.open(QFile::WriteOnly);
+    if (!in.open(QFile::ReadOnly)) {
+        logE("Could not open file for read");
+        logV(f_in);
+        return;
+    }
+
+    if (!out.open(QFile::WriteOnly)) {
+        logE("Couldn't open file for write");
+        logV(f_out);
+        return;
+    }
 
     QDataStream s_out(&out);
     s_out.setVersion(QDataStream::Qt_5_0);
@@ -140,8 +105,17 @@ void PTabFiles::moveOut(const QString &f_in, const QString &f_out, const std::fu
     QByteArray read_data, write_data;
     QFile in(f_in), out(f_out);
 
-    in.open(QFile::ReadOnly);
-    out.open(QFile::WriteOnly);
+    if (!in.open(QFile::ReadOnly)) {
+        logE("Could not open file for read");
+        logV(f_in);
+        return;
+    }
+
+    if (!out.open(QFile::WriteOnly)) {
+        logE("Couldn't open file for write");
+        logV(f_out);
+        return;
+    }
 
     QDataStream s_in(&in);
     s_in.setVersion(QDataStream::Qt_5_0);

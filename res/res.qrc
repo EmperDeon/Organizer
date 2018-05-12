@@ -5,6 +5,11 @@
         <file>md-style.css</file>
         <file>settings.json</file>
 
+        <file>fonts/PT_Sans-Web-Bold.ttf</file>
+        <file>fonts/PT_Sans-Web-BoldItalic.ttf</file>
+        <file>fonts/PT_Sans-Web-Italic.ttf</file>
+        <file>fonts/PT_Sans-Web-Regular.ttf</file>
+
         <file>icons/file-del.png</file>
         <file>icons/file-save.png</file>
         <file>icons/file-edit.png</file>

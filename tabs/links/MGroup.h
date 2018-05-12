@@ -28,15 +28,9 @@ public:
 
     void updateLinks();
 
-    QString getDesc() override;
-
     void fromJson(QJsonValue v) override;
 
     QJsonValue toJson() override;
-
-    void importFrom(QString s) override;
-
-    QString exportTo() override;
 };
 
 

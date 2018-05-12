@@ -66,11 +66,9 @@ public:
 
 	void removeGroup(const QString &group) { t_groups.removeAll(group); }
 
-	virtual QString getDesc() = 0;
+    static const QString type_name(const QJsonObject &tab);
 
-	virtual void importFrom(QString s) {};
-
-	virtual QString exportTo() { return ""; };
+    const QString getDesc();
 
 	virtual void fromJson(QJsonValue v) {};
 
@@ -79,8 +77,6 @@ public:
 	virtual void loadCustomParams(const QJsonObject &o) {}
 
 	virtual void saveCustomParams(QJsonObject &o) {}
-
-	static const QString type_name(const QJsonObject &tab);
 };
 
 

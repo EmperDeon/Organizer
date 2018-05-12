@@ -3,6 +3,7 @@
   - Add support for compiling from .pro [Added in branch `static_build`]
   - Check minimal qt version (ex. 5.5, or 5.2)
   - Add qca as vendor subproject [Added in branch `static_build`]
+    - Migrate to package managers [`conan, hunter, inqlude`]
   
 - README
   - Write requirements and build instructions
@@ -10,10 +11,10 @@
 
 
 ### Current TODO's
+- Tab Plugin for content encryption (Show dialog when tab opens)
+
 - Logging
   - Add logging to already written code for debug/bug hunting.
-
-- Tab Plugin for content encryption (Show dialog when tab opens)
 
 - Fix 2 bugs:
   - Windows blinks multiple times on start
@@ -21,14 +22,23 @@
   - Don't work correctly with dock until hidden to tray and shown back
 
 ### Low priority TODO's
+- Logging
+  - qDebug's stream syntax
+  - Load logging settings from storage with silent flag
+
 - Logs widget [WIP in branch `logs_widget`]
   - Archiving old logs (store unzipped 2-3 files, rest is in logs.zip)
   - Send logs with button (dunno, host an app for it ?)
   - Check `Q_FUNC_INFO` on other compilers/platforms
 
 - Double-Shift or some other shortcut to quickly go to any tab | switch options
+
+- Encryption of storage with local password
+  - Remember me, for time set by user
   
 - Welcome screen with quick links to groups/last edited tabs/settings
+
+- Import/Export through menu item
   
 - Write docs in code
 
@@ -37,11 +47,9 @@
 - View-only mode for LinkGroup
 
 - Add markdown syntax highlighting and toolbar
+  - Custom markdown render to QLabel, etc as module (push to GitHub as separate rep)
 
 - Themes [Light, Dark] as default, and custom (JSON)
-
-- Encryption of storage with local password
-  - Remember me, for time set by user
 
 
 #### Other 
@@ -55,3 +63,4 @@
 - Move login/register logic to SSecure
 - Sync:
   - TOTP [repo 1](https://github.com/RavuAlHemio/cpptotp), [repo 2](https://github.com/andreagrandi/QGoogleAuth)
+  - Docs sharing - (one time, continuous, two way, exchange keys with RSA)

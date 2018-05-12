@@ -17,8 +17,6 @@ class MFlGroup : public MTab {
 public:
     explicit MFlGroup(const QJsonObject &o);
 
-    QString getDesc() override;
-
     void loadCustomParams(const QJsonObject &o) override;
 
     void saveCustomParams(QJsonObject &o) override;

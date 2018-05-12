@@ -1,7 +1,5 @@
 # Organizer
 
-Using markdown code from [cpp-markdown](https://github.com/sevenjay/cpp-markdown) repo
-
 Organizer is an open source, cross-platform app for keeping documents (text notes, links and files).
 
 
@@ -162,10 +160,20 @@ Levels:
 - Debug - For developer, for debugging
 - Verbose - Hidden by default, used for dumping strings/json, or very frequent events
 
+Example - Hide sensitive data from logs (file names, JSON) :
+```
+QFile in(f_in);
+if (!in.open(QFile::ReadOnly)) {
+    logE("Could not open file for read");
+    logV(f_in);
+    return;
+}
+```
 
-## Versions
-Current version is 0.<somewhere between 10 and 40>
+## Other software licenses
 
-On 1.0 release, i will publish app to Elementary App Center
+Using markdown code from [cpp-markdown](https://github.com/sevenjay/cpp-markdown) repo. MIT License included in code
 
-After that, i start working on Sync
+Using PT Sans font from [Google fonts](https://fonts.google.com/specimen/PT+Sans). OFL License in `res/fonts/OFL`
+
+Using Cotire (compile time reducer) code from [cotire](https://github.com/sakra/cotire) repo. MIT License included in code

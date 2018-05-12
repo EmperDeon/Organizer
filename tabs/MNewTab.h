@@ -26,8 +26,6 @@ class MNewTab : public MTab {
 public:
     MNewTab(WMain *w, MTabsController *c);
 
-    QString getDesc() override { return "New Tab"; }
-
     void addClick();
 
     friend class WMain;
