@@ -46,9 +46,9 @@ void WTSorter::reload() {
 
     for (const auto &group : groups) {
         QJsonObject o_group = group.toObject();
-        MTab::TabType type = static_cast<MTab::TabType>(o_group["type"].toInt(1024));
+        MTab::TabType type = MTab::tabType(o_group);
 
-        auto *t_group = tree->addToRoot({o_group["name"].toString(), MTab::type_name(o_group)});
+        auto *t_group = tree->addToRoot({o_group["name"].toString(), MTab::tabTypeS(type)});
         t_group->setData(2, Qt::UserRole, o_group);
 
         if (type == MTab::LinksGroup) {
@@ -71,7 +71,7 @@ QJsonArray WTSorter::toDocs() {
     for (int i = 0; i < root->childCount(); i++) { // Collect groups from UTreeWidget
         auto *i_group = root->child(i);
         QJsonObject o_group = i_group->data(2, Qt::UserRole).toJsonObject();
-        MTab::TabType type = static_cast<MTab::TabType>(o_group["type"].toInt(1024));
+        MTab::TabType type = MTab::tabType(o_group);
 
         if (type == MTab::LinksGroup) {
             QJsonArray links;

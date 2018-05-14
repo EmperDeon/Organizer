@@ -7,13 +7,16 @@
 #include <QtCore/QTimer>
 #include <QtCore/QDateTime>
 #include <storage/Storage.h>
+#include <utils/logs/ULogger.h>
 #include "MTab.h"
 
 MTab::MTab(const QJsonObject &o, TabType t) {
 	obj = o;
-	name = obj["name"].toString();
+    t_name = obj["name"].toString();
 	type = t;
 	u_last = static_cast<qint64>(o["last_updated"].toDouble());
+
+    logV("Constructed MTab: " + desc());
 }
 
 void MTab::updated() {
@@ -51,11 +54,13 @@ void MTab::load(QJsonObject o) {
 //
 //	if (n_last > u_last)
 
+    logV("Loading JSON");
+
 	if (o.empty()) {
 		o = obj;
 	}
 
-	name = o["name"].toString();
+    t_name = o["name"].toString();
 	u_last = static_cast<qint64>(o["last_updated"].toDouble());
 	t_groups = CTools::arrayFromJson(o["groups"]);
 
@@ -64,6 +69,8 @@ void MTab::load(QJsonObject o) {
 }
 
 QJsonObject MTab::save() {
+    logV("Saving JSON");
+
 	obj["content"] = toJson();
 	obj["last_updated"] = u_last;
 	obj["type"] = type;
@@ -71,26 +78,41 @@ QJsonObject MTab::save() {
 
 	saveCustomParams(obj);
 
+    if (obj.contains(S_REPLACE_KEY)) {
+        obj["content"] = obj[S_REPLACE_KEY];
+        obj.remove(S_REPLACE_KEY);
+    }
+
+    if (obj.contains(S_DELETE_KEYS)) {
+        obj.remove("password");
+        obj.remove("password_hash");
+        obj.remove("remember_me");
+        obj.remove("tab_type");
+        obj.remove(S_DELETE_KEYS);
+    }
+
 	return obj;
 }
 
-const QString MTab::type_name(const QJsonObject &tab) {
-	switch (static_cast<MTab::TabType>(tab["type"].toInt(100))) {
-		case Text:
-			return QObject::tr("Text");
-		case LinksGroup:
-			return QObject::tr("Links");
-		case FilesGroup:
-			return QObject::tr("Files");
+const QString MTab::tabTypeS(MTab::TabType type) {
+    switch (type) {
+        case Text:
+            return QObject::tr("Text");
+        case LinksGroup:
+            return QObject::tr("Links");
+        case FilesGroup:
+            return QObject::tr("Files");
         case Journal:
-	        return QObject::tr("Journal");
-		default:
-			break;
-	}
+            return QObject::tr("Journal");
+        case Encrypted:
+            return QObject::tr("Encrypted");
+        default:
+            break;
+    }
 
-	return QString();
+    return QString();
 }
 
-const QString MTab::getDesc() {
-    return type_name(obj) + " " + getName();
+const QString MTab::desc() {
+    return tabTypeS(type) + " " + name();
 }

@@ -19,15 +19,8 @@ public:
         LinksGroup = 2,
         FilesGroup = 4,
         Journal = 8,
+		Encrypted = 512,
 		NewTab = 1024
-	};
-
-	enum TabGroup : int {
-        All = Text | LinksGroup | FilesGroup | Journal,
-        Editors = Text,
-		Links = LinksGroup,
-        Files = FilesGroup,
-        Journals = Journal
 	};
 
 	const QString NO_GROUP = QObject::tr("Other tabs");
@@ -40,7 +33,7 @@ private:
 	TabType type = NewTab;
 
 protected:
-	QString name;
+	QString t_name;
 	QStringList t_groups;
 
 	void saveStorage();
@@ -56,7 +49,7 @@ public:
 
 	void updated();
 
-	QString getName() { return name; }
+	QString name() { return t_name; }
 
 	bool isInGroup(const QString &gr);
 
@@ -66,9 +59,15 @@ public:
 
 	void removeGroup(const QString &group) { t_groups.removeAll(group); }
 
-    static const QString type_name(const QJsonObject &tab);
+	static const QString tabTypeS(TabType type);
 
-    const QString getDesc();
+	inline static const QString tabTypeS(const QJsonObject &tab) { return tabTypeS(tabType(tab)); }
+
+	inline static TabType tabType(const QJsonObject &tab) { return tabType(tab["type"].toInt(1024)); }
+
+	inline static TabType tabType(int t) { return static_cast<MTab::TabType>(t); }
+
+	const QString desc();
 
 	virtual void fromJson(QJsonValue v) {};
 
@@ -77,6 +76,8 @@ public:
 	virtual void loadCustomParams(const QJsonObject &o) {}
 
 	virtual void saveCustomParams(QJsonObject &o) {}
+
+	friend class TEncryptedTab;
 };
 
 

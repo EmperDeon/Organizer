@@ -33,6 +33,8 @@ SET(M_S
 
         tabs/editors/MEdTab.cpp
 
+        tabs/encrypted/TEncryptedTab.cpp
+
         tabs/journals/TJournalTab.cpp
 
         tabs/files/MFlGroup.cpp
@@ -71,6 +73,7 @@ SET(M_S
         utils/logs/ULogger.cpp
 
         utils/widgets/dates/UDateItem.cpp
+        utils/widgets/UCenteredWidget.cpp
         utils/widgets/UDateDialog.cpp
         utils/widgets/UDatesWidget.cpp
         utils/widgets/UTreeWidget.cpp
@@ -104,6 +107,8 @@ SET(M_H
         crypt/CTools.h
 
         tabs/editors/MEdTab.h
+
+        tabs/encrypted/TEncryptedTab.h
 
         tabs/files/MFlGroup.h
 
@@ -144,6 +149,7 @@ SET(M_H
         utils/logs/ULogger.h
 
         utils/widgets/dates/UDateItem.h
+        utils/widgets/UCenteredWidget.h
         utils/widgets/UDateDialog.h
         utils/widgets/UDatesWidget.h
         utils/widgets/UTreeWidget.h

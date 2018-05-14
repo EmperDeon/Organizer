@@ -51,7 +51,7 @@ void WTabs::tabChange(int i) {
     if (newTab != nullptr && newTab != getCurrentTab()) {
         for (int j = 0; j < count(); j++) {
             auto t = getTab(j);
-            if (t && t->getDesc() == " ") {
+            if (t && t->desc() == " ") {
                 t->deleteLater(); // TODO: Delete newTab from TabBar, not itself
                 logV("Removed MNewTab");
             }
@@ -70,11 +70,12 @@ void WTabs::groupBy(QString group) {
     clear(); // FIXME: Maybe causes memory leaks
 
     for (MTab *t : contr->selectByGroup(group)) {
-        addTab(t, t->getName());
+        addTab(t, t->name());
     }
 
     addTab(new QWidget, "+");
     setCurrentIndex(1);
+
     logD("Tabs regrouped");
 }
 

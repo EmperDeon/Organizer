@@ -9,6 +9,7 @@
 #include <widgets/WMain.h>
 #include <utils/logs/ULogger.h>
 #include <QtGui/QFontDatabase>
+#include <QtCore/QBuffer>
 
 void initStyles();
 

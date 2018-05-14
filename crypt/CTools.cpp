@@ -5,6 +5,8 @@
 */
 
 #include <QtCore/QJsonObject>
+#include <QtCore/QBuffer>
+#include <QtCore/QDataStream>
 #include "CTools.h"
 
 QCA::SecureArray CTools::fromBase(const QString &str) {
@@ -62,4 +64,24 @@ QStringList CTools::arrayFromJson(const QJsonValue &value) {
     QStringList r;
     for (const auto &s : value.toArray()) r << s.toString();
     return r;
+}
+
+QString CTools::serializeToString(const QJsonValue &value) {
+    QByteArray bytes;
+    QDataStream out(&bytes, QIODevice::WriteOnly);
+
+    out << value.toVariant();
+    out.device()->close();
+
+    return CTools::toBase(bytes);
+}
+
+QJsonValue CTools::serializeFromString(const QString &value) {
+    QByteArray bytes = CTools::fromBase(value).toByteArray();
+    QVariant variant;
+    QDataStream in(&bytes, QIODevice::ReadOnly);
+
+    in >> variant;
+
+    return QJsonValue::fromVariant(variant);
 }

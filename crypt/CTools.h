@@ -39,7 +39,10 @@ public:
     static QJsonArray arrayToJson(const QStringList &list);
 
     static QStringList arrayFromJson(const QJsonValue &value);
-};
 
+    static QString serializeToString(const QJsonValue &value);
+
+    static QJsonValue serializeFromString(const QString &value);
+};
 
 #endif //ORGANIZER_CTOOLS_H

@@ -11,9 +11,8 @@
 #include <widgets/sort/WTSorter.h>
 #include <widgets/settings/WSettings.h>
 #include <utils/logs/ULogger.h>
+#include <tabs/encrypted/TEncryptedTab.h>
 
-
-// Constructor
 WMain::WMain() {
     logD("Construction started");
 
@@ -47,6 +46,8 @@ void WMain::constructMenuBar() {
     QMenu *m_tabs = new QMenu("Tabs");
     m_tabs->addAction("Add new tab", tabs, &WTabs::tabNew);
     m_tabs->addAction("Delete tab", tabs, &WTabs::tabClose);
+    m_tabs->addAction("Toggle tab encryption",
+                      [this]() { TEncryptedTab::toggleEncryption(this->tabs->getCurrentTab()); });
     m_tabs->addAction("Manual sort of tabs", []() { WTSorter::sortTabs(); });
 
     QMenu *m_groups = new QMenu("Groups");
@@ -66,10 +67,7 @@ void WMain::constructMenuBar() {
 
     logD("Menu items created");
 }
-// Constructor
 
-
-// Widget events
 void WMain::closeEvent(QCloseEvent *e) {
     Q_UNUSED(e)
 
@@ -98,4 +96,6 @@ void WMain::recreateTabs() {
     contr->tabs.clear();
 
     contr->load();
+
+    tabs->groupBy();
 }

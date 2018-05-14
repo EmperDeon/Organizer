@@ -87,16 +87,7 @@ TJournalTab::TJournalTab(const QJsonObject &o) : MTab(o, MTab::Journal) {
 }
 
 void TJournalTab::fromJson(QJsonValue v) {
-    QString j = v.toString();
-
-    // Check if storage file is encrypted
-    if (!(j.isEmpty() || j.startsWith('{'))) {
-        CAes aes(JOURNAL_CIPHER, JOURNAL_KEY);
-
-        j = aes.decrypt(j);
-    }
-
-    entries = CTools::fromJson(j);
+    entries = CTools::fromJson(v.toString());
 
     if (!entries.isEmpty()) {
         QMap<QString, UDateItem *> dates_map;

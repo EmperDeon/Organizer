@@ -12,6 +12,11 @@
 
 ### Current TODO's
 - Tab Plugin for content encryption (Show dialog when tab opens)
+  - `Remember me`
+
+- Rename tab classes
+
+- Fix markdown crash on tab character
 
 - Logging
   - Add logging to already written code for debug/bug hunting.

@@ -9,15 +9,17 @@
 #include "tabs/links/MGroup.h"
 #include "tabs/MTabsController.h"
 #include <tabs/journals/TJournalTab.h>
-//#include <QDebug>
+#include <tabs/encrypted/TEncryptedTab.h>
+#include <utils/logs/ULogger.h>
 
 MTabsController::MTabsController(WMain *w) : wnd(w) {
 //    sync = new NSync(this);
 }
 
 MTab *MTabsController::find(const QString &name) {
+    // std::find_if
     for (MTab *t : tabs) {
-        if (t->getName() == name)
+        if (t->name() == name)
             return t;
     }
 
@@ -29,7 +31,11 @@ bool MTabsController::contains(const QString &name) {
 }
 
 void MTabsController::load() {
+    logV("Loading tabs");
+
     QJsonArray docs = Storage::getInstance()->getDocs();
+
+    logV("Tabs count: " + QString::number(docs.count()));
 
     for (const auto &o : docs) {
         QJsonObject ob = o.toObject();
@@ -45,36 +51,46 @@ void MTabsController::load() {
 }
 
 void MTabsController::addNewTab(const QString &name, const QJsonObject &o, int i) {
-    MTab *w;
+    auto *w = tabForType(o);
 
-    MTab::TabType type = static_cast<MTab::TabType>(o["type"].toInt(100));
+    if (w != nullptr) {
+        tabs << w;
+
+        if (i == -1) {
+            wnd->tabs->addTab(w, name);
+        } else {
+            wnd->tabs->insertTab(i, w, name);
+        }
+    }
+}
+
+MTab *MTabsController::tabForType(const QJsonObject &o, int i_type) {
+    MTab::TabType type;
+
+    if (i_type == -1) {
+        type = MTab::tabType(o);
+    } else {
+        type = MTab::tabType(i_type);
+    }
 
     switch (type) {
         case MTab::Text:
-            w = new MEdTab(o);
-            break;
+            return new MEdTab(o);
+
         case MTab::LinksGroup:
-            w = new MGroup(o);
-            break;
+            return new MGroup(o);
+
         case MTab::FilesGroup:
-            w = new MFlGroup(o);
-            break;
+            return new MFlGroup(o);
+
         case MTab::Journal:
-            w = new TJournalTab(o);
-            break;
+            return new TJournalTab(o);
+
+        case MTab::Encrypted:
+            return new TEncryptedTab(o);
 
         default:
-            w = nullptr;
-            break;
-    }
-
-    if (w != nullptr) {
-        wnd->tabs->addTab(w, name);
-        tabs << w;
-
-        if (i != -1) {
-            wnd->tabs->insertTab(i, w, name);
-        }
+            return nullptr;
     }
 }
 

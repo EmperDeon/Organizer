@@ -36,13 +36,13 @@ public:
 
 	void tabDel(QString name);
 
-	~MTabsController() override = default;
-
 	void addNewTab(const QString &name, const QJsonObject &o, int i = -1);
 
 	QList<MTab *> selectByGroup(const QString &group);
 
 	void move(int from, int to);
+
+    static MTab *tabForType(const QJsonObject &o, int i_type = -1);
 };
 
 

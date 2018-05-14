@@ -172,7 +172,7 @@ void PTabFiles::initIfNeeded(MTab *tab, const QJsonObject &o) {
     if (o["files_name"].toString().isEmpty()) {
         auto &ob = const_cast<QJsonObject &>(o);
 
-        ob["files_name"] = CTools::hash(tab->getDesc());
+        ob["files_name"] = CTools::hash(tab->desc());
         ob["file_key"] = CAes::createKey(FILES_KEY_SIZE);
         ob["files"] = QJsonArray();
     }

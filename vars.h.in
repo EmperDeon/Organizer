@@ -4,15 +4,15 @@
 	See the provided LICENSE.TXT file for details.
 */
 
-//#ifndef ORGANIZER_VARS_H
-//#define ORGANIZER_VARS_H
+#ifndef ORGANIZER_VARS_H
+#define ORGANIZER_VARS_H
 
 #include <QtCore/QDir>
 
 #define VERSION "@ORGANIZER_VERSION_STRING@"
-//#define VERSION_MAJOR @ORGANIZER_MAJOR_VERSION@
-//#define VERSION_MINOR @ORGANIZER_MINOR_VERSION@
-//#define VERSION_PATCH @ORGANIZER_PATCH_VERSION@
+#define VERSION_MAJOR @ORGANIZER_MAJOR_VERSION@
+#define VERSION_MINOR @ORGANIZER_MINOR_VERSION@
+#define VERSION_PATCH @ORGANIZER_PATCH_VERSION@
 
 // Cryptography
 #define AES_IV "jFPXFv/5WGlOou7EG8nIvA==" // TODO: Modify to include IV to AES Encrypted text
@@ -29,6 +29,8 @@
 #define S_UID_SIZE 32
 #define S_DOC_KEY_SIZE 64
 #define S_DOC_CIPHER "128"
+#define S_REPLACE_KEY "content_replacement"
+#define S_DELETE_KEYS "delete_unused_fields"
 
 // Storage
 #define STORAGE_DIR QDir::home().filePath(".organizer") + QDir::separator()
@@ -41,9 +43,8 @@
 #define BACKUP_FILE_WEEK (STORAGE_DIR + "backup_week_testing.json")
 #define BACKUP_FILE_LAST (STORAGE_DIR + "backup_last_testing.json")
 
-// Journal
-#define JOURNAL_CIPHER "128"
-#define JOURNAL_KEY ""
+// Encrypted tabs
+#define E_TAB_CIPHER "128"
 #define DATE_FORMAT "dd.MM.yyyy"
 #define TIME_FORMAT "hh:mm"
 
@@ -79,4 +80,7 @@
 #define DEBUG
 #define LOG_INCLUDE_METHOD
 
-#define GROUP_SELECTED_IF_NULL(gr) gr.first()
+#define GROUP_SELECTED_IF_NULL(gr) (gr).first()
+
+
+#endif //ORGANIZER_VARS_H

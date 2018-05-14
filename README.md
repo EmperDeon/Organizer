@@ -7,6 +7,7 @@ Organizer is an open source, cross-platform app for keeping documents (text note
 - Store text/lists
 - Store links in named groups
 - Store files in encrypted storage
+- Encrypt tabs with password
 
 #### Features:
 - Auto save information after editing
@@ -169,6 +170,12 @@ if (!in.open(QFile::ReadOnly)) {
     return;
 }
 ```
+
+
+### Encryption of tabs
+Encrypt one document with password.
+Affects only `content` field
+
 
 ## Other software licenses
 
