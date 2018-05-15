@@ -11,6 +11,7 @@
 #include <QtCore/QTimer>
 #include <QtWidgets/QApplication>
 #include <QtCore/QSaveFile>
+#include <vendor/verdigris/src/wobjectimpl.h>
 #include "ULogger.h"
 
 /*
@@ -141,3 +142,5 @@ const ULogger::Level ULogger::levelFromString(const QString &level) {
             return Info;
     }
 }
+
+W_OBJECT_IMPL(ULogger)

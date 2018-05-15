@@ -13,6 +13,7 @@
 #include <QtCore/QMutex>
 #include <QtCore/QDateTime>
 #include <QtCore/QQueue>
+#include <vendor/verdigris/src/wobjectdefs.h>
 
 #define logE(m) ULogger::log(ULogger::Error, QDateTime::currentDateTime(), Q_FUNC_INFO, m)
 #define logW(m) ULogger::log(ULogger::Warning, QDateTime::currentDateTime(), Q_FUNC_INFO, m)
@@ -24,7 +25,7 @@
 
 
 class ULogger : public QObject, public USingleton<ULogger> {
-Q_OBJECT
+    W_OBJECT(ULogger)
 
 public:
     enum Level {
@@ -41,9 +42,8 @@ protected:
 
     bool changed = false;
 
-Q_SIGNALS:
-
-    void logEntryAdded(const QString &log);
+public /* signals */:
+    void logEntryAdded(const QString &log) W_SIGNAL(logEntryAdded, log)
 
 public:
     ULogger();

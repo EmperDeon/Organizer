@@ -10,6 +10,7 @@
 #include <QtCore/QDateTime>
 #include <vars.h>
 #include <crypt/CTools.h>
+#include <vendor/verdigris/src/wobjectimpl.h>
 #include "UDateItem.h"
 
 UDateItem::UDateItem(const QString &id, const QString &nm, const QStringList &lines) : i_id(id) {
@@ -72,3 +73,5 @@ QString UDateItem::id_to_name(const QString &id, const QString &name) {
     auto date = CTools::dateFromString(id);
     return QString("%1 %2").arg(date.toString(DATE_FORMAT)).arg(name);
 }
+
+W_OBJECT_IMPL(UDateItem)

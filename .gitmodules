@@ -1,0 +1,9 @@
+[submodule "vendor/cpp-markdown"]
+	path = vendor/cpp-markdown
+	url = https://github.com/sevenjay/cpp-markdown
+[submodule "vendor/verdigris"]
+	path = vendor/verdigris
+	url = https://github.com/woboq/verdigris
+[submodule "vendor/cotire"]
+	path = vendor/cotire
+	url = https://github.com/sakra/cotire

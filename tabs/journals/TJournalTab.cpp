@@ -6,9 +6,9 @@
 
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QPushButton>
-#include <vendor/markdown/markdown.h>
 #include <crypt/CAes.h>
 #include <QDebug>
+#include <vendor/additions.h>
 #include "TJournalTab.h"
 
 TJournalTab::TJournalTab(const QJsonObject &o) : MTab(o, MTab::Journal) {
@@ -118,7 +118,7 @@ void TJournalTab::saveCustomParams(QJsonObject &o) {
 void TJournalTab::updateText() {
     std::string md = edit->toPlainText().toStdString();
 
-    md = markdown::md2html(md);
+    md = md2html(md);
     md = "<body>" + md + "</body>";
 
     view->setText(QString::fromStdString(md));

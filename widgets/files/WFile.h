@@ -10,10 +10,13 @@
 #include <plugins/tabs/PTabFile.h>
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QPushButton>
+#include <vendor/verdigris/src/wobjectdefs.h>
 
+W_REGISTER_ARGTYPE(PTabFile)
+W_REGISTER_ARGTYPE(PTabFile*)
 
 class WFile : public QWidget {
-Q_OBJECT
+    W_OBJECT(WFile);
 
     PTabFile file;
 
@@ -24,19 +27,18 @@ Q_OBJECT
 
     void int_del();
 
-signals:
+public /* signals */:
 
-    void save(const PTabFile &f);
+    void save(const PTabFile &f) W_SIGNAL(save, f)
 
-    void edit(const PTabFile &f);
+    void edit(const PTabFile &f) W_SIGNAL(edit, f)
 
-    void del(const PTabFile &f);
+    void del(const PTabFile &f) W_SIGNAL(del, f)
 
 public:
     explicit WFile(const PTabFile &f);
 
     QPushButton *createButton(const QString &icon, const QString &tooltip) const;
 };
-
 
 #endif //ORGANIZER_WFILE_H

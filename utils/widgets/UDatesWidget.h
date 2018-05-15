@@ -14,12 +14,17 @@
 #include <QtWidgets/QMenu>
 #include <functional>
 #include <utils/widgets/dates/UDateItem.h>
+#include <vendor/verdigris/src/wobjectdefs.h>
 
 
 class UDateItem;
 
+W_REGISTER_ARGTYPE(UDateItem)
+W_REGISTER_ARGTYPE(UDateItem*)
+W_REGISTER_ARGTYPE(QString)
+
 class UDatesWidget : public QWidget {
-Q_OBJECT
+    W_OBJECT(UDatesWidget)
 
     QVBoxLayout *layout;
 
@@ -51,7 +56,6 @@ public:
     void addItem(UDateItem *item);
 
 protected:
-
     // Find by name and exec function
     void findAndDo(const QString &id, const std::function<void(UDateItem *item)> &func);
 
@@ -64,16 +68,15 @@ protected:
 
     QString insertNewDate(const QDate &new_date, const QString &old_id);
 
-Q_SIGNALS:
-
-    void createdDate(UDateItem *item);
+public /* signals */:
+    void createdDate(UDateItem *item) W_SIGNAL(createdDate, item)
 
     // Called even if id isn't changed, because name could be changed
-    void changedDate(const QString &old_id, UDateItem *item);
+    void changedDate(const QString &old_id, UDateItem *item) W_SIGNAL(changedDate, old_id, item)
 
-    void removedDate(const QString &id);
+    void removedDate(const QString &id) W_SIGNAL(removedDate, id)
 
-    void selectedDate(const QString &from, const QString &to);
+    void selectedDate(const QString &from, const QString &to) W_SIGNAL(selectedDate, from, to)
 
     friend class UDateDialog;
 };

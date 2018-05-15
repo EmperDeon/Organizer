@@ -12,6 +12,7 @@
 #include "UDateDialog.h"
 #include <QDebug>
 #include <QtWidgets/QtWidgets>
+#include <vendor/verdigris/src/wobjectimpl.h>
 
 UDatesWidget::UDatesWidget() {
     auto *l = new QVBoxLayout;
@@ -155,3 +156,5 @@ QString UDatesWidget::insertNewDate(const QDate &new_date, const QString &old_id
 
     return new_id;
 }
+
+W_OBJECT_IMPL(UDatesWidget)

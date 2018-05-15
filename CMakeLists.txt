@@ -5,12 +5,14 @@
 #
 
 cmake_minimum_required(VERSION 3.0)
-project(Organizer)
+project(Organizer CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_CXX_FLAGS "-std=c++14")
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/vendor")
+
 set(ORGANIZER_MAJOR_VERSION "0")
 set(ORGANIZER_MINOR_VERSION "1")
 set(ORGANIZER_PATCH_VERSION "0")
@@ -96,6 +98,8 @@ SET(M_S
         widgets/WMain.cpp
         widgets/WSync.cpp
         widgets/WTabs.cpp
+
+        vendor/additions.cpp
         )
 
 
@@ -172,9 +176,12 @@ SET(M_H
         widgets/WMain.h
         widgets/WSync.h
         widgets/WTabs.h
+
+        vendor/additions.h
         )
 
-add_subdirectory(vendor/markdown)
+add_subdirectory(vendor)
+include(cotire/CMake/cotire)
 
 qt5_wrap_cpp(GENERATED_SOURCES ${M_H})
 qt5_add_resources(UI_RESOURCES res/res.qrc)
@@ -182,4 +189,6 @@ qt5_add_resources(UI_RESOURCES res/res.qrc)
 add_executable(Organizer ${M_S} ${M_H} ${UI_RESOURCES})
 qt5_use_modules(Organizer Core Widgets Network)
 
-target_link_libraries(Organizer ${Qt5Core_QTMAIN_LIBRARIES} qca-qt5 MarkToHtml)
+target_link_libraries(Organizer ${Qt5Core_QTMAIN_LIBRARIES} qca-qt5 cpp-markdown)
+
+cotire(Organizer)

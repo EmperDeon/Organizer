@@ -10,10 +10,11 @@
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QMenu>
+#include <vendor/verdigris/src/wobjectdefs.h>
 
 
 class UDateItem : public QFrame {
-Q_OBJECT
+    W_OBJECT(UDateItem)
 
     QVBoxLayout *layout;
     QString i_id, i_name;
@@ -42,13 +43,13 @@ protected:
 
     QString id_to_name(const QString &id, const QString &name);
 
-Q_SIGNALS:
+public /* signals */:
 
-    void select(const QString &id);
+    void select(const QString &id) W_SIGNAL(select, id)
 
-    void edit(QString id);
+    void edit(QString id) W_SIGNAL(edit, id)
 
-    void remove(const QString &id);
+    void remove(const QString &id) W_SIGNAL(remove, id)
 };
 
 

@@ -179,8 +179,12 @@ Affects only `content` field
 
 ## Other software licenses
 
-Using markdown code from [cpp-markdown](https://github.com/sevenjay/cpp-markdown) repo. MIT License included in code
+### Submodules
+Using markdown code from [cpp-markdown](https://github.com/sevenjay/cpp-markdown) repo. MIT
 
+Using Cotire (compile time reducer) code from [cotire](https://github.com/sakra/cotire) repo. MIT
+
+Using Verdigris (MOC replacement) from [verdigris](https://github.com/woboq/verdigris). LGPLv3
+
+### Other
 Using PT Sans font from [Google fonts](https://fonts.google.com/specimen/PT+Sans). OFL License in `res/fonts/OFL`
-
-Using Cotire (compile time reducer) code from [cotire](https://github.com/sakra/cotire) repo. MIT License included in code

@@ -6,6 +6,7 @@
 
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
+#include <vendor/verdigris/src/wobjectimpl.h>
 #include "WFile.h"
 #include "WFileIcon.h"
 
@@ -69,3 +70,5 @@ void WFile::int_edit() {
 void WFile::int_del() {
     emit del(file);
 }
+
+W_OBJECT_IMPL(WFile)

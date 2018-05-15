@@ -14,8 +14,6 @@
 typedef QTreeWidgetItem UTreeItem;
 
 class UTreeWidget : public QTreeWidget {
-Q_OBJECT
-
     UTreeItem *current_item = nullptr;
 
     bool is_movable = false;

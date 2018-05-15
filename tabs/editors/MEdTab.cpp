@@ -6,7 +6,7 @@
 
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QPushButton>
-#include <vendor/markdown/markdown.h>
+#include <vendor/additions.h>
 #include "MEdTab.h"
 
 MEdTab::MEdTab(const QJsonObject &o) : MTab(o, MTab::Text) {
@@ -93,7 +93,7 @@ void MEdTab::saveCustomParams(QJsonObject &o) {
 void MEdTab::updateText() {
     std::string md = edit->toPlainText().toStdString();
 
-    md = markdown::md2html(md);
+    md = md2html(md);
     md = "<body>" + md + "</body>";
 
     view->setText(QString::fromStdString(md));
