@@ -183,12 +183,14 @@ SET(M_H
 add_subdirectory(vendor)
 include(cotire/CMake/cotire)
 
+include_directories(vendor/simple_ossl/include)
+
 qt5_wrap_cpp(GENERATED_SOURCES ${M_H})
 qt5_add_resources(UI_RESOURCES res/res.qrc)
 
 add_executable(Organizer ${M_S} ${M_H} ${UI_RESOURCES})
 qt5_use_modules(Organizer Core Widgets Network)
 
-target_link_libraries(Organizer ${Qt5Core_QTMAIN_LIBRARIES} qca-qt5 cpp-markdown)
+target_link_libraries(Organizer ${Qt5Core_QTMAIN_LIBRARIES} qca-qt5 cpp-markdown simple-ossl)
 
 cotire(Organizer)

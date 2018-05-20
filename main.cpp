@@ -9,13 +9,13 @@
 #include <widgets/WMain.h>
 #include <utils/logs/ULogger.h>
 #include <QtGui/QFontDatabase>
-#include <QtCore/QBuffer>
+#include <vendor/simple_ossl/include/simple_ossl.h>
 
 void initStyles();
 
 int main(int argc, char **argv) {
     QApplication a(argc, argv);
-    QCA::Initializer init;
+    SimpleOSSL::init();
 
     logI(QString("Version ") + VERSION);
 
