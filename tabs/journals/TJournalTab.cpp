@@ -87,7 +87,7 @@ TJournalTab::TJournalTab(const QJsonObject &o) : MTab(o, MTab::Journal) {
 }
 
 void TJournalTab::fromJson(QJsonValue v) {
-    entries = CTools::fromJson(v.toString());
+    entries = Utils::fromJson(v.toString());
 
     if (!entries.isEmpty()) {
         QMap<QString, UDateItem *> dates_map;
@@ -104,7 +104,7 @@ void TJournalTab::fromJson(QJsonValue v) {
 QJsonValue TJournalTab::toJson() {
     saveDate(dates->currentDate());
 
-    return CTools::toJson(entries);
+    return Utils::toJson(entries);
 }
 
 void TJournalTab::loadCustomParams(const QJsonObject &o) {

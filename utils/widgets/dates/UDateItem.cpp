@@ -9,7 +9,7 @@
 #include <QtWidgets/QLabel>
 #include <QtCore/QDateTime>
 #include <vars.h>
-#include <crypt/CTools.h>
+#include <utils/Utils.h>
 #include <vendor/verdigris/src/wobjectimpl.h>
 #include "UDateItem.h"
 
@@ -70,7 +70,7 @@ void UDateItem::setContents(const QString &id, const QString &nm, const QStringL
 }
 
 QString UDateItem::id_to_name(const QString &id, const QString &name) {
-    auto date = CTools::dateFromString(id);
+    auto date = Utils::dateFromString(id);
     return QString("%1 %2").arg(date.toString(DATE_FORMAT)).arg(name);
 }
 

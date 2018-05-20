@@ -28,14 +28,13 @@ void SimpleOSSL::init() {
     OpenSSL_add_all_algorithms();
 }
 
-QByteArray
-SimpleOSSL::aes_encrypt(const QString &cipher, const QByteArray &key, const QByteArray &data) {
+QByteArray SimpleOSSL::aesEncrypt(const char *cipher, const QByteArray &key, const QByteArray &data) {
     Aes *aes;
     QByteArray iv = Aes::generateIV(), out, fout;
 
-    if (cipher == "128") {
+    if (strcmp(cipher, "128") == 0) {
         aes = new Aes(EVP_aes_128_cbc());
-    } else if (cipher == "256") {
+    } else if (strcmp(cipher, "256") == 0) {
         aes = new Aes(EVP_aes_256_cbc());
     } else {
         return QByteArray();
@@ -52,15 +51,15 @@ SimpleOSSL::aes_encrypt(const QString &cipher, const QByteArray &key, const QByt
         return iv + out + fout;
 }
 
-QByteArray SimpleOSSL::aes_decrypt(const QString &cipher, const QByteArray &key, QByteArray data) {
+QByteArray SimpleOSSL::aesDecrypt(const char *cipher, const QByteArray &key, QByteArray data) {
     Aes *aes;
 
     QByteArray iv = data.mid(0, SIMPLE_OSSL_IV_SIZE), out, fout;
     data.remove(0, SIMPLE_OSSL_IV_SIZE);
 
-    if (cipher == "128") {
+    if (strcmp(cipher, "128") == 0) {
         aes = new Aes(EVP_aes_128_cbc());
-    } else if (cipher == "256") {
+    } else if (strcmp(cipher, "256") == 0) {
         aes = new Aes(EVP_aes_256_cbc());
     } else {
         return QByteArray();
@@ -75,6 +74,10 @@ QByteArray SimpleOSSL::aes_decrypt(const QString &cipher, const QByteArray &key,
         return QByteArray();
     else
         return out + fout;
+}
+
+QString SimpleOSSL::generateAesKeyStr(int size) {
+    return toBase64(Aes::generateKey(size));
 }
 
 QString SimpleOSSL::publicToPEM(SimpleOSSL::RSAKey *k) {

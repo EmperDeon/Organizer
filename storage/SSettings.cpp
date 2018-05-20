@@ -49,7 +49,7 @@ QJsonArray SSettings::allSettings() {
     QFile f(":/settings.json");
     f.open(QFile::ReadOnly);
 
-    return CTools::fromJsonA(f.readAll());
+    return Utils::fromJsonA(f.readAll());
 }
 
 void SSettings::initializeDefaults() {

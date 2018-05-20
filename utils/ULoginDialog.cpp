@@ -8,6 +8,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QLabel>
 #include <QtCore/QTimer>
+#include <vendor/simple_ossl/include/simple_ossl.h>
 #include "ULoginDialog.h"
 
 ULoginDialog::ULoginDialog() {
@@ -59,7 +60,7 @@ ULoginDialog::ULoginDialog() {
 
 void ULoginDialog::tryLogin() {
     auto storage = Storage::getInstance();
-    login_hash = CTools::hash(l_log_login->text() + ":" + l_log_passw->text());
+    login_hash = Utils::hash(l_log_login->text() + ":" + l_log_passw->text());
 
     QJsonObject o = netw.request("auth/login", {
             {"login", login_hash}
@@ -84,9 +85,9 @@ void ULoginDialog::tryLogin() {
 
 void ULoginDialog::tryRegister() {
     auto storage = Storage::getInstance();
-    login_hash = CTools::hash(l_reg_login->text() + ":" + l_reg_passw->text());
+    login_hash = Utils::hash(l_reg_login->text() + ":" + l_reg_passw->text());
 
-    QString key = CAes::createKey(S_DOC_KEY_SIZE);
+    QString key = SimpleOSSL::generateAesKeyStr(S_DOC_KEY_SIZE);
 
     CAes aes("256", login_hash);
     storage->set("doc_key", aes.encrypt(key));

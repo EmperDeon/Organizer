@@ -5,7 +5,7 @@
 */
 
 #include "SMVer1.h"
-#include <crypt/CTools.h>
+#include <utils/Utils.h>
 
 QString SMVer1::getVersion() {
     return "1";
@@ -16,7 +16,7 @@ QJsonObject SMVer1::processF(QJsonObject o) {
 
     // Collect all docs to one array
     QJsonArray r;
-    QJsonObject doc, obj = CTools::fromJson(d);
+    QJsonObject doc, obj = Utils::fromJson(d);
 
     doc = obj["documents"].toObject();
     for (const QString &v : doc.keys()) {
@@ -32,7 +32,7 @@ QJsonObject SMVer1::processF(QJsonObject o) {
         r << t;
     }
 
-    o["docs"] = CTools::toJson(r);
+    o["docs"] = Utils::toJson(r);
 
     return o;
 }

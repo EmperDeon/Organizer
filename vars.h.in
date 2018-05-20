@@ -14,16 +14,8 @@
 #define VERSION_MINOR @ORGANIZER_MINOR_VERSION@
 #define VERSION_PATCH @ORGANIZER_PATCH_VERSION@
 
-// Cryptography
-#define AES_IV "jFPXFv/5WGlOou7EG8nIvA==" // TODO: Modify to include IV to AES Encrypted text
-#define AES_DEF_KEY_SIZE 32
-#define AES_MODE QCA::Cipher::CBC
-#define AES_PADDING QCA::Cipher::PKCS7
-
 // RSA
 #define RSA_DEFAULT_SIZE 1024
-#define RSA_ENC_ALG QCA::EME_PKCS1v15
-#define RSA_SIGN_ALG QCA::EMSA3_SHA256
 
 // Documents
 #define S_UID_SIZE 32
@@ -55,7 +47,6 @@
 #define FILES_CIPHER "128"
 #define FILES_KEY_SIZE 32
 
-#define FILE_HASH "sha256"
 #define FILE_KILOBYTE 1024
 #define FILE_MEGABYTE 1048576
 #define FILE_GIGABYTE 1073741824

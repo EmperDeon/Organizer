@@ -21,7 +21,6 @@ set(ORGANIZER_VERSION_STRING "${ORGANIZER_MAJOR_VERSION}.${ORGANIZER_MINOR_VERSI
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Widgets)
 find_package(Qt5Network)
-find_package(Qca-qt5)
 
 configure_file(vars.h.in vars.h)
 
@@ -31,7 +30,7 @@ SET(M_S
 
         crypt/CAes.cpp
         crypt/CRsa.cpp
-        crypt/CTools.cpp
+        utils/Utils.cpp
 
         tabs/editors/MEdTab.cpp
 
@@ -108,7 +107,7 @@ SET(M_H
 
         crypt/CAes.h
         crypt/CRsa.h
-        crypt/CTools.h
+        utils/Utils.h
 
         tabs/editors/MEdTab.h
 
@@ -191,6 +190,6 @@ qt5_add_resources(UI_RESOURCES res/res.qrc)
 add_executable(Organizer ${M_S} ${M_H} ${UI_RESOURCES})
 qt5_use_modules(Organizer Core Widgets Network)
 
-target_link_libraries(Organizer ${Qt5Core_QTMAIN_LIBRARIES} qca-qt5 cpp-markdown simple-ossl)
+target_link_libraries(Organizer ${Qt5Core_QTMAIN_LIBRARIES} cpp-markdown simple-ossl)
 
 cotire(Organizer)

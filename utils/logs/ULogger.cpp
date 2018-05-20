@@ -7,7 +7,7 @@
 #include <QtCore/QFile>
 #include <vars.h>
 #include <QtCore/QDebug>
-#include <crypt/CTools.h>
+#include <utils/Utils.h>
 #include <QtCore/QTimer>
 #include <QtWidgets/QApplication>
 #include <QtCore/QSaveFile>

@@ -8,7 +8,7 @@
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
-#include <crypt/CTools.h>
+#include <utils/Utils.h>
 #include <storage/Storage.h>
 #include <QtCore/QTimer>
 #include "UPassDialog.h"
@@ -49,7 +49,7 @@ QString UPassDialog::getLoginHash(QString login) {
 
         });
 
-        return CTools::hash(str);
+        return Utils::hash(str);
 
     }
 

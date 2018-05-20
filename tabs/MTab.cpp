@@ -62,7 +62,7 @@ void MTab::load(QJsonObject o) {
 
     t_name = o["name"].toString();
 	u_last = static_cast<qint64>(o["last_updated"].toDouble());
-	t_groups = CTools::arrayFromJson(o["groups"]);
+	t_groups = Utils::arrayFromJson(o["groups"]);
 
 	fromJson(o["content"]);
 	loadCustomParams(o);
@@ -74,7 +74,7 @@ QJsonObject MTab::save() {
 	obj["content"] = toJson();
 	obj["last_updated"] = u_last;
 	obj["type"] = type;
-	obj["groups"] = CTools::arrayToJson(t_groups);
+	obj["groups"] = Utils::arrayToJson(t_groups);
 
 	saveCustomParams(obj);
 

@@ -7,7 +7,6 @@
 #ifndef ORGANIZER_CTOOLS_H
 #define ORGANIZER_CTOOLS_H
 
-#include <Qca-qt5/QtCrypto/QtCrypto>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonArray>
 
@@ -16,11 +15,11 @@
 #define collect(from, to, lambda) std::transform((from).begin(), (from).end(), std::back_inserter(to), lambda)
 
 
-class CTools {
+class Utils {
 public:
-    static QCA::SecureArray fromBase(const QString &str);
+    static QByteArray fromBase(const QString &str);
 
-    static QString toBase(const QCA::SecureArray &mem);
+    static QString toBase(const QByteArray &arr);
 
     static QString hash(const QString &str);
 

@@ -24,6 +24,7 @@
 
 #include <QtCore/QByteArray>
 #include <openssl/bio.h>
+#include <QtCore/QString>
 
 
 namespace SimpleOSSL {
@@ -32,6 +33,10 @@ namespace SimpleOSSL {
     QByteArray toHex(QByteArray a);
 
     QByteArray fromHex(QByteArray a);
+
+    QString toBase64(const QByteArray &a);
+
+    QByteArray fromBase64(const QString &s);
 
     QByteArray randomBytes(int size);
 };

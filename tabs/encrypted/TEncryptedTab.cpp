@@ -64,6 +64,8 @@ void TEncryptedTab::lock() {
 }
 
 void TEncryptedTab::unlock() {
+    locked = false;
+
     layout->itemAt(0)->widget()->setVisible(false);
 
     if (layout->count() == 1) {
@@ -75,11 +77,10 @@ void TEncryptedTab::unlock() {
     }
 
     logD("Unlocked successfully");
-    locked = false;
 }
 
 void TEncryptedTab::tryUnlock() {
-    if (password_hash == CTools::hash(w_password->text())) {
+    if (password_hash == Utils::hash(w_password->text())) {
         password = w_password->text();
         unlock();
 
@@ -91,10 +92,10 @@ void TEncryptedTab::tryUnlock() {
 
 MTab *TEncryptedTab::createTab() {
     QJsonObject t_obj = obj;
-    CAes aes(E_TAB_CIPHER, CTools::toBase(password.toUtf8()));
+    CAes aes(E_TAB_CIPHER, Utils::toBase(password.toLatin1()));
     QString decrypted_content = aes.decrypt(content);
 
-    t_obj["content"] = CTools::serializeFromString(decrypted_content);
+    t_obj["content"] = Utils::serializeFromString(decrypted_content);
 
     tab = MTabsController::tabForType(t_obj, tab_type);
     return tab;
@@ -104,17 +105,17 @@ void TEncryptedTab::fromJson(QJsonValue v) {
     content = v.toString();
 
     if (!locked && tab != nullptr) {
-        CAes aes(E_TAB_CIPHER, CTools::toBase(password.toUtf8()));
+        CAes aes(E_TAB_CIPHER, Utils::toBase(password.toLatin1()));
         QString decrypted_content = aes.decrypt(content);
 
-        tab->fromJson(CTools::serializeFromString(decrypted_content));
+        tab->fromJson(Utils::serializeFromString(decrypted_content));
     }
 }
 
 QJsonValue TEncryptedTab::toJson() {
     if (!locked && tab != nullptr) {
-        CAes aes(E_TAB_CIPHER, CTools::toBase(password.toUtf8()));
-        QString decrypted_content = CTools::serializeToString(tab->toJson());
+        CAes aes(E_TAB_CIPHER, Utils::toBase(password.toLatin1()));
+        QString decrypted_content = Utils::serializeToString(tab->toJson());
 
         content = aes.encrypt(decrypted_content);
     }
@@ -160,10 +161,10 @@ void TEncryptedTab::toggleEncryption(MTab *tab) {
         if (password.isEmpty())
             return;
 
-        CAes aes(E_TAB_CIPHER, CTools::toBase(password.toUtf8()));
-        tab->obj[S_REPLACE_KEY] = aes.encrypt(CTools::serializeToString(tab->toJson()));
+        CAes aes(E_TAB_CIPHER, Utils::toBase(password.toLatin1()));
+        tab->obj[S_REPLACE_KEY] = aes.encrypt(Utils::serializeToString(tab->toJson()));
         tab->obj["tab_type"] = tab->type;
-        tab->obj["password_hash"] = CTools::hash(password);
+        tab->obj["password_hash"] = Utils::hash(password);
         tab->type = Encrypted;
 
         auto *main = WMain::getInstance();
@@ -178,8 +179,8 @@ void TEncryptedTab::toggleEncryption(MTab *tab) {
                                                     QLineEdit::Password);
         }
 
-        CAes aes(E_TAB_CIPHER, CTools::toBase(e_tab->password.toUtf8()));
-        e_tab->obj[S_REPLACE_KEY] = CTools::serializeFromString(aes.decrypt(e_tab->toJson().toString()));
+        CAes aes(E_TAB_CIPHER, Utils::toBase(e_tab->password.toLatin1()));
+        e_tab->obj[S_REPLACE_KEY] = Utils::serializeFromString(aes.decrypt(e_tab->toJson().toString()));
         e_tab->obj[S_DELETE_KEYS] = true;
         e_tab->type = MTab::tabType(e_tab->tab_type);
 

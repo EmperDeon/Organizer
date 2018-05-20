@@ -127,3 +127,11 @@ QByteArray SimpleOSSL::randomBytes(int size) {
     }
     return buf;
 }
+
+QString SimpleOSSL::toBase64(const QByteArray &a) {
+    return QString::fromLatin1(a.toBase64());
+}
+
+QByteArray SimpleOSSL::fromBase64(const QString &s) {
+    return QByteArray::fromBase64(s.toLatin1());
+}

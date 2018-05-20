@@ -100,7 +100,7 @@ QJsonValue Network::req_POST(QString path, QMap<QString, QString> params) {
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     // Get and encrypt data
-    QByteArray data = CTools::toJson(obj).toUtf8();
+    QByteArray data = Utils::toJson(obj).toUtf8();
     data = crypt->encrypt(data, path);
 
     // Send request

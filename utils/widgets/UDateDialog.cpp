@@ -6,7 +6,7 @@
 
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QPushButton>
-#include <crypt/CTools.h>
+#include <utils/Utils.h>
 #include "UDateDialog.h"
 
 UDateDialog::UDateDialog(bool with_name, UDateItem *item) : is_with_name(with_name) {
@@ -31,7 +31,7 @@ UDateDialog::UDateDialog(bool with_name, UDateItem *item) : is_with_name(with_na
     l->addLayout(h_l);
 
     if (item != nullptr && !item->id().isEmpty()) {
-        date->setSelectedDate(CTools::dateFromString(item->id()));
+        date->setSelectedDate(Utils::dateFromString(item->id()));
         l_name->setText(item->name());
     }
 

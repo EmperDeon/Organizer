@@ -21,19 +21,18 @@ QString SSecure::password() {
 
     QString key;
     key = aes.decrypt(obj->value("doc_key").toString());
-    key = CAes::createKey(key);
+    key = Utils::toBase(key.toLatin1());
 
     return key;
 }
 
 void SSecure::initNetworkInfo() {
-    QString rsa_pr;
 
-    obj->insert("uid", CTools::hash(CTools::randomStr(S_UID_SIZE)));
-    obj->insert("net_key", CAes::createKey(NETWORK_AES_KEY_SIZE));
+    obj->insert("uid", Utils::hash(Utils::randomStr(S_UID_SIZE)));
+    obj->insert("net_key", SimpleOSSL::generateAesKeyStr(NETWORK_AES_KEY_SIZE));
 
-    rsa_pr = CRsa::createPrivateKey(NETWORK_RSA_KEY_SIZE);
-    obj->insert("rsa_pr", rsa_pr);
-    obj->insert("rsa_pu", CRsa::createPublicKey(rsa_pr));
+    CRsa rsa = CRsa::createNew(NETWORK_RSA_KEY_SIZE);
+    obj->insert("rsa_pr", rsa.getPrivateKey());
+    obj->insert("rsa_pu", rsa.getPublicKey());
 }
 

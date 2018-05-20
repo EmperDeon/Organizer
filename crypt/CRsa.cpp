@@ -5,57 +5,60 @@
 */
 
 #include "CRsa.h"
-#include "CTools.h"
+#include "utils/Utils.h"
+
+// TODO: Add key checks to encode, ..., verify
+
+CRsa::CRsa(RSAKey *priv_key) : private_key(priv_key) {}
 
 CRsa::CRsa(QString pub, QString prv, QString passphrase) {
-    publicKey = QCA::PublicKey::fromPEM(pub);
+    if (!pub.isEmpty())
+        public_key = publicFromPEM(pub);
 
-    if (prv != "")
-        privateKey = QCA::PrivateKey::fromPEM(prv, passphrase.toStdString().c_str());
-
-}
-
-QString CRsa::createPrivateKey(int size) {
-    QCA::PrivateKey privateKey = QCA::KeyGenerator().createRSA(size);
-
-    return privateKey.toPEM();
-}
-
-QString CRsa::createPublicKey(QString private_key) {
-    QCA::PrivateKey privateKey = QCA::PrivateKey::fromPEM(private_key);
-
-    return privateKey.toPublicKey().toPEM();
+    if (!prv.isEmpty())
+        private_key = privateFromPEM(prv, passphrase.toLatin1());
 }
 
 QString CRsa::encode(QString str) {
-    QCA::SecureArray mem = publicKey.encrypt(str.toStdString().c_str(), RSA_ENC_ALG);
-    return CTools::toBase(mem);
+    return Utils::toBase(public_key->encrypt(str.toLatin1()));
 }
 
 QString CRsa::decode(QString str) {
-    QCA::SecureArray mem;
-    privateKey.decrypt(CTools::fromBase(str), &mem, RSA_ENC_ALG);
-
-    return QByteArray(mem.constData());
+    return QString::fromLatin1(private_key->decrypt(Utils::fromBase(str)));
 }
 
-
 QString CRsa::sign(QString str) {
-    QByteArray mem = privateKey.signMessage(str.toStdString().c_str(), RSA_SIGN_ALG);
-
-    return CTools::toBase(mem);
+    return Utils::toBase(private_key->signMessage(str.toLatin1()));
 }
 
 bool CRsa::verify(QString str, QString sig) {
-    return publicKey.canVerify() &&
-            publicKey.verifyMessage(str.toStdString().c_str(), CTools::fromBase(sig).toByteArray(), RSA_SIGN_ALG);
+    return public_key->verifyMessage(str.toLatin1(), Utils::fromBase(sig));
 }
 
-
 QString CRsa::getPrivateKey() {
-    return privateKey.toPEM();
+    if (private_key != nullptr) {
+        return private_key->toPEM();
+    } else
+        return "";
 }
 
 QString CRsa::getPublicKey() {
-    return publicKey.toPEM();
+    if (public_key != nullptr) {
+        return public_key->toPEM(true);
+    } else if (private_key != nullptr) {
+        return private_key->toPEM();
+    } else
+        return "";
+}
+
+CRsa::~CRsa() {
+    if (public_key != nullptr)
+        delete public_key;
+
+    if (private_key != nullptr)
+        delete private_key;
+}
+
+CRsa CRsa::createNew(int size) {
+    return CRsa(RSAKey::generate(size));
 }

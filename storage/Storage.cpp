@@ -37,7 +37,7 @@ void Storage::loadJson() {
         logD("Decrypted successfully");
     }
 
-    original = CTools::fromJson(json);
+    original = Utils::fromJson(json);
     original = migrations->processFull(original);
 
     if (SSettings(this).getB("storage_backup"))
@@ -70,7 +70,7 @@ void Storage::saveJson() {
     if (!getB("remember"))
         remove("login_hash");
 
-    QString json = CTools::toJson(original, QJsonDocument::Indented);
+    QString json = Utils::toJson(original, QJsonDocument::Indented);
 
     // Encrypt output ?
     if (SSettings(this).getB("storage_encrypt")) {
@@ -107,15 +107,15 @@ void Storage::loadDocs(QString d) {
     }
 
     if (SSettings(this).getB("storage_compress")) {
-        d = QString::fromUtf8(qUncompress(CTools::fromBase(d).toByteArray()));
+        d = QString::fromUtf8(qUncompress(Utils::fromBase(d)));
     }
 
-    docs = CTools::fromJsonA(d);
+    docs = Utils::fromJsonA(d);
     docs = migrations->processDocs(docs);
 }
 
 QString Storage::saveDocs() {
-    QString out = CTools::toJson(docs);
+    QString out = Utils::toJson(docs);
 
     if (getB("sync")) {
         CAes aes(S_DOC_CIPHER, secure->password());
@@ -124,7 +124,7 @@ QString Storage::saveDocs() {
     }
 
     if (SSettings(this).getB("storage_compress")) {
-        out = CTools::toBase(qCompress(out.toUtf8()));
+        out = Utils::toBase(qCompress(out.toUtf8()));
     }
 
     return out;

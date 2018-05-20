@@ -23,7 +23,9 @@
 #define SIMPLE_OSSL_H
 
 #include <QtCore/QByteArray>
+#include "Aes.h"
 #include "Rsa.h"
+#include "Utils.h"
 
 
 namespace SimpleOSSL {
@@ -37,7 +39,7 @@ namespace SimpleOSSL {
      *
      * IV is generated and embedded as first 16 bytes
      * */
-    QByteArray aes_encrypt(const QString &cipher, const QByteArray &key, const QByteArray &data);
+    QByteArray aesEncrypt(const char *cipher, const QByteArray &key, const QByteArray &data);
 
 
     /*
@@ -45,7 +47,12 @@ namespace SimpleOSSL {
      *
      * IV is first 16 bytes of ByteArray
      * */
-    QByteArray aes_decrypt(const QString &cipher, const QByteArray &key, QByteArray data);
+    QByteArray aesDecrypt(const char *cipher, const QByteArray &key, QByteArray data);
+
+    /*
+     * Generate new AES key and convert it to Base64
+     * */
+    QString generateAesKeyStr(int size = 32);
 
 
     /*
@@ -74,7 +81,5 @@ namespace SimpleOSSL {
      * */
     QString sha256(const QByteArray &a);
 };
-
-// EVP_sha256();
 
 #endif // SIMPLE_OSSL_H

@@ -4,22 +4,22 @@
 	See the provided LICENSE.TXT file for details.
 */
 
-#ifndef ORGANIZER_RSA_H
-#define ORGANIZER_RSA_H
+#ifndef ORGANIZER_CRSA_H
+#define ORGANIZER_CRSA_H
 
-#include <Qca-qt5/QtCrypto/QtCrypto>
 #include <vars.h>
+#include <vendor/simple_ossl/include/simple_ossl.h>
+
+using namespace SimpleOSSL;
+
 
 class CRsa {
-    QCA::PrivateKey privateKey;
-    QCA::PublicKey publicKey;
+    RSAKey *private_key = nullptr, *public_key = nullptr;
 
 public:
+    explicit CRsa(RSAKey *priv_key);
+
     explicit CRsa(QString pub, QString prv = "", QString passphrase = "");
-
-    static QString createPrivateKey(int size = RSA_DEFAULT_SIZE);
-
-    static QString createPublicKey(QString private_key);
 
     QString encode(QString str);
 
@@ -32,7 +32,11 @@ public:
     QString getPrivateKey();
 
     QString getPublicKey();
+
+    ~CRsa();
+
+    static CRsa createNew(int size = RSA_DEFAULT_SIZE);
 };
 
 
-#endif //ORGANIZER_RSA_H
+#endif //ORGANIZER_CRSA_H

@@ -8,7 +8,7 @@
 #include <QtCore/QJsonObject>
 #include <vars.h>
 #include <QtCore/QJsonDocument>
-#include <crypt/CTools.h>
+#include <utils/Utils.h>
 #include "SBackup.h"
 
 void SBackup::addDocs(QString docs) {
@@ -16,7 +16,7 @@ void SBackup::addDocs(QString docs) {
 
     QJsonObject week_backup, last_backup;
     QJsonObject backup = {
-            {"docs", CTools::toBase(qCompress(docs.toUtf8(), 4))},
+            {"docs", Utils::toBase(qCompress(docs.toUtf8(), 4))},
             {"date", QDate::currentDate().toString(Qt::ISODate)}
     };
 
