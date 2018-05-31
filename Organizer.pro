@@ -1,34 +1,179 @@
 TEMPLATE = app
 TARGET   = Organizer
 
-QT += core
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT += core network widgets
 
 CONFIG += c++14
+QMAKE_CXXFLAGS += -std=c++14
+
+
+ORGANIZER_MAJOR_VERSION = 0
+ORGANIZER_MINOR_VERSION = 1
+ORGANIZER_PATCH_VERSION = 0
+ORGANIZER_VERSION_STRING = "$${ORGANIZER_MAJOR_VERSION}.$${ORGANIZER_MINOR_VERSION}.$${ORGANIZER_PATCH_VERSION}"
+
+DEFINES += "VERSION_MAJOR=$$ORGANIZER_MAJOR_VERSION"\
+	   "VERSION_MINOR=$$ORGANIZER_MINOR_VERSION"\
+	   "VERSION_BUILD=$$ORGANIZER_PATCH_VERSION"\
+	   "VERSION=\\\"$$ORGANIZER_VERSION_STRING\\\""
+
 
 SOURCES += main.cpp \
-mio.cpp \
-mwgt.cpp \
-editors/MTabsController.cpp \
-editors/MNewTab.cpp \
-editors/MEdTab.cpp \
-editors/MLsTab.cpp \
-links/MLinksController.cpp \
-links/MLink.cpp \
-links/MGroup.cpp \
-links/MNewGr.cpp
+crypt/CAes.cpp \
+crypt/CRsa.cpp \
+utils/Utils.cpp \
+ \
+tabs/editors/MEdTab.cpp \
+ \
+tabs/encrypted/TEncryptedTab.cpp \
+ \
+tabs/journals/TJournalTab.cpp \
+ \
+tabs/files/MFlGroup.cpp \
+ \
+tabs/links/MLink.cpp \
+tabs/links/MGroup.cpp \
+ \
+tabs/MNewTab.cpp \
+tabs/MTab.cpp \
+tabs/MTabsController.cpp \
+ \
+network/NCrypt.cpp \
+network/Network.cpp \
+network/NSync.cpp \
+ \
+plugins/Plugin.cpp \
+plugins/tabs/PTabPlugin.cpp \
+plugins/tabs/PTabFile.cpp \
+plugins/tabs/PTabFiles.cpp \
+ \
+storage/SBackup.cpp \
+storage/SMigrations.cpp \
+storage/Storage.cpp \
+storage/SSecure.cpp \
+storage/SSettings.cpp \
+ \
+storage/migrations/SMVer1.cpp \
+storage/migrations/SMVer11.cpp \
+ \
+utils/ULoginDialog.cpp \
+utils/UPassDialog.cpp \
+utils/UScrollArea.cpp \
+utils/USingleton.cpp \
+utils/UTray.cpp \
+ \
+utils/logs/ULogger.cpp \
+ \
+utils/widgets/dates/UDateItem.cpp \
+utils/widgets/UCenteredWidget.cpp \
+utils/widgets/UDateDialog.cpp \
+utils/widgets/UDatesWidget.cpp \
+utils/widgets/UTreeWidget.cpp \
+ \
+widgets/files/WFile.cpp \
+widgets/files/WFileIcon.cpp \
+widgets/files/WFiles.cpp \
+ \
+widgets/groups/WTGroupLabel.cpp \
+widgets/groups/WTGroups.cpp \
+ \
+widgets/settings/WSCheckBox.cpp \
+widgets/settings/WSComboBox.cpp \
+widgets/settings/WSettings.cpp \
+widgets/settings/WSetting.cpp \
+widgets/settings/WSLineEdit.cpp \
+ \
+widgets/sort/WTSorter.cpp \
+ \
+widgets/WMain.cpp \
+widgets/WSync.cpp \
+widgets/WTabs.cpp \
+ \
+vendor/additions.cpp
 
-HEADERS += mio.h \
-mwgt.h \
-editors/MTabsController.h \
-editors/MNewTab.h \
-editors/MEdTab.h \
-editors/MLsTab.h \
-links/MLinksController.h \
-links/MLink.h \
-links/MGroup.h \
-links/MNewGr.h
+HEADERS += vars.h \
+ \
+crypt/CAes.h \
+crypt/CRsa.h \
+utils/Utils.h \
+ \
+tabs/editors/MEdTab.h \
+ \
+tabs/encrypted/TEncryptedTab.h \
+ \
+tabs/files/MFlGroup.h \
+ \
+tabs/journals/TJournalTab.h \
+ \
+tabs/links/MLink.h \
+tabs/links/MGroup.h \
+ \
+tabs/MNewTab.h \
+tabs/MTab.h \
+tabs/MTabsController.h \
+ \
+network/NCrypt.h \
+network/Network.h \
+network/NSync.h \
+ \
+plugins/Plugin.h \
+plugins/tabs/PTabPlugin.h \
+plugins/tabs/PTabFile.h \
+plugins/tabs/PTabFiles.h \
+ \
+storage/SBackup.h \
+storage/SMigrations.h \
+storage/Storage.h \
+storage/SSecure.h \
+storage/SSettings.h \
+ \
+storage/migrations/SMigration.h \
+storage/migrations/SMVer1.h \
+storage/migrations/SMVer11.h \
+ \
+utils/ULoginDialog.h \
+utils/UPassDialog.h \
+utils/UScrollArea.h \
+utils/USingleton.h \
+utils/UTray.h \
+ \
+utils/logs/ULogger.h \
+ \
+utils/widgets/dates/UDateItem.h \
+utils/widgets/UCenteredWidget.h \
+utils/widgets/UDateDialog.h \
+utils/widgets/UDatesWidget.h \
+utils/widgets/UTreeWidget.h \
+ \
+widgets/files/WFile.h \
+widgets/files/WFileIcon.h \
+widgets/files/WFiles.h \
+ \
+widgets/groups/WTGroupLabel.h \
+widgets/groups/WTGroups.h \
+ \
+widgets/settings/WSCheckBox.h \
+widgets/settings/WSComboBox.h \
+widgets/settings/WSettings.h \
+widgets/settings/WSetting.h \
+widgets/settings/WSLineEdit.h \
+ \
+widgets/sort/WTSorter.h \
+ \
+widgets/WMain.h \
+widgets/WSync.h \
+widgets/WTabs.h \
+ \
+vendor/additions.h
+
 
 RC_FILE = res.rc
-RESOURCES += res.qrc
+RESOURCES += res/res.qrc
+
+win32: LIBS += -L$$PWD/vendor/win_libs32/
+else:unix: LIBS += -L$$PWD/vendor/libs/
+
+LIBS += -lmarkdown -lsimple_ossl -lboost_regex -lcrypto -lssl
+
+INCLUDEPATH += $$PWD/vendor/
+DEPENDPATH += $$PWD/vendor/win_libs32/

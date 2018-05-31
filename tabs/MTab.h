@@ -69,13 +69,13 @@ public:
 
 	const QString desc();
 
-	virtual void fromJson(QJsonValue v) {};
+	virtual void fromJson(QJsonValue v) { Q_UNUSED(v); };
 
 	virtual QJsonValue toJson() { return QJsonObject(); };
 
-	virtual void loadCustomParams(const QJsonObject &o) {}
+	virtual void loadCustomParams(const QJsonObject &o) { Q_UNUSED(o); }
 
-	virtual void saveCustomParams(QJsonObject &o) {}
+	virtual void saveCustomParams(QJsonObject &o) { Q_UNUSED(o); }
 
 	friend class TEncryptedTab;
 };

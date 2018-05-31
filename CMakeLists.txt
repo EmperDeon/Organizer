@@ -22,7 +22,10 @@ find_package(Qt5Core REQUIRED)
 find_package(Qt5Widgets)
 find_package(Qt5Network)
 
-configure_file(vars.h.in vars.h)
+add_definitions(-DVERSION="${ORGANIZER_VERSION_STRING}")
+add_definitions(-DVERSION_MAJOR=${ORGANIZER_MAJOR_VERSION})
+add_definitions(-DVERSION_MINOR=${ORGANIZER_MINOR_VERSION})
+add_definitions(-DVERSION_PATCH=${ORGANIZER_PATCH_VERSION})
 
 SET(M_S
         main.cpp
@@ -100,7 +103,6 @@ SET(M_S
 
         vendor/additions.cpp
         )
-
 
 SET(M_H
         vars.h

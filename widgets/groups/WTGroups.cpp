@@ -67,13 +67,20 @@ void WTGroups::setGroupsMenu(QMenu *m) {
     m_groups = m;
 
     m_add = m_groups->addMenu(tr("Add current tab to: "));
-    m_groups->addAction("Remove from current group", [this]() { this->removeCurrentFromGroup(); });
+    auto *a_remove = new QAction("Remove from current group", m_groups);
+    QObject::connect(a_remove, &QAction::triggered, [this]() { this->removeCurrentFromGroup(); });
+    m_groups->addAction(a_remove);
 
     m_groups->addSeparator();
 
     m_goto = m_groups->addMenu(tr("Go to:"));
-    m_groups->addAction(QObject::tr("Create new group"), this, &WTGroups::createGroup);
-    a_del_group = m_groups->addAction("Delete current group", [this]() { this->deleteGroup(); });
+    auto *a_goto = new QAction(QObject::tr("Create new group"), m_groups);
+    QObject::connect(a_goto, &QAction::triggered, this, &WTGroups::createGroup);
+    m_groups->addAction(a_goto);
+
+    a_del_group = new QAction("Delete current group", m_groups);
+    QObject::connect(a_del_group, &QAction::triggered, [this]() { this->deleteGroup(); });
+    m_groups->addAction(a_del_group);
 
     updateGroupsMenu();
 }
@@ -86,19 +93,25 @@ void WTGroups::updateGroupsMenu() {
 
     m_add->clear();
 
-    m_add->addAction(QObject::tr("Add to new group"), [this]() { this->createGroup(true); });
+    auto *a_add = new QAction(QObject::tr("Add to new group"), m_add);
+    QObject::connect(a_add, &QAction::triggered, [this]() { this->createGroup(true); });
+    m_add->addAction(a_add);
     m_add->addSeparator();
 
     for (const QString &group : l_groups) {
         if (group == NO_GROUP)
             continue;
 
-        m_add->addAction(group, [this, group]() { this->addCurrentToGroup(group); });
+        auto *t_action = new QAction(group, m_add);
+        QObject::connect(t_action, &QAction::triggered, [this, group]() { this->addCurrentToGroup(group); });
+        m_add->addAction(t_action);
     }
 
     m_goto->clear();
     for (const QString &group : l_groups) {
-        auto *a = m_goto->addAction(group, [this, group]() { this->tabs->groupBy(group); });
+        auto *a = new QAction(group, m_goto);
+        QObject::connect(a, &QAction::triggered, [this, group]() { this->tabs->groupBy(group); });
+        m_goto->addAction(a);
         a->setDisabled(group == current_group);
     }
 }

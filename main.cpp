@@ -51,6 +51,14 @@ void operator delete(void *p, std::size_t /*unused*/) {
     std::free(p);
 }
 
+void operator delete(void *p) {
+    std::free(p);
+}
+
 void operator delete[](void *p, std::size_t /*unused*/) {
+    std::free(p);
+}
+
+void operator delete[](void *p) {
     std::free(p);
 }

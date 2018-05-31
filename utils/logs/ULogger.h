@@ -52,11 +52,11 @@ public:
 
     static QString toLogEntry(ULogger::Level level, const QDateTime &time, const QString &func, const QString &mess);
 
-    static const QString levelToString(ULogger::Level level);
+    static QString levelToString(ULogger::Level level);
 
-    static const Level levelFromString(const QString &level);
+    static Level levelFromString(const QString &level);
 
-    static const QString logs();
+    static QString logs();
 
     void save();
 

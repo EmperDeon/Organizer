@@ -94,7 +94,7 @@ QString ULogger::toLogEntry(ULogger::Level level, const QDateTime &time, const Q
     return formatted.arg(mess);
 }
 
-const QString ULogger::levelToString(ULogger::Level level) {
+QString ULogger::levelToString(ULogger::Level level) {
     switch (level) {
         case Error:
             return "E";
@@ -106,6 +106,8 @@ const QString ULogger::levelToString(ULogger::Level level) {
             return "D";
         case Verbose:
             return "V";
+        default:
+            return "I";
     }
 }
 
@@ -113,7 +115,7 @@ void ULogger::moveOldLogs() {
     // TODO: Rename files, and zip excess
 }
 
-const QString ULogger::logs() {
+QString ULogger::logs() {
     auto *inst = getInstance();
     QMutexLocker l(inst->mutex);
 
@@ -126,7 +128,7 @@ const QString ULogger::logs() {
     return inst->output;
 }
 
-const ULogger::Level ULogger::levelFromString(const QString &level) {
+ULogger::Level ULogger::levelFromString(const QString &level) {
     switch (level.at(0).toLatin1()) {
         case 'E':
             return Error;

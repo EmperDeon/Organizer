@@ -45,7 +45,7 @@ QString Utils::randomStr(int size) {
 }
 
 QDate Utils::dateFromString(const QString &date) {
-    return QDateTime::fromSecsSinceEpoch(date.toULongLong()).date();
+    return QDateTime::fromMSecsSinceEpoch(date.toULongLong() * 1000).date();
 }
 
 QJsonArray Utils::arrayToJson(const QStringList &list) {

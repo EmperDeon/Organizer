@@ -22,8 +22,15 @@ UDateItem::UDateItem(const QString &id, const QString &nm, const QStringList &li
 
     // Menu
     context_menu = new QMenu;
-    context_menu->addAction("Edit", this, &UDateItem::edit_item);
-    context_menu->addAction("Delete", this, &UDateItem::remove_item);
+
+    QAction *edit_action = new QAction("Edit", context_menu);
+    connect(edit_action, &QAction::triggered, this, &UDateItem::edit_item);
+
+    QAction *remove_action = new QAction("Delete", context_menu);
+    connect(remove_action, &QAction::triggered, this, &UDateItem::remove_item);
+
+    context_menu->addAction(edit_action);
+    context_menu->addAction(remove_action);
 
     setLayout(layout);
 }

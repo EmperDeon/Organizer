@@ -136,11 +136,11 @@ QString UDatesWidget::insertNewDate(const QDate &new_date, const QString &old_id
 //    qDebug() << "New: " << new_date << ", old: " << old_id;
 
     QDateTime date(new_date);
-    QString new_id = QString::number(date.toSecsSinceEpoch());
+    QString new_id = QString::number(date.toMSecsSinceEpoch() / 1000);
 
     while (items.contains(new_id) && new_id != old_id) {
         date = date.addSecs(1);
-        new_id = QString::number(date.toSecsSinceEpoch());
+        new_id = QString::number(date.toMSecsSinceEpoch() / 1000);
 
 //        qDebug() << date.toSecsSinceEpoch() << items.contains(new_id) << (new_id != old_id);
     }

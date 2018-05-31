@@ -9,6 +9,9 @@
 
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonArray>
+#include <QtCore/QDate>
+#include <QtCore/QDateTime>
+#include <QtCore/QVariant>
 
 
 #define select_if(from, to, predicate) std::copy_if((from).begin(), (from).end(), std::back_inserter(to), predicate)

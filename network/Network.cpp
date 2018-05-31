@@ -179,10 +179,6 @@ QString Network::getLastCode() {
             return "Error NetworkSessionFailed";
         case QNetworkReply::BackgroundRequestNotAllowedError:
             return "Error BackgroundRequestNotAllowed";
-        case QNetworkReply::TooManyRedirectsError:
-            return "Error TooManyRedirects";
-        case QNetworkReply::InsecureRedirectError:
-            return "Error InsecureRedirect";
         case QNetworkReply::UnknownNetworkError:
             return "Error UnknownNetwork";
         case QNetworkReply::ProxyConnectionRefusedError:

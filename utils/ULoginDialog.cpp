@@ -72,7 +72,7 @@ void ULoginDialog::tryLogin() {
         storage->set("sync", true);
 
         storage->set("login_hash", login_hash);
-        storage->set("login_date", QDateTime::currentSecsSinceEpoch());
+        storage->set("login_date", QDateTime::currentMSecsSinceEpoch() / 1000);
 
         storage->saveJson();
 
@@ -102,7 +102,7 @@ void ULoginDialog::tryRegister() {
         storage->set("sync", true);
 
         storage->set("login_hash", login_hash);
-        storage->set("login_date", QDateTime::currentSecsSinceEpoch());
+        storage->set("login_date", QDateTime::currentMSecsSinceEpoch() / 1000);
 
         storage->saveJson();
     } else {

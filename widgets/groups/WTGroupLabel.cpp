@@ -35,7 +35,7 @@ bool WTGroupLabel::eventFilter(QObject *watched, QEvent *event) {
 //        qDebug() << "Clicked group cycle";
 
         cycleGroups();
-
+        return true;
     } else {
         return QObject::eventFilter(watched, event);
     }

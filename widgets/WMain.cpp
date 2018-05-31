@@ -39,16 +39,38 @@ void WMain::constructMenuBar() {
     QMenuBar *menu = this->menuBar();
 
     QMenu *m_file = new QMenu("File");
-    m_file->addAction("Settings", [=]() { (new WSettings)->show(); });
-    m_file->addAction("Save", [=]() { contr->save(); }, QKeySequence::Save);
-    m_file->addAction("Exit", this, &WMain::close, QKeySequence(Qt::CTRL + Qt::Key_Q));
+    auto *a_sett = new QAction("Settings", m_file);
+    QObject::connect(a_sett, &QAction::triggered, [=]() { (new WSettings)->show(); });
+    m_file->addAction(a_sett);
+
+    auto *a_save = new QAction("Save", m_file);
+    a_save->setShortcut(QKeySequence::Save);
+    QObject::connect(a_save, &QAction::triggered, [=]() { contr->save(); });
+    m_file->addAction(a_save);
+
+    auto *a_exit = new QAction("Exit", m_file);
+    a_exit->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
+    QObject::connect(a_exit, &QAction::triggered, this, &WMain::close);
+    m_file->addAction(a_exit);
+
 
     QMenu *m_tabs = new QMenu("Tabs");
-    m_tabs->addAction("Add new tab", tabs, &WTabs::tabNew);
-    m_tabs->addAction("Delete tab", tabs, &WTabs::tabClose);
-    m_tabs->addAction("Toggle tab encryption",
-                      [this]() { TEncryptedTab::toggleEncryption(this->tabs->getCurrentTab()); });
-    m_tabs->addAction("Manual sort of tabs", []() { WTSorter::sortTabs(); });
+    auto *a_tab_add = new QAction("Add new tab", m_tabs);
+    QObject::connect(a_tab_add, &QAction::triggered, tabs, &WTabs::tabNew);
+    m_tabs->addAction(a_tab_add);
+
+    auto *a_tab_del = new QAction("Delete tab", m_tabs);
+    QObject::connect(a_tab_del, &QAction::triggered, tabs, &WTabs::tabClose);
+    m_tabs->addAction(a_tab_del);
+
+    auto *a_tab_toggle = new QAction("Toggle tab encryption", m_tabs);
+    QObject::connect(a_tab_toggle, &QAction::triggered,
+                     [this]() { TEncryptedTab::toggleEncryption(this->tabs->getCurrentTab()); });
+    m_tabs->addAction(a_tab_toggle);
+
+    auto *a_tab_sort = new QAction("Manual sort of tabs", m_tabs);
+    QObject::connect(a_tab_sort, &QAction::triggered, []() { WTSorter::sortTabs(); });
+    m_tabs->addAction(a_tab_sort);
 
     QMenu *m_groups = new QMenu("Groups");
     tabs->setGroupsMenu(m_groups);

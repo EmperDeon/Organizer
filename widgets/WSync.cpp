@@ -12,10 +12,18 @@
 
 QMenu *WSync::getMenu() {
     menu = new QMenu("Sync");
-    menu->addAction("Login", this, &WSync::login);
-    menu->addAction("Logout", this, &WSync::logout);
+    auto *a_login = new QAction("Login", menu);
+    QObject::connect(a_login, &QAction::triggered, this, &WSync::login);
+    menu->addAction(a_login);
+
+    auto *a_logout = new QAction("Logout", menu);
+    QObject::connect(a_logout, &QAction::triggered, this, &WSync::logout);
+    menu->addAction(a_logout);
     menu->addSeparator();
-    menu->addAction("Destroy your account", this, &WSync::destroy);
+
+    auto *a_destroy = new QAction("Destroy your account", menu);
+    QObject::connect(a_destroy, &QAction::triggered, this, &WSync::destroy);
+    menu->addAction(a_destroy);
 
     updateMenu();
 

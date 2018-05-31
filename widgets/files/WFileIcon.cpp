@@ -15,6 +15,7 @@ QPixmap WFileIcon::getIcon(const QString &type) {
     QString icon;
 
     icon = "none";
+    Q_UNUSED(type);
 
     return QPixmap(":/icons/file-types/" + icon + ".png").scaledToWidth(24, Qt::SmoothTransformation);
 }

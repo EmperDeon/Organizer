@@ -1,13 +1,37 @@
+## Dependant on
+- Qt >= 5.5
+
+## Common
 ```
 git clone git@github.com:EmperDeon/Organizer.git
 cd Organizer
 git submodule init
 git submodule update
+```
+
+
+### CMake
+```
 mkdir build && cd build
-cmake ..
+cmake -DCMAKE_BUILD_TYPE=Release ..
 make Organizer_unity
 ```
 
-### Errors
-`cmake ..` couldn't find Qt5 - maybe use `hunter` ?
-Test with default Qt5.5 in Ubuntu
+
+## QMake
+```
+cd vendor
+mkdir build && mkdir libs && cd build
+
+qmake ../simple_ossl.pro
+make
+mv libsimple_ossl.a ../libs
+
+qmake ../cpp-markdown.pro
+make
+mv libmarkdown.a ../libs
+
+cd ../../build
+qmake ../Organizer.pro
+make
+```

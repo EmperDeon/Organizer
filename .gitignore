@@ -2,3 +2,5 @@
 .vscode
 cmake-build-*
 Organizer.pro.*
+build
+vendor/libs

@@ -43,6 +43,8 @@ void UTreeWidget::mousePressEvent(QMouseEvent *event) {
 }
 
 void UTreeWidget::mouseReleaseEvent(QMouseEvent *event) {
+    Q_UNUSED(event);
+
     if (!is_movable) {
         return;
     }

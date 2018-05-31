@@ -7,12 +7,12 @@
 #include <QtWidgets/QtWidgets>
 #include "UTray.h"
 
-UTray::UTray(QMainWindow *w) : wnd(w), QSystemTrayIcon() {
+UTray::UTray(QMainWindow *w) : QSystemTrayIcon(), wnd(w) {
     setIcon(qApp->windowIcon());
 
     auto *trayMenu = new QMenu;
 
-    QAction *trayClick = new QAction("Toggle state");
+    QAction *trayClick = new QAction("Toggle state", trayMenu);
     connect(trayClick, &QAction::triggered, this, &UTray::trayToggle);
 
     trayMenu->addAction(trayClick);

@@ -202,5 +202,6 @@ void TJournalTab::selectedDate(const QString &from, const QString &to) {
 }
 
 QStringList TJournalTab::additionalInfo(const QString &id) {
+    Q_UNUSED(id);
     return QStringList();
 }
