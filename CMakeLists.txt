@@ -4,7 +4,7 @@
 # See the provided LICENSE.TXT file for details.
 #
 
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.1.0)
 project(Organizer CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -13,19 +13,23 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/vendor")
 
+find_package(Qt5 COMPONENTS Core Widgets Network REQUIRED)
+message(STATUS "Qt version: " ${Qt5_VERSION})
+
 set(ORGANIZER_MAJOR_VERSION "0")
 set(ORGANIZER_MINOR_VERSION "1")
 set(ORGANIZER_PATCH_VERSION "0")
 set(ORGANIZER_VERSION_STRING "${ORGANIZER_MAJOR_VERSION}.${ORGANIZER_MINOR_VERSION}.${ORGANIZER_PATCH_VERSION}")
 
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Widgets)
-find_package(Qt5Network)
-
 add_definitions(-DVERSION="${ORGANIZER_VERSION_STRING}")
 add_definitions(-DVERSION_MAJOR=${ORGANIZER_MAJOR_VERSION})
 add_definitions(-DVERSION_MINOR=${ORGANIZER_MINOR_VERSION})
 add_definitions(-DVERSION_PATCH=${ORGANIZER_PATCH_VERSION})
+
+if (DEBUG_BUILD)
+    add_definitions(-DDEBUG)
+endif ()
+
 
 SET(M_S
         main.cpp
@@ -190,8 +194,7 @@ qt5_wrap_cpp(GENERATED_SOURCES ${M_H})
 qt5_add_resources(UI_RESOURCES res/res.qrc)
 
 add_executable(Organizer ${M_S} ${M_H} ${UI_RESOURCES})
-qt5_use_modules(Organizer Core Widgets Network)
 
-target_link_libraries(Organizer ${Qt5Core_QTMAIN_LIBRARIES} cpp-markdown simple-ossl)
+target_link_libraries(Organizer Qt5::Core Qt5::Widgets Qt5::Network cpp-markdown simple-ossl)
 
 cotire(Organizer)

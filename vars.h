@@ -9,6 +9,13 @@
 
 #include <QtCore/QDir>
 
+#ifdef DEBUG
+#define STORAGE_DIR QDir::home().filePath(".organizer-dbg") + QDir::separator()
+#else
+#define STORAGE_DIR QDir::home().filePath(".organizer") + QDir::separator()
+#endif
+
+
 // RSA
 #define RSA_DEFAULT_SIZE 1024
 
@@ -20,7 +27,6 @@
 #define S_DELETE_KEYS "delete_unused_fields"
 
 // Storage
-#define STORAGE_DIR QDir::home().filePath(".organizer") + QDir::separator()
 #define STORAGE_CUR_VERSION "1.1"
 #define STORAGE_FILE (STORAGE_DIR + "storage_testing.json")
 #define STORAGE_KEY "ttpGxMkT4wk7QJx77ak75dtYqaUdRQB5fJQO1NzzYFc="
@@ -33,7 +39,6 @@
 // Encrypted tabs
 #define E_TAB_CIPHER "128"
 #define DATE_FORMAT "dd.MM.yyyy"
-#define TIME_FORMAT "hh:mm"
 
 
 // File Storage
@@ -55,7 +60,7 @@
 
 
 // Logs
-#define LOG_FILE (STORAGE_DIR + "log-test.log")
+#define LOG_FILE (STORAGE_DIR + "log.log")
 #define LOG_COMPRESSION 0
 
 //
@@ -63,7 +68,6 @@
 //
 
 //#define OPTION_SYNC // Enable sync (send on save, load on timer, sync menu in WMain MenuBar)
-#define DEBUG
 #define LOG_INCLUDE_METHOD
 
 #define GROUP_SELECTED_IF_NULL(gr) (gr).first()

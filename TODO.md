@@ -21,7 +21,8 @@
 - Logging
   - Add logging to already written code for debug/bug hunting.
 
-- Fix 2 bugs:
+- Fix bugs:
+  - Crash on first(empty) start
   - Windows blinks multiple times on start
     - Multiple (10-12) random saves after app starts (Maybe it's just auto save after edit ?)
   - Don't work correctly with dock until hidden to tray and shown back

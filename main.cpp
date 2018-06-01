@@ -29,7 +29,7 @@ int main(int argc, char **argv) {
 
     logD("WMain showed");
 
-    return a.exec();
+    return qApp->exec();
 }
 
 void initStyles() {
