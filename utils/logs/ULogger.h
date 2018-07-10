@@ -37,7 +37,6 @@ protected:
     QQueue<QString> queue;
 
     // FIXME: Possibly could break, if more than 4 billion chars is written to log. Check
-    // TODO:
     QString output;
 
     bool changed = false;

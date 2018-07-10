@@ -38,15 +38,20 @@ void ULogger::log(ULogger::Level lev, const QDateTime &time, const QString &func
     const QString &entry = toLogEntry(lev, time, func, mess);
     logger->queue.enqueue(entry);
 
+    l.unlock();
+
     if (lev == Error || lev == Warning)
         logger->save();
-
-    l.unlock();
 
     emit logger->logEntryAdded(entry);
 
 #ifdef DEBUG
-    puts(entry.toStdString().c_str());
+    if (lev != Verbose)
+        if (lev == Error || lev == Warning) {
+            fprintf(stderr, "%s\n", entry.toStdString().c_str());
+        } else {
+            fprintf(stdout, "%s\n", entry.toStdString().c_str());
+        }
 #endif
 }
 
@@ -77,7 +82,7 @@ QString ULogger::toLogEntry(ULogger::Level level, const QDateTime &time, const Q
     QStringList func_components = regexp.capturedTexts();
     QString f_class = func_components[2],
             f_func = func_components[3],
-            formatted = QString("[%1][%2][%3]: %4").arg(time.toString("dd.MM.yyyy HH:mm:ss")).arg(levelToString(level));
+            formatted = QString("[%1][%2][%3]: %4").arg(time.toString(LOG_DATE_FORMAT)).arg(levelToString(level));
 
 #ifdef LOG_INCLUDE_METHOD
     if (!(f_class.isEmpty() || f_func.isEmpty())) {

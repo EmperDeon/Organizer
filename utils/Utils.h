@@ -13,7 +13,6 @@
 #include <QtCore/QDateTime>
 #include <QtCore/QVariant>
 
-
 #define select_if(from, to, predicate) std::copy_if((from).begin(), (from).end(), std::back_inserter(to), predicate)
 #define collect(from, to, lambda) std::transform((from).begin(), (from).end(), std::back_inserter(to), lambda)
 
@@ -24,8 +23,6 @@ public:
 
     static QString toBase(const QByteArray &arr);
 
-    static QString hash(const QString &str);
-
     static QString toJson(QJsonArray ob, QJsonDocument::JsonFormat format = QJsonDocument::Compact);
 
     static QString toJson(QJsonObject ob, QJsonDocument::JsonFormat format = QJsonDocument::Compact);
@@ -33,8 +30,6 @@ public:
     static QJsonObject fromJson(const QString &str);
 
     static QJsonArray fromJsonA(const QString &str);
-
-    static QString randomStr(int size);
 
     static QDate dateFromString(const QString &date);
 

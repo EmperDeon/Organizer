@@ -49,7 +49,7 @@ QString UPassDialog::getLoginHash(QString login) {
 
         });
 
-        return Utils::hash(str);
+        return Crypt::hash(str);
 
     }
 

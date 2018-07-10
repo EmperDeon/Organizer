@@ -9,6 +9,7 @@ project(Organizer CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 14)
+
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/vendor")
@@ -37,6 +38,8 @@ SET(M_S
 
         crypt/CAes.cpp
         crypt/CRsa.cpp
+        crypt/Crypt.cpp
+        crypt/CBytes.cpp
         utils/Utils.cpp
 
         tabs/editors/MEdTab.cpp
@@ -113,6 +116,8 @@ SET(M_H
 
         crypt/CAes.h
         crypt/CRsa.h
+        crypt/Crypt.h
+        crypt/CBytes.h
         utils/Utils.h
 
         tabs/editors/MEdTab.h
@@ -188,13 +193,11 @@ SET(M_H
 add_subdirectory(vendor)
 include(cotire/CMake/cotire)
 
-include_directories(vendor/simple_ossl/include)
-
 qt5_wrap_cpp(GENERATED_SOURCES ${M_H})
 qt5_add_resources(UI_RESOURCES res/res.qrc)
 
 add_executable(Organizer ${M_S} ${M_H} ${UI_RESOURCES})
 
-target_link_libraries(Organizer Qt5::Core Qt5::Widgets Qt5::Network cpp-markdown simple-ossl)
+target_link_libraries(Organizer Qt5::Core Qt5::Widgets Qt5::Network cpp-markdown tomcrypt)
 
 cotire(Organizer)

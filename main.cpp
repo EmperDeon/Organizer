@@ -9,17 +9,18 @@
 #include <widgets/WMain.h>
 #include <utils/logs/ULogger.h>
 #include <QtGui/QFontDatabase>
-#include <vendor/simple_ossl/include/simple_ossl.h>
+#include <crypt/Crypt.h>
+
 
 void initStyles();
 
 int main(int argc, char **argv) {
     QApplication a(argc, argv);
-    SimpleOSSL::init();
 
     logI(QString("Version ") + VERSION);
 
     ULogger::getInstance();
+    Crypt::getInstance();
     Storage::getInstance();
 
     initStyles();
@@ -41,7 +42,7 @@ void initStyles() {
 
     QFile File(":/style.qss");
     File.open(QFile::ReadOnly);
-    QString StyleSheet = QLatin1String(File.readAll());
+    QString StyleSheet = QString::fromUtf8(File.readAll());
     qApp->setStyleSheet(StyleSheet);
 
     qApp->setWindowIcon(QIcon(":/icon.ico"));

@@ -1,31 +1,31 @@
 ### Big TODO's
 - Prepare for first release
-  - Add support for compiling from .pro [Added in branch `static_build`]
-  - Check minimal qt version (ex. 5.5, or 5.2)
-  - Add qca as vendor subproject [Added in branch `static_build`]
-    - Migrate to package managers [`conan, hunter, inqlude`]
   
 - README
-  - Write requirements and build instructions
   - Screenshots
 
 
 ### Current TODO's
-- Tab Plugin for content encryption (Show dialog when tab opens)
-  - `Remember me`
-
 - Rename tab classes
+
+- Add UUIDs to tabs, move groups out to separate key
+  - Change Journal to UUID, sort order & date in doc
+
+- Move sensitive variables to SSecure (with static key for now)
 
 - Fix markdown crash on tab character
 
+- Rename `doc` to `note` in README
+
 - Logging
   - Add logging to already written code for debug/bug hunting.
+  - Implement QDebug-like interface (at least for int, string and json)
 
 - Fix bugs:
   - Crash on first(empty) start
   - Windows blinks multiple times on start
     - Multiple (10-12) random saves after app starts (Maybe it's just auto save after edit ?)
-  - Don't work correctly with dock until hidden to tray and shown back
+  - Don't work correctly with dock (plank) until hidden to tray and shown back
 
 ### Low priority TODO's
 - Logging

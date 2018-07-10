@@ -9,22 +9,35 @@
 
 #include <vars.h>
 #include "utils/Utils.h"
+#include "Crypt.h"
+#include "CBytes.h"
 
 
 class CAes {
-    QByteArray key;
-    const char *cipher;
+    unsigned int block_size;
+    const CBytes key;
 
 public:
-    CAes(const char *cipher_name, QString k);
+    // Initialize AES
+    // block_size should be multiple of 128
+    CAes(unsigned int _block_size, const CBytes &_key);
 
     QString encrypt(const QString &message);
 
-    QByteArray encryptAr(const QByteArray &message);
+    CBytes encryptAr(CBytes message);
 
     QString decrypt(const QString &message);
 
-    QByteArray decryptAr(const QByteArray &message);
+    CBytes decryptAr(CBytes message);
+
+protected:
+    void handle_error(int err);
+
+    CBytes generateIV();
+
+    void addPadding(CBytes &message);
+
+    void removePadding(CBytes &message);
 };
 
 

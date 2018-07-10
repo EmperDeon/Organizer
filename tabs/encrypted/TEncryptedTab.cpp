@@ -35,6 +35,11 @@ QWidget *TEncryptedTab::createPassWidget() {
     w_password = new QLineEdit;
     w_password->setEchoMode(QLineEdit::Password);
 
+    w_remember = new QCheckBox(tr("Remember password ?"));
+    w_remember_period = new QComboBox;
+
+    addRememberPeriods();
+
     auto *b_unlock = new QPushButton(tr("Unlock"));
     b_unlock->setProperty("class", "btn-lg");
     b_unlock->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
@@ -43,6 +48,7 @@ QWidget *TEncryptedTab::createPassWidget() {
 
     l->addWidget(l_title);
     l->addWidget(w_password);
+    l->addWidget(w_remember);
     l->addWidget(b_unlock);
 
     w->setBoxLayout(l);
@@ -76,11 +82,12 @@ void TEncryptedTab::unlock() {
         layout->itemAt(1)->widget()->setVisible(true);
     }
 
+    fromJson(content);
     logD("Unlocked successfully");
 }
 
 void TEncryptedTab::tryUnlock() {
-    if (password_hash == Utils::hash(w_password->text())) {
+    if (password_hash == Crypt::hash(w_password->text())) {
         password = w_password->text();
         unlock();
 
@@ -92,7 +99,7 @@ void TEncryptedTab::tryUnlock() {
 
 MTab *TEncryptedTab::createTab() {
     QJsonObject t_obj = obj;
-    CAes aes(E_TAB_CIPHER, Utils::toBase(password.toLatin1()));
+    CAes aes(E_TAB_CIPHER, Crypt::deriveKey(password));
     QString decrypted_content = aes.decrypt(content);
 
     t_obj["content"] = Utils::serializeFromString(decrypted_content);
@@ -105,7 +112,7 @@ void TEncryptedTab::fromJson(QJsonValue v) {
     content = v.toString();
 
     if (!locked && tab != nullptr) {
-        CAes aes(E_TAB_CIPHER, Utils::toBase(password.toLatin1()));
+        CAes aes(E_TAB_CIPHER, Crypt::deriveKey(password));
         QString decrypted_content = aes.decrypt(content);
 
         tab->fromJson(Utils::serializeFromString(decrypted_content));
@@ -114,7 +121,7 @@ void TEncryptedTab::fromJson(QJsonValue v) {
 
 QJsonValue TEncryptedTab::toJson() {
     if (!locked && tab != nullptr) {
-        CAes aes(E_TAB_CIPHER, Utils::toBase(password.toLatin1()));
+        CAes aes(E_TAB_CIPHER, Crypt::deriveKey(password));
         QString decrypted_content = Utils::serializeToString(tab->toJson());
 
         content = aes.encrypt(decrypted_content);
@@ -124,7 +131,7 @@ QJsonValue TEncryptedTab::toJson() {
 }
 
 void TEncryptedTab::loadCustomParams(const QJsonObject &o) {
-    // TODO: Store password in SSecure
+    // TODO: Store passwords in SSecure
 
     remember_me = o["remember_me"].toBool(false);
     password = o["password"].toString("");
@@ -161,15 +168,11 @@ void TEncryptedTab::toggleEncryption(MTab *tab) {
         if (password.isEmpty())
             return;
 
-        CAes aes(E_TAB_CIPHER, Utils::toBase(password.toLatin1()));
+        CAes aes(E_TAB_CIPHER, Crypt::deriveKey(password));
         tab->obj[S_REPLACE_KEY] = aes.encrypt(Utils::serializeToString(tab->toJson()));
         tab->obj["tab_type"] = tab->type;
-        tab->obj["password_hash"] = Utils::hash(password);
+        tab->obj["password_hash"] = Crypt::hash(password);
         tab->type = Encrypted;
-
-        auto *main = WMain::getInstance();
-        main->contr->save();
-        main->recreateTabs();
 
     } else { // Decryption
         auto *e_tab = dynamic_cast<TEncryptedTab *>(tab);
@@ -179,13 +182,41 @@ void TEncryptedTab::toggleEncryption(MTab *tab) {
                                                     QLineEdit::Password);
         }
 
-        CAes aes(E_TAB_CIPHER, Utils::toBase(e_tab->password.toLatin1()));
+        CAes aes(E_TAB_CIPHER, Crypt::deriveKey(e_tab->password));
         e_tab->obj[S_REPLACE_KEY] = Utils::serializeFromString(aes.decrypt(e_tab->toJson().toString()));
         e_tab->obj[S_DELETE_KEYS] = true;
         e_tab->type = MTab::tabType(e_tab->tab_type);
+    }
 
-        auto *main = WMain::getInstance();
-        main->contr->save();
-        main->recreateTabs();
+    auto *main = WMain::getInstance();
+    main->contr->save();
+    main->recreateTabs();
+}
+
+void TEncryptedTab::addRememberPeriods() {
+    QStringList times = SSettings().getS("remember_periods").split(',');
+
+    for (const QString &s_time : times) {
+        qint64 t_time, time = s_time.toLongLong();
+
+        QStringList out;
+
+        if (time >= 1440) { // Days
+            t_time = time / 1440;
+            out += QString::number(t_time) + (t_time > 1 ? " days" : " day");
+            time -= t_time * 1440;
+        }
+
+        if (time >= 60) { // Hours
+            t_time = time / 60;
+            out += QString::number(t_time) + (t_time > 1 ? " hours" : " hour");
+            time -= t_time * 60;
+        }
+
+        if (time > 0) { // Minutes
+            out += QString::number(time) + (time > 1 ? " minutes" : " minute");
+        }
+
+        w_remember_period->addItem(out.join(' '));
     }
 }

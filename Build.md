@@ -1,9 +1,20 @@
-## Dependant on
+## Dependencies
 - Qt >= 5.5
+- cpp-markdown
+  - boost-regex
+- libtomcrypt >= 1.18.0
+
 
 ## Common
 ```
-sudo apt install qtbase5-dev libboost-regexp-dev libssl-dev
+sudo apt install qtbase5-dev libboost-regexp-dev
+
+git clone https://github.com/libtom/libtomcrypt.git
+cd libtomcrypt
+make -j 4
+sudo make install
+cd ..
+
 git clone git@github.com:EmperDeon/Organizer.git
 cd Organizer
 git submodule init

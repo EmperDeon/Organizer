@@ -16,25 +16,22 @@
 Storage::Storage() {
     migrations = new SMigrations;
 
+    checkDir();
     loadJson();
 }
 
 void Storage::loadJson() {
-    logD("Loading " + STORAGE_FILE);
-    QFile f(STORAGE_FILE);
+    QString json;
 
-    if (!f.open(QFile::ReadOnly)) {
+    if (QFile::exists(STORAGE_FILE)) {
+        logD("Loading " + STORAGE_FILE);
+
+        QFile f(STORAGE_FILE);
+        f.open(QFile::ReadOnly);
+
+        json = f.readAll();
+    } else {
         logW("Can't open " + STORAGE_FILE);
-    }
-
-    QString json = f.readAll();
-
-    // Check if storage file is encrypted
-    if (!(json.isEmpty() || json.startsWith('{'))) {
-        CAes fileAes(STORAGE_CIPHER, STORAGE_KEY);
-
-        json = fileAes.decrypt(json);
-        logD("Decrypted successfully");
     }
 
     original = Utils::fromJson(json);
@@ -72,19 +69,9 @@ void Storage::saveJson() {
 
     QString json = Utils::toJson(original, QJsonDocument::Indented);
 
-    // Encrypt output ?
-    if (SSettings(this).getB("storage_encrypt")) {
-        CAes aes(STORAGE_CIPHER, STORAGE_KEY);
-        json = aes.encrypt(json);
-
-        logD("Encrypted successfully");
-    }
-
-
     QFile f(STORAGE_FILE);
     if (f.open(QFile::WriteOnly)) {
         f.write(json.toUtf8());
-        f.close();
     } else {
         logW("Can't save to " + STORAGE_FILE);
     }
@@ -128,4 +115,12 @@ QString Storage::saveDocs() {
     }
 
     return out;
+}
+
+void Storage::checkDir() {
+    QDir root = QDir::root();
+    if (!root.exists(STORAGE_DIR)) {
+        root.mkdir(STORAGE_DIR);
+        logI("Created dir " + STORAGE_DIR);
+    }
 }

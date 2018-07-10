@@ -5,8 +5,6 @@
 */
 
 #include <vars.h>
-#include <Qca-qt5/QtCrypto/QtCrypto>
-#include <vendor/simple_ossl/include/Hash.h>
 #include "PTabFile.h"
 
 PTabFile::PTabFile(const QJsonObject &o) {
@@ -35,18 +33,7 @@ QJsonObject PTabFile::toJson() {
 }
 
 QString PTabFile::processHash(const QFileInfo &f) {
-    SimpleOSSL::Hash hash;
-
-    QFile f_in(f.absoluteFilePath());
-    f_in.open(QFile::ReadOnly);
-
-    QByteArray data;
-    do {
-        data = f_in.read(FILES_BUFFER_SIZE);
-        hash.update(data);
-    } while (data.size() != 0);
-
-    return QString::fromLatin1(hash.final().toHex());
+    return Crypt::hashFile(f.absoluteFilePath());
 }
 
 QString PTabFile::processSize(const QFileInfo &f) {

@@ -45,7 +45,7 @@ void WMain::constructMenuBar() {
 
     auto *a_save = new QAction("Save", m_file);
     a_save->setShortcut(QKeySequence::Save);
-    QObject::connect(a_save, &QAction::triggered, [=]() { contr->save(); });
+    QObject::connect(a_save, &QAction::triggered, []() { Storage::getInstance()->saveJson(); });
     m_file->addAction(a_save);
 
     auto *a_exit = new QAction("Exit", m_file);

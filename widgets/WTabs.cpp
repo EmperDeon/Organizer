@@ -67,7 +67,7 @@ void WTabs::cycleGroup() {
 void WTabs::groupBy(QString group) {
     group = groups->setSelectedGroup(group);
 
-    clear(); // FIXME: Maybe causes memory leaks
+    clear();
 
     for (MTab *t : contr->selectByGroup(group)) {
         addTab(t, t->name());

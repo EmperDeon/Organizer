@@ -11,7 +11,6 @@
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QMessageBox>
 #include <utils/logs/ULogger.h>
-#include <vendor/simple_ossl/include/simple_ossl.h>
 
 PTabFiles::PTabFiles() {
     w_files = new WFiles(this);
@@ -43,7 +42,7 @@ void PTabFiles::addFile(const QString &file) {
     logD(QString("Copying and encrypting file %1 to %2").arg(file).arg(dir.relativeFilePath(s_file.name_enc)));
 
     PTabFiles::moveIn(file, dir.filePath(s_file.name_enc), [this](QByteArray in) {
-        return this->aes->encryptAr(in);
+        return this->aes->encryptAr(in).array();
     });
 
     if (existing_file == -1) {
@@ -64,7 +63,7 @@ void PTabFiles::saveFile(const QString &path, const PTabFile &file) {
     logD(QString("Copying and decryptind file %1 to %2").arg(f_in).arg(f_out));
 
     PTabFiles::moveOut(f_in, f_out, [this](QByteArray in) {
-        return this->aes->decryptAr(in);
+        return this->aes->decryptAr(in).array();
     });
 }
 
@@ -173,8 +172,8 @@ void PTabFiles::initIfNeeded(MTab *tab, const QJsonObject &o) {
     if (o["files_name"].toString().isEmpty()) {
         auto &ob = const_cast<QJsonObject &>(o);
 
-        ob["files_name"] = Utils::hash(tab->desc());
-        ob["file_key"] = Utils::toBase(SimpleOSSL::Aes::generateKey(FILES_KEY_SIZE));
+        ob["files_name"] = Crypt::hash(tab->desc());
+        ob["file_key"] = Crypt::randomBytes(FILES_KEY_SIZE).toBase();
         ob["files"] = QJsonArray();
     }
 }

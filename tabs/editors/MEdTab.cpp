@@ -51,7 +51,7 @@ MEdTab::MEdTab(const QJsonObject &o) : MTab(o, MTab::Text) {
 
     QFile File(":/md-style.css");
     File.open(QFile::ReadOnly);
-    QString StyleSheet = QLatin1String(File.readAll());
+    QString StyleSheet = QString::fromUtf8(File.readAll());
     view->document()->setDefaultStyleSheet(StyleSheet);
     view->setWordWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
 

@@ -68,6 +68,8 @@ public:
 
         return st->secure;
     }
+
+    void checkDir();
 };
 
 #endif //ORGANIZER_MIO_H

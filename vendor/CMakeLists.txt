@@ -12,7 +12,6 @@ find_package(Boost REQUIRED COMPONENTS regex)
 
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(vendor/verdigris/src)
-add_subdirectory(simple_ossl)
 
 
 SET(M_S cpp-markdown/src/markdown.cpp cpp-markdown/src/markdown-tokens.cpp)

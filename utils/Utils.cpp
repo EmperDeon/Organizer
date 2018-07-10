@@ -8,20 +8,13 @@
 #include <QtCore/QBuffer>
 #include <QtCore/QDataStream>
 #include "Utils.h"
-#include <vendor/simple_ossl/include/simple_ossl.h>
-
-using namespace SimpleOSSL;
 
 QByteArray Utils::fromBase(const QString &str) {
-    return fromBase64(str);
+    return QByteArray::fromBase64(str.toUtf8());
 }
 
 QString Utils::toBase(const QByteArray &arr) {
-    return toBase64(arr);
-}
-
-QString Utils::hash(const QString &str) {
-    return sha256(str.toUtf8());
+    return QString::fromUtf8(arr.toBase64());
 }
 
 QString Utils::toJson(QJsonArray ob, QJsonDocument::JsonFormat format) {
@@ -38,10 +31,6 @@ QJsonObject Utils::fromJson(const QString &str) {
 
 QJsonArray Utils::fromJsonA(const QString &str) {
     return QJsonDocument::fromJson(str.toUtf8()).array();
-}
-
-QString Utils::randomStr(int size) {
-    return toBase(randomBytes(size));
 }
 
 QDate Utils::dateFromString(const QString &date) {

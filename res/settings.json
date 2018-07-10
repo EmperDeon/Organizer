@@ -13,12 +13,17 @@
         "description": "Backup storage.json on load ?",
         "default": true,
         "type": "boolean"
-      },
+      }
+    ]
+  },
+  {
+    "name": "Advanced",
+    "entries": [
       {
-        "name": "storage_encrypt",
-        "description": "Encrypt(AES) storage.json on save with predefined key ?",
-        "default": false,
-        "type": "boolean"
+        "name": "remember_periods",
+        "description": "Available time periods in minutes\n1 day is 1440 minutes",
+        "default": "60,61,720,1440,2880,7200,10080,20160",
+        "type": "list"
       }
     ]
   }

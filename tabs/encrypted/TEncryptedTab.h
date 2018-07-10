@@ -10,6 +10,8 @@
 #include <vars.h>
 #include <tabs/MTab.h>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QComboBox>
 
 
 class TEncryptedTab : public MTab {
@@ -24,6 +26,8 @@ class TEncryptedTab : public MTab {
 
     QVBoxLayout *layout;
     QLineEdit *w_password;
+    QCheckBox *w_remember;
+    QComboBox *w_remember_period;
 
 
 public:
@@ -49,6 +53,8 @@ public:
 
 
     static void toggleEncryption(MTab *tab);
+
+    void addRememberPeriods();
 };
 
 

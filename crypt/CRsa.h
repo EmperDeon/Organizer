@@ -8,16 +8,13 @@
 #define ORGANIZER_CRSA_H
 
 #include <vars.h>
-#include <vendor/simple_ossl/include/simple_ossl.h>
-
-using namespace SimpleOSSL;
 
 
 class CRsa {
-    RSAKey *private_key = nullptr, *public_key = nullptr;
+//    RSAKey *private_key = nullptr, *public_key = nullptr;
 
 public:
-    explicit CRsa(RSAKey *priv_key);
+    explicit CRsa(); //RSAKey *priv_key);
 
     explicit CRsa(QString pub, QString prv = "", QString passphrase = "");
 
