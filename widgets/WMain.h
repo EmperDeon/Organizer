@@ -18,7 +18,6 @@
 #include "widgets/WTabs.h"
 #include "tabs/MTabsController.h"
 
-
 class MTabsController;
 
 class WTabs;
@@ -37,6 +36,8 @@ protected:
     void closeEvent(QCloseEvent *e) override;
 
     void hideEvent(QHideEvent *e) override;
+
+    void lockTabs();
 
 public:
     WMain();

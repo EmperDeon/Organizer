@@ -84,9 +84,10 @@ QJsonObject MTab::save() {
     }
 
     if (obj.contains(S_DELETE_KEYS)) {
-        obj.remove("password");
         obj.remove("password_hash");
         obj.remove("remember_me");
+	    obj.remove("remember_token");
+	    obj.remove("remember_until");
         obj.remove("tab_type");
         obj.remove(S_DELETE_KEYS);
     }

@@ -9,6 +9,8 @@
 #include <utils/widgets/UCenteredWidget.h>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QInputDialog>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QFormLayout>
 #include "TEncryptedTab.h"
 
 TEncryptedTab::TEncryptedTab(const QJsonObject &o) : MTab(o, MTab::Encrypted) {
@@ -17,15 +19,13 @@ TEncryptedTab::TEncryptedTab(const QJsonObject &o) : MTab(o, MTab::Encrypted) {
     layout->setMargin(0);
     layout->setContentsMargins(0, 0, 0, 0);
 
-    layout->addWidget(createPassWidget());
-
     setLayout(layout);
 
     load();
 }
 
 QWidget *TEncryptedTab::createPassWidget() {
-    auto *w = new UCenteredWidget(300, 150);
+    auto *w = new UCenteredWidget(300, 200);
     auto *l = new QVBoxLayout;
 
     auto *l_title = new QLabel(tr("Enter password: "));
@@ -35,28 +35,64 @@ QWidget *TEncryptedTab::createPassWidget() {
     w_password = new QLineEdit;
     w_password->setEchoMode(QLineEdit::Password);
 
-    w_remember = new QCheckBox(tr("Remember password ?"));
-    w_remember_period = new QComboBox;
+    w_remember = createRememberWidget();
+    w_remember_check = new QCheckBox(tr("Remember password ?"));
 
-    addRememberPeriods();
-
+    auto *hl = new QHBoxLayout;
     auto *b_unlock = new QPushButton(tr("Unlock"));
+    w_forget = new QPushButton(tr("Forget me"));
+
     b_unlock->setProperty("class", "btn-lg");
     b_unlock->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
 
+    w_forget->setProperty("class", "btn-lg");
+    w_forget->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
+
+    hl->addWidget(b_unlock);
+    hl->addWidget(w_forget);
+
     connect(b_unlock, &QPushButton::clicked, this, &TEncryptedTab::tryUnlock);
+    connect(w_forget, &QPushButton::clicked, [&]() {
+        remember_me = false;
+        updateState();
+    });
+    connect(w_remember_check, &QCheckBox::stateChanged, [=](int s) {
+        w_remember->setVisible(s == 2);
+    });
 
     l->addWidget(l_title);
     l->addWidget(w_password);
+    l->addWidget(w_remember_check);
     l->addWidget(w_remember);
-    l->addWidget(b_unlock);
+    l->addLayout(hl);
 
     w->setBoxLayout(l);
     return w;
 }
 
+QWidget *TEncryptedTab::createRememberWidget() {
+    auto *w = new QWidget;
+    auto *l = new QFormLayout;
+
+    w_remember_period = new QComboBox;
+
+    l->addRow(tr("Period"), w_remember_period);
+
+    addRememberPeriods();
+
+    w->setLayout(l);
+    w->setVisible(false);
+
+    return w;
+}
+
 void TEncryptedTab::lock() {
+    if (locked) {
+        return;
+    }
+
     layout->itemAt(0)->widget()->setVisible(true);
+    updateState();
 
     // TODO: Add animations
     if (layout->count() > 1) {
@@ -65,11 +101,16 @@ void TEncryptedTab::lock() {
         logE("Lock called when Tab is NULL");
     }
 
+    updateState();
     logD("Locked successfully");
     locked = true;
 }
 
 void TEncryptedTab::unlock() {
+    if (!locked) {
+        return;
+    }
+
     locked = false;
 
     layout->itemAt(0)->widget()->setVisible(false);
@@ -87,9 +128,27 @@ void TEncryptedTab::unlock() {
 }
 
 void TEncryptedTab::tryUnlock() {
+    if (remember_me) {
+        if (remember_until > QDateTime::currentSecsSinceEpoch()) {
+            return unlock();
+        } else {
+            remember_me = false;
+            updateState();
+        }
+    }
+
     if (password_hash == Crypt::hash(w_password->text())) {
         password = w_password->text();
+
+        if (w_remember_check->isChecked()) { // If password is correct and remember checked
+            remember_me = true;
+            QDateTime time = QDateTime::currentDateTime();
+            time = time.addSecs(w_remember_period->currentData(Qt::UserRole).toLongLong() * 60);
+            remember_until = time.toSecsSinceEpoch();
+        }
+
         unlock();
+        w_password->setStyleSheet("border-bottom: none");
 
     } else {
         w_password->setStyleSheet("border-bottom: 1px solid red");
@@ -131,12 +190,24 @@ QJsonValue TEncryptedTab::toJson() {
 }
 
 void TEncryptedTab::loadCustomParams(const QJsonObject &o) {
-    // TODO: Store passwords in SSecure
-
-    remember_me = o["remember_me"].toBool(false);
-    password = o["password"].toString("");
-    password_hash = o["password_hash"].toString("");
+    remember_me = o["remember_me"].toBool();
+    password_hash = o["password_hash"].toString();
     tab_type = o["tab_type"].toInt();
+
+    layout->insertWidget(0, createPassWidget());
+    updateState();
+
+    if (remember_me) {
+        // TODO: Store passwords in SSecure
+        password = o["remember_token"].toString();
+        remember_until = (qint64) o["remember_until"].toDouble();
+
+        if (layout->count() < 2) {
+            QTimer::singleShot(10, [&]() {
+                tryUnlock();
+            });
+        }
+    }
 
     if (!locked && tab != nullptr) {
         tab->loadCustomParams(o);
@@ -153,8 +224,13 @@ void TEncryptedTab::saveCustomParams(QJsonObject &o) {
     o["password_hash"] = password_hash;
     o["remember_me"] = remember_me;
 
-    if (remember_me)
-        o["password"] = password;
+    if (remember_me) {
+        o["remember_token"] = password;
+        o["remember_until"] = remember_until;
+    } else {
+        o["remember_token"] = QJsonValue();
+        o["remember_until"] = QJsonValue();
+    }
 }
 
 void TEncryptedTab::toggleEncryption(MTab *tab) {
@@ -180,6 +256,14 @@ void TEncryptedTab::toggleEncryption(MTab *tab) {
         if (e_tab->password.isEmpty()) {
             e_tab->password = QInputDialog::getText(tab, tr("Enter password for decryption"), tr("Password"),
                                                     QLineEdit::Password);
+        }
+
+        if (e_tab->password_hash != Crypt::hash(e_tab->password)) {
+            if (QMessageBox::question(tab, tr("Decryption"), tr("Passwords do not match.\nErase all the data ?")) ==
+                QMessageBox::No) {
+                e_tab->password = "";
+                return;
+            }
         }
 
         CAes aes(E_TAB_CIPHER, Crypt::deriveKey(e_tab->password));
@@ -217,6 +301,11 @@ void TEncryptedTab::addRememberPeriods() {
             out += QString::number(time) + (time > 1 ? " minutes" : " minute");
         }
 
-        w_remember_period->addItem(out.join(' '));
+        w_remember_period->addItem(out.join(' '), s_time.toLongLong());
     }
+}
+
+void TEncryptedTab::updateState() {
+    w_password->setEnabled(!remember_me);
+    w_forget->setVisible(remember_me);
 }

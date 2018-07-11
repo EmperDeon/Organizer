@@ -43,6 +43,10 @@ void WMain::constructMenuBar() {
     QObject::connect(a_sett, &QAction::triggered, [=]() { (new WSettings)->show(); });
     m_file->addAction(a_sett);
 
+    auto *a_lock = new QAction("Lock tabs", m_file);
+    QObject::connect(a_lock, &QAction::triggered, [this]() { this->lockTabs(); });
+    m_file->addAction(a_lock);
+
     auto *a_save = new QAction("Save", m_file);
     a_save->setShortcut(QKeySequence::Save);
     QObject::connect(a_save, &QAction::triggered, []() { Storage::getInstance()->saveJson(); });
@@ -120,4 +124,14 @@ void WMain::recreateTabs() {
     contr->load();
 
     tabs->groupBy();
+}
+
+void WMain::lockTabs() {
+    for (MTab *tab : contr->tabs) {
+        auto *t = dynamic_cast<TEncryptedTab *>(tab);
+
+        if (t != nullptr) {
+            t->lock();
+        }
+    }
 }

@@ -22,12 +22,15 @@ class TEncryptedTab : public MTab {
 
     QString password, password_hash;
     bool remember_me = false;
+    qint64 remember_until;
     int tab_type;
 
     QVBoxLayout *layout;
     QLineEdit *w_password;
-    QCheckBox *w_remember;
+    QWidget *w_remember;
+    QCheckBox *w_remember_check;
     QComboBox *w_remember_period;
+    QPushButton *w_forget;
 
 
 public:
@@ -35,7 +38,11 @@ public:
 
     QWidget *createPassWidget();
 
+    QWidget *createRememberWidget();
+
     MTab *createTab();
+
+    void updateState();
 
     void lock();
 
