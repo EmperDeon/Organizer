@@ -1,11 +1,11 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
 
-#ifndef ORGANIZER_MEDITORS_H
-#define ORGANIZER_MEDITORS_H
+#ifndef ORGANIZER_TABSCONTROLLER_H
+#define ORGANIZER_TABSCONTROLLER_H
 
 #include <storage/Storage.h>
 #include <widgets/WMain.h>
@@ -15,18 +15,18 @@ class WMain;
 
 class Storage;
 
-class MTab;
+class Tab;
 
 
-class MTabsController : public QObject {
+class TabsController : public QObject {
 	WMain *wnd;
 
 public:
-	QList<MTab *> tabs;
+    QList<Tab *> tabs;
 
-	explicit MTabsController(WMain *w);
+    explicit TabsController(WMain *w);
 
-	MTab *find(const QString &name);
+    Tab *find(const QString &name);
 
 	bool contains(const QString &name);
 
@@ -38,12 +38,12 @@ public:
 
 	void addNewTab(const QString &name, const QJsonObject &o, int i = -1);
 
-	QList<MTab *> selectByGroup(const QString &group);
+    QList<Tab *> selectByGroup(const QString &group);
 
 	void move(int from, int to);
 
-    static MTab *tabForType(const QJsonObject &o, int i_type = -1);
+    static Tab *tabForType(const QJsonObject &o, int i_type = -1);
 };
 
 
-#endif //ORGANIZER_MEDITORS_H
+#endif //ORGANIZER_TABSCONTROLLER_H

@@ -1,13 +1,13 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
 
 #include <QtWidgets/QVBoxLayout>
-#include "MFlGroup.h"
+#include "TFileGroup.h"
 
-MFlGroup::MFlGroup(const QJsonObject &o) : MTab(o, MTab::FilesGroup) {
+TFileGroup::TFileGroup(const QJsonObject &o) : Tab(o, Tab::FilesGroup) {
     auto *l = new QVBoxLayout;
 
     files = new PTabFiles;
@@ -19,12 +19,12 @@ MFlGroup::MFlGroup(const QJsonObject &o) : MTab(o, MTab::FilesGroup) {
     load();
 }
 
-void MFlGroup::loadCustomParams(const QJsonObject &o) {
+void TFileGroup::loadCustomParams(const QJsonObject &o) {
     files->initIfNeeded(this, o);
 
     files->readInfo(o);
 }
 
-void MFlGroup::saveCustomParams(QJsonObject &o) {
+void TFileGroup::saveCustomParams(QJsonObject &o) {
     files->writeInfo(o);
 }

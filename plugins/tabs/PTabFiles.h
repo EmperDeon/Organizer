@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
@@ -11,7 +11,7 @@
 #include <functional>
 #include <plugins/tabs/PTabPlugin.h>
 #include <widgets/files/WFiles.h>
-#include <tabs/MTab.h>
+#include <tabs/Tab.h>
 #include "PTabFile.h"
 
 class WFiles;
@@ -45,7 +45,7 @@ public:
 
     void rename(const PTabFile &file);
 
-    void initIfNeeded(MTab *tab, const QJsonObject &o);
+    void initIfNeeded(Tab *tab, const QJsonObject &o);
 
     void readInfo(const QJsonObject &o) override;
 

@@ -23,20 +23,20 @@ crypt/CAes.cpp \
 crypt/CRsa.cpp \
 utils/Utils.cpp \
  \
-tabs/editors/MEdTab.cpp \
+tabs/editors/TEditor.cpp \
  \
 tabs/encrypted/TEncryptedTab.cpp \
  \
 tabs/journals/TJournalTab.cpp \
  \
-tabs/files/MFlGroup.cpp \
+tabs/files/TFileGroup.cpp \
  \
-tabs/links/MLink.cpp \
-tabs/links/MGroup.cpp \
+tabs/links/TLink.cpp \
+tabs/links/TLinksGroup.cpp \
  \
-tabs/MNewTab.cpp \
-tabs/MTab.cpp \
-tabs/MTabsController.cpp \
+tabs/TabNew.cpp \
+tabs/Tab.cpp \
+tabs/TabsController.cpp \
  \
 network/NCrypt.cpp \
 network/Network.cpp \
@@ -97,20 +97,20 @@ crypt/CAes.h \
 crypt/CRsa.h \
 utils/Utils.h \
  \
-tabs/editors/MEdTab.h \
+tabs/editors/TEditor.h \
  \
 tabs/encrypted/TEncryptedTab.h \
  \
-tabs/files/MFlGroup.h \
+tabs/files/TFileGroup.h \
  \
 tabs/journals/TJournalTab.h \
  \
-tabs/links/MLink.h \
-tabs/links/MGroup.h \
+tabs/links/TLink.h \
+tabs/links/TLinksGroup.h \
  \
-tabs/MNewTab.h \
-tabs/MTab.h \
-tabs/MTabsController.h \
+tabs/TabNew.h \
+tabs/Tab.h \
+tabs/TabsController.h \
  \
 network/NCrypt.h \
 network/Network.h \

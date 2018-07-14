@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
@@ -19,7 +19,7 @@ WMain::WMain() {
     w_sync = new WSync;
     tray = new UTray(this);
 
-    contr = new MTabsController(this);
+    contr = new TabsController(this);
     tabs = new WTabs(this);
 
     contr->load();
@@ -127,7 +127,7 @@ void WMain::recreateTabs() {
 }
 
 void WMain::lockTabs() {
-    for (MTab *tab : contr->tabs) {
+    for (Tab *tab : contr->tabs) {
         auto *t = dynamic_cast<TEncryptedTab *>(tab);
 
         if (t != nullptr) {

@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
@@ -16,9 +16,9 @@
 #include <utils/UTray.h>
 #include "widgets/WSync.h"
 #include "widgets/WTabs.h"
-#include "tabs/MTabsController.h"
+#include "tabs/TabsController.h"
 
-class MTabsController;
+class TabsController;
 
 class WTabs;
 
@@ -30,7 +30,7 @@ class WMain : public QMainWindow, public USingleton<WMain> {
 public:
     WTabs *tabs;
 
-    MTabsController *contr = nullptr;
+    TabsController *contr = nullptr;
 
 protected:
     void closeEvent(QCloseEvent *e) override;

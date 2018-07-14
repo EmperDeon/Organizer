@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
@@ -7,12 +7,12 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QPushButton>
 #include <vendor/additions.h>
-#include "MEdTab.h"
+#include "TEditor.h"
 
-MEdTab::MEdTab(const QJsonObject &o) : MTab(o, MTab::Text) {
+TEditor::TEditor(const QJsonObject &o) : Tab(o, Tab::Text) {
     auto *l = new QVBoxLayout;
 
-    // Top menu, TODO: Move to MEdToolbar
+    // Top menu, TODO: Move to TEdToolbar
     auto *m_l = new QHBoxLayout;
     m_l->setAlignment(Qt::AlignRight | Qt::AlignTop);
 
@@ -34,7 +34,7 @@ MEdTab::MEdTab(const QJsonObject &o) : MTab(o, MTab::Text) {
     m_buttons->setExclusive(true);
 
     connect(m_buttons, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled), this,
-            &MEdTab::changeMode);
+            &TEditor::changeMode);
 
 
     l->addLayout(m_l);
@@ -61,7 +61,7 @@ MEdTab::MEdTab(const QJsonObject &o) : MTab(o, MTab::Text) {
     m_layout->addWidget(edit);
     m_layout->addWidget(view);
 
-    connect(edit, &QPlainTextEdit::textChanged, this, &MEdTab::updateText);
+    connect(edit, &QPlainTextEdit::textChanged, this, &TEditor::updateText);
 
     l->addLayout(m_layout);
     // Editor
@@ -74,23 +74,23 @@ MEdTab::MEdTab(const QJsonObject &o) : MTab(o, MTab::Text) {
     setLayout(l);
 }
 
-void MEdTab::fromJson(QJsonValue v) {
+void TEditor::fromJson(QJsonValue v) {
     edit->setPlainText(v.toString());
 }
 
-QJsonValue MEdTab::toJson() {
+QJsonValue TEditor::toJson() {
     return edit->toPlainText();
 }
 
-void MEdTab::loadCustomParams(const QJsonObject &o) {
+void TEditor::loadCustomParams(const QJsonObject &o) {
     cur_mode = o["mode"].toInt();
 }
 
-void MEdTab::saveCustomParams(QJsonObject &o) {
+void TEditor::saveCustomParams(QJsonObject &o) {
     o["mode"] = cur_mode;
 }
 
-void MEdTab::updateText() {
+void TEditor::updateText() {
     std::string md = edit->toPlainText().toStdString();
 
     md = md2html(md);
@@ -99,7 +99,7 @@ void MEdTab::updateText() {
     view->setText(QString::fromStdString(md));
 }
 
-void MEdTab::changeMode(int id, bool checked) {
+void TEditor::changeMode(int id, bool checked) {
     if (!checked)
         return;
 

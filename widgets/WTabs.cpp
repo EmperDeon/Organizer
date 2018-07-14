@@ -1,11 +1,11 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
 
 #include <QtWidgets/QMessageBox>
-#include <tabs/MNewTab.h>
+#include <tabs/TabNew.h>
 #include <utils/logs/ULogger.h>
 
 WTabs::WTabs(WMain *m) : main(m), contr(m->contr) {
@@ -13,17 +13,17 @@ WTabs::WTabs(WMain *m) : main(m), contr(m->contr) {
     groups = new WTGroups(this);
 
     connect(this, &QTabWidget::currentChanged, this, &WTabs::tabChange);
-    connect(this->tabBar(), &QTabBar::tabMoved, contr, &MTabsController::move);
+    connect(this->tabBar(), &QTabBar::tabMoved, contr, &TabsController::move);
 
     logD("Constructed");
 }
 
 void WTabs::tabNew() {
     if (newTab == nullptr && contr != nullptr && count() > 0) {
-        newTab = new MNewTab(main, contr);
+        newTab = new TabNew(main, contr);
         insertTab(count() - 1, newTab, "New Tab");
         setCurrentIndex(count() - 2);
-        logV("Added MNewTab");
+        logV("Added NewTab");
 
     } else {
         setCurrentIndex(count() - 2);
@@ -36,7 +36,7 @@ void WTabs::tabClose() {
     if (name == "New Tab" || QMessageBox::question(this, QObject::tr("Close tab ?"), name) == QMessageBox::Yes) {
         contr->tabDel(name);
         removeTab(currentIndex());
-        logV("Removed MNewTab");
+        logV("Removed NewTab");
     }
 
     if (name == "New Tab")
@@ -53,7 +53,7 @@ void WTabs::tabChange(int i) {
             auto t = getTab(j);
             if (t && t->desc() == " ") {
                 t->deleteLater(); // TODO: Delete newTab from TabBar, not itself
-                logV("Removed MNewTab");
+                logV("Removed NewTab");
             }
         }
         newTab = nullptr;
@@ -69,7 +69,7 @@ void WTabs::groupBy(QString group) {
 
     clear();
 
-    for (MTab *t : contr->selectByGroup(group)) {
+    for (Tab *t : contr->selectByGroup(group)) {
         addTab(t, t->name());
     }
 

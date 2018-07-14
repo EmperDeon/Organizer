@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
@@ -8,14 +8,15 @@
 #define ORGANIZER_TENCRYPTEDTAB_H
 
 #include <vars.h>
-#include <tabs/MTab.h>
+#include <tabs/Tab.h>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
+#include <QtWidgets/QPushButton>
 
 
-class TEncryptedTab : public MTab {
-    MTab *tab = nullptr;
+class TEncryptedTab : public Tab {
+    Tab *tab = nullptr;
 
     bool locked = true;
     QString content = "";
@@ -40,7 +41,7 @@ public:
 
     QWidget *createRememberWidget();
 
-    MTab *createTab();
+    Tab *createTab();
 
     void updateState();
 
@@ -59,7 +60,7 @@ public:
     void saveCustomParams(QJsonObject &o) override;
 
 
-    static void toggleEncryption(MTab *tab);
+    static void toggleEncryption(Tab *tab);
 
     void addRememberPeriods();
 };

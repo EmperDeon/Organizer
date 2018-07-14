@@ -1,21 +1,21 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
 
-#ifndef ORGANIZER_MFLGROUP_H
-#define ORGANIZER_MFLGROUP_H
+#ifndef ORGANIZER_TFILEGROUP_H
+#define ORGANIZER_TFILEGROUP_H
 
-#include <tabs/MTab.h>
+#include <tabs/Tab.h>
 #include <plugins/tabs/PTabFiles.h>
 
 
-class MFlGroup : public MTab {
+class TFileGroup : public Tab {
     PTabFiles *files;
 
 public:
-    explicit MFlGroup(const QJsonObject &o);
+    explicit TFileGroup(const QJsonObject &o);
 
     void loadCustomParams(const QJsonObject &o) override;
 
@@ -23,4 +23,4 @@ public:
 };
 
 
-#endif //ORGANIZER_MFLGROUP_H
+#endif //ORGANIZER_TFILEGROUP_H

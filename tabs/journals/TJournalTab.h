@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
@@ -10,11 +10,11 @@
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHBoxLayout>
-#include <tabs/MTab.h>
+#include <tabs/Tab.h>
 #include <utils/widgets/UDatesWidget.h>
 
 
-class TJournalTab : public MTab {
+class TJournalTab : public Tab {
     int cur_mode;
     QHBoxLayout *m_layout;
     QButtonGroup *m_buttons;

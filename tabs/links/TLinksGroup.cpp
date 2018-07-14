@@ -1,14 +1,14 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
 
 #include <QtCore/QJsonArray>
 #include <utils/UScrollArea.h>
-#include "MGroup.h"
+#include "TLinksGroup.h"
 
-MGroup::MGroup(const QJsonObject &o) : MTab(o, MTab::LinksGroup) {
+TLinksGroup::TLinksGroup(const QJsonObject &o) : Tab(o, Tab::LinksGroup) {
     auto *scrollLayout = new QVBoxLayout;
 
     list = new QVBoxLayout;
@@ -24,14 +24,14 @@ MGroup::MGroup(const QJsonObject &o) : MTab(o, MTab::LinksGroup) {
     load();
 }
 
-void MGroup::addLink(QJsonObject o) {
-    MLink *link = new MLink(this, o);
+void TLinksGroup::addLink(QJsonObject o) {
+    TLink *link = new TLink(this, o);
 
     links << link;
     list->addWidget(link);
 }
 
-void MGroup::updateLinks() {
+void TLinksGroup::updateLinks() {
     if (!links.isEmpty() && !links.last()->isEmpty()) {
         addLink();
     }
@@ -39,7 +39,7 @@ void MGroup::updateLinks() {
     updated();
 }
 
-void MGroup::fromJson(QJsonValue v) {
+void TLinksGroup::fromJson(QJsonValue v) {
     QJsonArray arr = v.toArray();
 
     for (QJsonValue t : arr)
@@ -48,13 +48,13 @@ void MGroup::fromJson(QJsonValue v) {
     if (arr.empty())
         addLink();
 
-    for (MLink *l : links)
+    for (TLink *l : links)
         l->editChange();
 }
 
-QJsonValue MGroup::toJson() {
+QJsonValue TLinksGroup::toJson() {
     QJsonArray r;
-    for (MLink *l : links) {
+    for (TLink *l : links) {
         if (!l->isEmpty())
             r << l->getJson();
     }

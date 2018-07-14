@@ -1,18 +1,18 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
 
-#ifndef ORGANIZER_MTAB_H
-#define ORGANIZER_MTAB_H
+#ifndef ORGANIZER_TAB_H
+#define ORGANIZER_TAB_H
 
 #include <QtWidgets/QWidget>
 #include <QtCore/QJsonObject>
 #include <QtCore/QMap>
 
 
-class MTab : public QWidget {
+class Tab : public QWidget {
 public:
 	enum TabType : int {
 		Text = 1,
@@ -39,9 +39,9 @@ protected:
 	void saveStorage();
 
 public:
-	explicit MTab() = default;
+    explicit Tab() = default;
 
-	explicit MTab(const QJsonObject &o, TabType t = NewTab);
+    explicit Tab(const QJsonObject &o, TabType t = NewTab);
 
 	void load(QJsonObject o = QJsonObject());
 
@@ -65,7 +65,7 @@ public:
 
 	inline static TabType tabType(const QJsonObject &tab) { return tabType(tab["type"].toInt(1024)); }
 
-	inline static TabType tabType(int t) { return static_cast<MTab::TabType>(t); }
+    inline static TabType tabType(int t) { return static_cast<Tab::TabType>(t); }
 
 	const QString desc();
 
@@ -81,4 +81,4 @@ public:
 };
 
 
-#endif //ORGANIZER_MTAB_H
+#endif //ORGANIZER_TAB_H

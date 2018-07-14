@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
@@ -14,13 +14,13 @@
 
 class WTabs;
 
-class MTabsController;
+class TabsController;
 
 class WTGroupLabel;
 
 class WTGroups : public QObject {
     WTabs *tabs;
-    MTabsController *contr;
+    TabsController *contr;
 
     QStringList l_groups;
     QString current_group = "";

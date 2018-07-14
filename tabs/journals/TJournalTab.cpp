@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
@@ -11,7 +11,7 @@
 #include <vendor/additions.h>
 #include "TJournalTab.h"
 
-TJournalTab::TJournalTab(const QJsonObject &o) : MTab(o, MTab::Journal) {
+TJournalTab::TJournalTab(const QJsonObject &o) : Tab(o, Tab::Journal) {
     auto *l = new QVBoxLayout;
 
     // Top menu

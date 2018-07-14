@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2017 by Ilya Barykin
+# Copyright (c) 2017-2018 by Ilya Barykin
 # Released under the MIT License.
 # See the provided LICENSE.TXT file for details.
 #
@@ -44,20 +44,20 @@ SET(M_S
         crypt/CBytes.cpp
         utils/Utils.cpp
 
-        tabs/editors/MEdTab.cpp
+        tabs/editors/TEditor.cpp
 
         tabs/encrypted/TEncryptedTab.cpp
 
         tabs/journals/TJournalTab.cpp
 
-        tabs/files/MFlGroup.cpp
+        tabs/files/TFileGroup.cpp
 
-        tabs/links/MLink.cpp
-        tabs/links/MGroup.cpp
+        tabs/links/TLink.cpp
+        tabs/links/TLinksGroup.cpp
 
-        tabs/MNewTab.cpp
-        tabs/MTab.cpp
-        tabs/MTabsController.cpp
+        tabs/TabNew.cpp
+        tabs/Tab.cpp
+        tabs/TabsController.cpp
 
         network/NCrypt.cpp
         network/Network.cpp
@@ -122,20 +122,20 @@ SET(M_H
         crypt/CBytes.h
         utils/Utils.h
 
-        tabs/editors/MEdTab.h
+        tabs/editors/TEditor.h
 
         tabs/encrypted/TEncryptedTab.h
 
-        tabs/files/MFlGroup.h
+        tabs/files/TFileGroup.h
 
         tabs/journals/TJournalTab.h
 
-        tabs/links/MLink.h
-        tabs/links/MGroup.h
+        tabs/links/TLink.h
+        tabs/links/TLinksGroup.h
 
-        tabs/MNewTab.h
-        tabs/MTab.h
-        tabs/MTabsController.h
+        tabs/TabNew.h
+        tabs/Tab.h
+        tabs/TabsController.h
 
         network/NCrypt.h
         network/Network.h
@@ -199,7 +199,7 @@ qt5_wrap_cpp(GENERATED_SOURCES ${M_H})
 qt5_add_resources(UI_RESOURCES res/res.qrc)
 
 add_executable(Organizer ${M_S} ${M_H} ${UI_RESOURCES})
-
+set_target_properties(Organizer PROPERTIES COTIRE_ENABLE_PRECOMPILED_HEADER OFF)
 target_link_libraries(Organizer Qt5::Core Qt5::Widgets Qt5::Network cpp-markdown tomcrypt tommath)
 
 cotire(Organizer)

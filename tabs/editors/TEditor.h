@@ -1,19 +1,19 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
 
-#ifndef ORGANIZER_MEDTAB_H
-#define ORGANIZER_MEDTAB_H
+#ifndef ORGANIZER_TEDITOR_H
+#define ORGANIZER_TEDITOR_H
 
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHBoxLayout>
-#include <tabs/MTab.h>
+#include <tabs/Tab.h>
 
 
-class MEdTab : public MTab {
+class TEditor : public Tab {
     int cur_mode;
 
     QPlainTextEdit *edit;
@@ -23,7 +23,7 @@ class MEdTab : public MTab {
     QButtonGroup *m_buttons;
 
 public:
-    explicit MEdTab(const QJsonObject &o);
+    explicit TEditor(const QJsonObject &o);
 
     void fromJson(QJsonValue v) override;
 
@@ -38,4 +38,4 @@ public:
     void changeMode(int id, bool checked);
 };
 
-#endif //ORGANIZER_MEDTAB_H
+#endif //ORGANIZER_TEDITOR_H

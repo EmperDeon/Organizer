@@ -1,10 +1,10 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
 
-#include <tabs/MTabsController.h>
+#include <tabs/TabsController.h>
 #include <utils/logs/ULogger.h>
 #include <utils/widgets/UCenteredWidget.h>
 #include <QtWidgets/QPushButton>
@@ -13,7 +13,7 @@
 #include <QtWidgets/QFormLayout>
 #include "TEncryptedTab.h"
 
-TEncryptedTab::TEncryptedTab(const QJsonObject &o) : MTab(o, MTab::Encrypted) {
+TEncryptedTab::TEncryptedTab(const QJsonObject &o) : Tab(o, Tab::Encrypted) {
     layout = new QVBoxLayout;
 
     layout->setMargin(0);
@@ -156,14 +156,14 @@ void TEncryptedTab::tryUnlock() {
     }
 }
 
-MTab *TEncryptedTab::createTab() {
+Tab *TEncryptedTab::createTab() {
     QJsonObject t_obj = obj;
     CAes aes(E_TAB_CIPHER, Crypt::deriveKey(password));
     QString decrypted_content = aes.decrypt(content);
 
     t_obj["content"] = Utils::serializeFromString(decrypted_content);
 
-    tab = MTabsController::tabForType(t_obj, tab_type);
+    tab = TabsController::tabForType(t_obj, tab_type);
     return tab;
 }
 
@@ -219,7 +219,7 @@ void TEncryptedTab::saveCustomParams(QJsonObject &o) {
         tab->saveCustomParams(o);
     }
 
-    // Don't forget to add to MTab::save if adding new
+    // Don't forget to add to Tab::save if adding new
 
     o["password_hash"] = password_hash;
     o["remember_me"] = remember_me;
@@ -233,8 +233,8 @@ void TEncryptedTab::saveCustomParams(QJsonObject &o) {
     }
 }
 
-void TEncryptedTab::toggleEncryption(MTab *tab) {
-    if (tab->type == MTab::NewTab)
+void TEncryptedTab::toggleEncryption(Tab *tab) {
+    if (tab->type == Tab::NewTab)
         return;
 
     if (tab->type != Encrypted) { // Encryption
@@ -269,7 +269,7 @@ void TEncryptedTab::toggleEncryption(MTab *tab) {
         CAes aes(E_TAB_CIPHER, Crypt::deriveKey(e_tab->password));
         e_tab->obj[S_REPLACE_KEY] = Utils::serializeFromString(aes.decrypt(e_tab->toJson().toString()));
         e_tab->obj[S_DELETE_KEYS] = true;
-        e_tab->type = MTab::tabType(e_tab->tab_type);
+        e_tab->type = Tab::tabType(e_tab->tab_type);
     }
 
     auto *main = WMain::getInstance();

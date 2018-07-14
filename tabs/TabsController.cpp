@@ -1,24 +1,24 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
 
-#include <tabs/files/MFlGroup.h>
-#include "tabs/editors/MEdTab.h"
-#include "tabs/links/MGroup.h"
-#include "tabs/MTabsController.h"
+#include <tabs/files/TFileGroup.h>
+#include "tabs/editors/TEditor.h"
+#include "tabs/links/TLinksGroup.h"
+#include "tabs/TabsController.h"
 #include <tabs/journals/TJournalTab.h>
 #include <tabs/encrypted/TEncryptedTab.h>
 #include <utils/logs/ULogger.h>
 
-MTabsController::MTabsController(WMain *w) : wnd(w) {
+TabsController::TabsController(WMain *w) : wnd(w) {
 //    sync = new NSync(this);
 }
 
-MTab *MTabsController::find(const QString &name) {
+Tab *TabsController::find(const QString &name) {
     // std::find_if
-    for (MTab *t : tabs) {
+    for (Tab *t : tabs) {
         if (t->name() == name)
             return t;
     }
@@ -26,11 +26,11 @@ MTab *MTabsController::find(const QString &name) {
     return nullptr;
 }
 
-bool MTabsController::contains(const QString &name) {
+bool TabsController::contains(const QString &name) {
     return find(name) != nullptr;
 }
 
-void MTabsController::load() {
+void TabsController::load() {
     logV("Loading tabs");
 
     QJsonArray docs = Storage::getInstance()->getDocs();
@@ -50,7 +50,7 @@ void MTabsController::load() {
     }
 }
 
-void MTabsController::addNewTab(const QString &name, const QJsonObject &o, int i) {
+void TabsController::addNewTab(const QString &name, const QJsonObject &o, int i) {
     auto *w = tabForType(o);
 
     if (w != nullptr) {
@@ -64,29 +64,29 @@ void MTabsController::addNewTab(const QString &name, const QJsonObject &o, int i
     }
 }
 
-MTab *MTabsController::tabForType(const QJsonObject &o, int i_type) {
-    MTab::TabType type;
+Tab *TabsController::tabForType(const QJsonObject &o, int i_type) {
+    Tab::TabType type;
 
     if (i_type == -1) {
-        type = MTab::tabType(o);
+        type = Tab::tabType(o);
     } else {
-        type = MTab::tabType(i_type);
+        type = Tab::tabType(i_type);
     }
 
     switch (type) {
-        case MTab::Text:
-            return new MEdTab(o);
+        case Tab::Text:
+            return new TEditor(o);
 
-        case MTab::LinksGroup:
-            return new MGroup(o);
+        case Tab::LinksGroup:
+            return new TLinksGroup(o);
 
-        case MTab::FilesGroup:
-            return new MFlGroup(o);
+        case Tab::FilesGroup:
+            return new TFileGroup(o);
 
-        case MTab::Journal:
+        case Tab::Journal:
             return new TJournalTab(o);
 
-        case MTab::Encrypted:
+        case Tab::Encrypted:
             return new TEncryptedTab(o);
 
         default:
@@ -94,10 +94,10 @@ MTab *MTabsController::tabForType(const QJsonObject &o, int i_type) {
     }
 }
 
-void MTabsController::save() {
+void TabsController::save() {
     QJsonArray obj;
 
-    for (MTab *t : tabs) {
+    for (Tab *t : tabs) {
         if (t != nullptr)
             obj << t->save();
     }
@@ -105,20 +105,20 @@ void MTabsController::save() {
     Storage::getInstance()->setDocs(obj);
 }
 
-void MTabsController::tabDel(QString name) {
+void TabsController::tabDel(QString name) {
     tabs.removeAll(find(name));
 }
 
-QList<MTab *> MTabsController::selectByGroup(const QString &group) {
-    QList<MTab *> r;
+QList<Tab *> TabsController::selectByGroup(const QString &group) {
+    QList<Tab *> r;
 
-    select_if(tabs, r, [group](MTab *t) {
+    select_if(tabs, r, [group](Tab *t) {
         return t->isInGroup(group);
     });
 
     return r;
 }
 
-void MTabsController::move(int from, int to) {
+void TabsController::move(int from, int to) {
     tabs.move(from, to);
 }

@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
@@ -46,12 +46,12 @@ void WTSorter::reload() {
 
     for (const auto &group : groups) {
         QJsonObject o_group = group.toObject();
-        MTab::TabType type = MTab::tabType(o_group);
+        Tab::TabType type = Tab::tabType(o_group);
 
-        auto *t_group = tree->addToRoot({o_group["name"].toString(), MTab::tabTypeS(type)});
+        auto *t_group = tree->addToRoot({o_group["name"].toString(), Tab::tabTypeS(type)});
         t_group->setData(2, Qt::UserRole, o_group);
 
-        if (type == MTab::LinksGroup) {
+        if (type == Tab::LinksGroup) {
             for (const auto &link : o_group["content"].toArray()) {
                 QJsonObject o_link = link.toObject();
 
@@ -71,9 +71,9 @@ QJsonArray WTSorter::toDocs() {
     for (int i = 0; i < root->childCount(); i++) { // Collect groups from UTreeWidget
         auto *i_group = root->child(i);
         QJsonObject o_group = i_group->data(2, Qt::UserRole).toJsonObject();
-        MTab::TabType type = MTab::tabType(o_group);
+        Tab::TabType type = Tab::tabType(o_group);
 
-        if (type == MTab::LinksGroup) {
+        if (type == Tab::LinksGroup) {
             QJsonArray links;
 
             for (int j = 0; j < i_group->childCount(); j++) { // Collect links from group

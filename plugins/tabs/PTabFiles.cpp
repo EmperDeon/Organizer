@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
@@ -168,7 +168,7 @@ void PTabFiles::rename(const PTabFile &file) {
     }
 }
 
-void PTabFiles::initIfNeeded(MTab *tab, const QJsonObject &o) {
+void PTabFiles::initIfNeeded(Tab *tab, const QJsonObject &o) {
     if (o["files_name"].toString().isEmpty()) {
         auto &ob = const_cast<QJsonObject &>(o);
 

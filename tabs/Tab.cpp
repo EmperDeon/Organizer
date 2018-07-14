@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
@@ -8,22 +8,22 @@
 #include <QtCore/QDateTime>
 #include <storage/Storage.h>
 #include <utils/logs/ULogger.h>
-#include "MTab.h"
+#include "Tab.h"
 
-MTab::MTab(const QJsonObject &o, TabType t) {
+Tab::Tab(const QJsonObject &o, TabType t) {
 	obj = o;
     t_name = obj["name"].toString();
 	type = t;
 	u_last = static_cast<qint64>(o["last_updated"].toDouble());
 
-    logV("Constructed MTab: " + desc());
+    logV("Constructed Tab: " + desc());
 }
 
-void MTab::updated() {
+void Tab::updated() {
 	if (timer_not_started) {
 		auto *u_timer = new QTimer();
 
-		connect(u_timer, &QTimer::timeout, this, &MTab::saveStorage);
+        connect(u_timer, &QTimer::timeout, this, &Tab::saveStorage);
 
 		u_last = QDateTime::currentMSecsSinceEpoch();
 		u_timer->start(400);
@@ -34,14 +34,14 @@ void MTab::updated() {
 	u_time = QDateTime::currentMSecsSinceEpoch();
 }
 
-void MTab::saveStorage() {
+void Tab::saveStorage() {
 	if (u_time >= u_last && (u_time + 2000 < QDateTime::currentMSecsSinceEpoch())) {
 		u_last = QDateTime::currentMSecsSinceEpoch();
 		Storage::getInstance()->saveJson();
 	}
 }
 
-bool MTab::isInGroup(const QString &gr) {
+bool Tab::isInGroup(const QString &gr) {
 	if (gr == NO_GROUP) {
 		return t_groups.isEmpty();
 	} else {
@@ -49,7 +49,7 @@ bool MTab::isInGroup(const QString &gr) {
 	}
 }
 
-void MTab::load(QJsonObject o) {
+void Tab::load(QJsonObject o) {
 //	qint64 n_last = static_cast<qint64>(o["last_updated"].toDouble());
 //
 //	if (n_last > u_last)
@@ -68,7 +68,7 @@ void MTab::load(QJsonObject o) {
 	loadCustomParams(o);
 }
 
-QJsonObject MTab::save() {
+QJsonObject Tab::save() {
     logV("Saving JSON");
 
 	obj["content"] = toJson();
@@ -95,7 +95,7 @@ QJsonObject MTab::save() {
 	return obj;
 }
 
-const QString MTab::tabTypeS(MTab::TabType type) {
+const QString Tab::tabTypeS(Tab::TabType type) {
     switch (type) {
         case Text:
             return QObject::tr("Text");
@@ -114,6 +114,6 @@ const QString MTab::tabTypeS(MTab::TabType type) {
     return QString();
 }
 
-const QString MTab::desc() {
+const QString Tab::desc() {
     return tabTypeS(type) + " " + name();
 }

@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
@@ -8,21 +8,22 @@
 #define ORGANIZER_WTABWIDGET_H
 
 #include <QtWidgets/QTabWidget>
-#include <tabs/MTab.h>
-#include <tabs/MTabsController.h>
+#include <tabs/Tab.h>
+#include <tabs/TabsController.h>
 #include <widgets/groups/WTGroups.h>
 
 class WMain;
-class MTabsController;
+
+class TabsController;
 
 class WTGroups;
 
 
 class WTabs : public QTabWidget {
     WMain *main;
-    MTabsController *contr;
+    TabsController *contr;
 
-    MTab *newTab = nullptr;
+    Tab *newTab = nullptr;
 
     WTGroups *groups;
 
@@ -35,9 +36,9 @@ public:
 
     void tabChange(int i);
 
-    MTab *getTab(int i) { return dynamic_cast<MTab *>(widget(i)); }
+    Tab *getTab(int i) { return dynamic_cast<Tab *>(widget(i)); }
 
-    MTab *getCurrentTab() { return dynamic_cast<MTab *>(currentWidget()); }
+    Tab *getCurrentTab() { return dynamic_cast<Tab *>(currentWidget()); }
 
     void cycleGroup();
 

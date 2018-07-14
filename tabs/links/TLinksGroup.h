@@ -1,28 +1,28 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
 
-#ifndef ORGANIZER_MGROUP_H
-#define ORGANIZER_MGROUP_H
+#ifndef ORGANIZER_TLINKSGROUP_H
+#define ORGANIZER_TLINKSGROUP_H
 
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QScrollArea>
-#include <tabs/links/MLink.h>
-#include <tabs/MTab.h>
+#include <tabs/links/TLink.h>
+#include <tabs/Tab.h>
 
-class MLink;
+class TLink;
 
 
-class MGroup : public MTab {
-    QList<MLink *> links;
+class TLinksGroup : public Tab {
+    QList<TLink *> links;
 
     QVBoxLayout *list;
 
 
 public:
-    explicit MGroup(const QJsonObject &o);
+    explicit TLinksGroup(const QJsonObject &o);
 
     void addLink(QJsonObject o = QJsonObject());
 
@@ -34,4 +34,4 @@ public:
 };
 
 
-#endif //ORGANIZER_MGROUP_H
+#endif //ORGANIZER_TLINKSGROUP_H

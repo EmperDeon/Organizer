@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
@@ -8,9 +8,9 @@
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
-#include "MNewTab.h"
+#include "TabNew.h"
 
-MNewTab::MNewTab(WMain *w, MTabsController *c) : wnd(w), contr(c) {
+TabNew::TabNew(WMain *w, TabsController *c) : wnd(w), contr(c) {
 	QWidget *wgt = new QWidget;
 	auto *v = new QVBoxLayout;
 	auto *l = new QFormLayout;
@@ -21,10 +21,10 @@ MNewTab::MNewTab(WMain *w, MTabsController *c) : wnd(w), contr(c) {
 	QPushButton *submit = new QPushButton(tr("Create"));
 	submit->setProperty("newLineButton", "true");
 
-	type->addItem("Plain text", MTab::Text);
-	type->addItem("Links group", MTab::LinksGroup);
-	type->addItem("Files group", MTab::FilesGroup);
-    type->addItem("Journal", MTab::Journal);
+    type->addItem("Plain text", Tab::Text);
+    type->addItem("Links group", Tab::LinksGroup);
+    type->addItem("Files group", Tab::FilesGroup);
+    type->addItem("Journal", Tab::Journal);
 
 	l->addRow(label);
 	l->addRow(tr("Name: "), name);
@@ -39,12 +39,12 @@ MNewTab::MNewTab(WMain *w, MTabsController *c) : wnd(w), contr(c) {
 	wgt->setMaximumSize(650, 150);
 	v->addWidget(wgt);
 
-	connect(submit, &QPushButton::clicked, this, &MNewTab::addClick);
+    connect(submit, &QPushButton::clicked, this, &TabNew::addClick);
 
 	setLayout(v);
 }
 
-void MNewTab::addClick() {
+void TabNew::addClick() {
 	if (name->text() == "") return;
 	QJsonObject o = {
 			{"name", name->text()},

@@ -1,10 +1,10 @@
 /*
-	Copyright (c) 2017 by Ilya Barykin
+	Copyright (c) 2017-2018 by Ilya Barykin
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
 
-#include <tabs/MTab.h>
+#include <tabs/Tab.h>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QStatusBar>
@@ -55,7 +55,7 @@ void WTGroups::deleteGroup() {
 
             l_groups.removeAll(cur);
 
-            for (MTab *t : contr->tabs)
+            for (Tab *t : contr->tabs)
                 t->removeGroup(cur);
 
             updateGroupsMenu();
@@ -146,7 +146,7 @@ QString WTGroups::findGroupAfterCurrent() {
 QStringList WTGroups::groupNames() {
     QStringList groups;
 
-    for (MTab *t : contr->tabs) {
+    for (Tab *t : contr->tabs) {
         for (const QString &group : t->groups())
             if (!groups.contains(group))
                 groups << group;
