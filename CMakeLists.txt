@@ -22,6 +22,8 @@ set(ORGANIZER_MINOR_VERSION "1")
 set(ORGANIZER_PATCH_VERSION "0")
 set(ORGANIZER_VERSION_STRING "${ORGANIZER_MAJOR_VERSION}.${ORGANIZER_MINOR_VERSION}.${ORGANIZER_PATCH_VERSION}")
 
+add_definitions(-DUSE_LTM)
+add_definitions(-DLTM_DESC)
 add_definitions(-DVERSION="${ORGANIZER_VERSION_STRING}")
 add_definitions(-DVERSION_MAJOR=${ORGANIZER_MAJOR_VERSION})
 add_definitions(-DVERSION_MINOR=${ORGANIZER_MINOR_VERSION})
@@ -198,6 +200,6 @@ qt5_add_resources(UI_RESOURCES res/res.qrc)
 
 add_executable(Organizer ${M_S} ${M_H} ${UI_RESOURCES})
 
-target_link_libraries(Organizer Qt5::Core Qt5::Widgets Qt5::Network cpp-markdown tomcrypt)
+target_link_libraries(Organizer Qt5::Core Qt5::Widgets Qt5::Network cpp-markdown tomcrypt tommath)
 
 cotire(Organizer)

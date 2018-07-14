@@ -28,6 +28,8 @@ public:
     static QString hashFile(const QString &filename);
 
     static CBytes deriveKey(const QString &str, int index = 0, int length = 32);
+
+    friend class CRsa;
 };
 
 

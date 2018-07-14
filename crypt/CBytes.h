@@ -52,6 +52,8 @@ public:
 
     void remove(int index, int len);
 
+    CBytes left(unsigned long len);
+
     CBytes &operator+=(const CBytes &a);
 
 

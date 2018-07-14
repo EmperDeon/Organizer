@@ -31,8 +31,8 @@ void SSecure::initNetworkInfo() {
     obj->insert("uid", Crypt::hash(Crypt::randomBytes(S_UID_SIZE))); // TODO: change to UUID
     obj->insert("net_key", Crypt::randomBytes(NETWORK_AES_KEY_SIZE).toBase());
 
-    CRsa rsa = CRsa::createNew(NETWORK_RSA_KEY_SIZE);
-    obj->insert("rsa_pr", rsa.getPrivateKey());
-    obj->insert("rsa_pu", rsa.getPublicKey());
+    CRsa rsa = CRsa::generatePrivate(NETWORK_RSA_KEY_SIZE);
+    obj->insert("rsa_pr", rsa.privateKey());
+    obj->insert("rsa_pu", rsa.publicKey());
 }
 

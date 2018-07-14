@@ -22,7 +22,9 @@
 #define CRYPT_DERIVATION_SALT "aXCqolTzlnLqqtAoBrOBlfXf6W2DcO6KDZq2z4TWCc7IP+b2u5S6Zr49AezVqv5x9FQ5qqOffC8XzscZ7CMs0Q=="
 
 // RSA
-#define RSA_DEFAULT_SIZE 1024
+#define RSA_DEFAULT_SIZE 2048
+#define RSA_PRNG Crypt::getInstance()->random_state, find_prng("sprng")
+#define RSA_HASH find_hash("sha256")
 
 // Documents
 #define S_UID_SIZE 32

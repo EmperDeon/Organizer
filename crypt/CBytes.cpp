@@ -74,3 +74,7 @@ CBytes &CBytes::operator+=(const CBytes &a) {
     b_array.append(a.b_array);
     return *this;
 }
+
+CBytes CBytes::left(unsigned long len) {
+    return b_array.left((int) len);
+}

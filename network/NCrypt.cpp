@@ -48,7 +48,7 @@ QString NCrypt::getKey(QString path) {
 }
 
 QString NCrypt::sign(QString mes) {
-	CRsa rsa(st->getS("rsa_pu"), st->getS("rsa_pr"));
+    CRsa rsa(st->getS("rsa_pr"), true);
 
 	return rsa.sign(mes);
 }

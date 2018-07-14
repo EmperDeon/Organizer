@@ -36,6 +36,8 @@ Crypt::Crypt() {
     if (sprng_start(random_state) != CRYPT_OK) {
         logE("Couldn't initialize SPRNG");
     }
+
+    ltc_mp = ltm_desc;
 }
 
 CBytes Crypt::randomBytes(int size) {

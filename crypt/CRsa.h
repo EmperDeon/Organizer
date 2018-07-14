@@ -8,15 +8,16 @@
 #define ORGANIZER_CRSA_H
 
 #include <vars.h>
+#include <tomcrypt.h>
 
 
 class CRsa {
-//    RSAKey *private_key = nullptr, *public_key = nullptr;
+    rsa_key *key;
 
 public:
-    explicit CRsa(); //RSAKey *priv_key);
+    explicit CRsa(rsa_key *_key);
 
-    explicit CRsa(QString pub, QString prv = "", QString passphrase = "");
+    explicit CRsa(const QString &_key, bool _private = false);
 
     QString encode(QString str);
 
@@ -26,13 +27,13 @@ public:
 
     bool verify(QString str, QString sig);
 
-    QString getPrivateKey();
+    QString privateKey();
 
-    QString getPublicKey();
+    QString publicKey();
 
     ~CRsa();
 
-    static CRsa createNew(int size = RSA_DEFAULT_SIZE);
+    static CRsa generatePrivate(int size = RSA_DEFAULT_SIZE);
 };
 
 

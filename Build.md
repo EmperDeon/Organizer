@@ -7,11 +7,11 @@
 
 ## Common
 ```
-sudo apt install qtbase5-dev libboost-regexp-dev
+sudo apt install qtbase5-dev libboost-regexp-dev libtommath-dev
 
 git clone https://github.com/libtom/libtomcrypt.git
 cd libtomcrypt
-make -j 4
+make CFLAGS="-O3 -DUSE_LTM -DLTM_DESC" EXTRALIBS=-ltommath library -j 4
 sudo make install
 cd ..
 
