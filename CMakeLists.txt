@@ -69,15 +69,19 @@ SET(M_S
         plugins/tabs/PTabFiles.cpp
 
         storage/SBackup.cpp
+        storage/SGroups.cpp
+        storage/SMap.cpp
         storage/SMigrations.cpp
         storage/Storage.cpp
         storage/SSecure.cpp
         storage/SSettings.cpp
 
-        storage/migrations/SMVer1.cpp
-        storage/migrations/SMVer11.cpp
+        storage/migrations/SMVer0.cpp
+        storage/migrations/SMVer01.cpp
+        storage/migrations/SMVer02.cpp
 
         utils/ULoginDialog.cpp
+        utils/UOrderedMap.cpp
         utils/UPassDialog.cpp
         utils/UScrollArea.cpp
         utils/USingleton.cpp
@@ -147,16 +151,20 @@ SET(M_H
         plugins/tabs/PTabFiles.h
 
         storage/SBackup.h
+        storage/SGroups.h
+        storage/SMap.h
         storage/SMigrations.h
         storage/Storage.h
         storage/SSecure.h
         storage/SSettings.h
 
         storage/migrations/SMigration.h
-        storage/migrations/SMVer1.h
-        storage/migrations/SMVer11.h
+        storage/migrations/SMVer0.h
+        storage/migrations/SMVer01.h
+        storage/migrations/SMVer02.h
 
         utils/ULoginDialog.h
+        utils/UOrderedMap.h
         utils/UPassDialog.h
         utils/UScrollArea.h
         utils/USingleton.h

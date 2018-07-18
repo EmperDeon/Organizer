@@ -4,14 +4,16 @@
 	See the provided LICENSE.TXT file for details.
 */
 
-#include <storage/migrations/SMVer1.h>
-#include <storage/migrations/SMVer11.h>
+#include <storage/migrations/SMVer0.h>
+#include <storage/migrations/SMVer01.h>
+#include <storage/migrations/SMVer02.h>
 #include "SMigrations.h"
 
 SMigrations::SMigrations() {
     migrations = {
-            new SMVer1,
-            new SMVer11
+            new SMVer0,
+            new SMVer01,
+            new SMVer02
     };
 }
 

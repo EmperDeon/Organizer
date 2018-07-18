@@ -59,6 +59,8 @@ public:
 
     void saveCustomParams(QJsonObject &o) override;
 
+    void onSelected() override;
+
 
     static void toggleEncryption(Tab *tab);
 

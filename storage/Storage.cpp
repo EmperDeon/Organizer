@@ -56,6 +56,7 @@ void Storage::saveJson() {
     logD("Saving started");
     WMain *receiver = WMain::getInstance();
     receiver->contr->save();
+    SGroups::getInstance()->save();
 
     original["docs"] = saveDocs();
 
@@ -123,4 +124,12 @@ void Storage::checkDir() {
         root.mkdir(STORAGE_DIR);
         logI("Created dir " + STORAGE_DIR);
     }
+}
+
+SMap Storage::getMap(const QString &k) {
+    SMap r;
+
+    r.fromJson(get(k).toObject());
+
+    return r;
 }

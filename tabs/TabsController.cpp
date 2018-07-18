@@ -113,7 +113,7 @@ QList<Tab *> TabsController::selectByGroup(const QString &group) {
     QList<Tab *> r;
 
     select_if(tabs, r, [group](Tab *t) {
-        return t->isInGroup(group);
+        return SGroups::getInstance()->isInGroup(group, t);
     });
 
     return r;

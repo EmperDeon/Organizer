@@ -58,14 +58,18 @@ void WTabs::tabChange(int i) {
         }
         newTab = nullptr;
     }
+
+    if (getCurrentTab() != nullptr) {
+        getCurrentTab()->onSelected();
+    }
 }
 
 void WTabs::cycleGroup() {
-    groupBy(groups->findGroupAfterCurrent());
+    groupBy(groups->nextGroup());
 }
 
 void WTabs::groupBy(QString group) {
-    group = groups->setSelectedGroup(group);
+    group = groups->setSelected(group);
 
     clear();
 
@@ -80,5 +84,5 @@ void WTabs::groupBy(QString group) {
 }
 
 void WTabs::setGroupsMenu(QMenu *menu) {
-    groups->setGroupsMenu(menu);
+    groups->setMenu(menu);
 }

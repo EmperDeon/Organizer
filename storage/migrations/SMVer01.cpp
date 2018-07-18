@@ -4,16 +4,16 @@
 	See the provided LICENSE.TXT file for details.
 */
 
-#include "SMVer11.h"
+#include "SMVer01.h"
 
-QString SMVer11::getVersion() {
-    return "1.1";
+QString SMVer01::getVersion() {
+    return "0.1";
 }
 
-QJsonObject SMVer11::processF(QJsonObject o) { return o; }
+QJsonObject SMVer01::processF(QJsonObject o) { return o; }
 
 
-QJsonObject SMVer11::processD(QJsonObject o) {
+QJsonObject SMVer01::processD(QJsonObject o) {
     int type = o["type"].toInt();
 
     if (type == 4) {

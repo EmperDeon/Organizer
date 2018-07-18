@@ -10,105 +10,97 @@
 #include <QtWidgets/QStatusBar>
 #include "WTGroups.h"
 
+#define GROUPS_ARRAY_LOAD(group) QJsonArray notes = groups[(group)]["notes"].toArray()
+#define GROUPS_ARRAY_SAVE(group) { QJsonObject obj = groups[(group)]; obj["notes"] = notes; groups[(group)] = obj; }
+
 WTGroups::WTGroups(WTabs *t) : tabs(t), contr(t->contr) {
+    groups = SGroups::getInstance();
     l_group = new WTGroupLabel(this);
 
     tabs->main->statusBar()->addPermanentWidget(l_group);
 }
 
-void WTGroups::addCurrentToGroup(const QString &group) {
-    if (group == NO_GROUP || tabs->getCurrentTab()->isInGroup(group))
-        return;
-
-    tabs->getCurrentTab()->addGroup(group);
-
-    tabs->removeTab(tabs->currentIndex());
+void WTGroups::addCurrentTabTo(const QString &group) {
+    if (groups->addTo(tabs->getCurrentTab(), group))
+        tabs->removeTab(tabs->currentIndex());
 }
 
-void WTGroups::removeCurrentFromGroup() {
-    if (current_group == NO_GROUP || !tabs->getCurrentTab()->isInGroup(current_group))
-        return;
-
-    tabs->getCurrentTab()->removeGroup(current_group);
-
-    tabs->removeTab(tabs->currentIndex());
+void WTGroups::removeFromCurrent() {
+    if (groups->removeFromCurrent(tabs->getCurrentTab()))
+        tabs->removeTab(tabs->currentIndex());
 }
 
-void WTGroups::createGroup(bool add_to) {
+void WTGroups::create(bool add_to) {
     QString name = QInputDialog::getText(tabs, QObject::tr("Creating tab group"), QObject::tr("Enter name: "));
     if (!name.isEmpty()) {
-        l_groups.insert(l_groups.size() - 1, name);
+        groups->create(name);
 
         if (add_to)
-            addCurrentToGroup(name);
+            addCurrentTabTo(name);
 
-        updateGroupsMenu();
+        updateMenu();
     }
 }
 
-void WTGroups::deleteGroup() {
+void WTGroups::remove() {
     if (!current_group.isEmpty()) {
         QString cur = current_group, mes = QObject::tr("Are you sure you want to delete tab group \"%1\" ?").arg(cur);
 
         if (QMessageBox::question(tabs, QObject::tr("Deleting tab group"), mes) == QMessageBox::Yes) {
-            tabs->cycleGroup();
+            QString next_key = nextGroup();
 
-            l_groups.removeAll(cur);
+            groups->removeCurrent();
 
-            for (Tab *t : contr->tabs)
-                t->removeGroup(cur);
+            tabs->groupBy(next_key);
 
-            updateGroupsMenu();
+            updateMenu();
         }
     }
 }
 
-void WTGroups::setGroupsMenu(QMenu *m) {
+void WTGroups::setMenu(QMenu *m) {
     m_groups = m;
 
     m_add = m_groups->addMenu(tr("Add current tab to: "));
     auto *a_remove = new QAction("Remove from current group", m_groups);
-    QObject::connect(a_remove, &QAction::triggered, [this]() { this->removeCurrentFromGroup(); });
+    QObject::connect(a_remove, &QAction::triggered, [this]() { this->removeFromCurrent(); });
     m_groups->addAction(a_remove);
 
     m_groups->addSeparator();
 
     m_goto = m_groups->addMenu(tr("Go to:"));
     auto *a_goto = new QAction(QObject::tr("Create new group"), m_groups);
-    QObject::connect(a_goto, &QAction::triggered, this, &WTGroups::createGroup);
+    QObject::connect(a_goto, &QAction::triggered, this, &WTGroups::create);
     m_groups->addAction(a_goto);
 
     a_del_group = new QAction("Delete current group", m_groups);
-    QObject::connect(a_del_group, &QAction::triggered, [this]() { this->deleteGroup(); });
+    QObject::connect(a_del_group, &QAction::triggered, [this]() { this->remove(); });
     m_groups->addAction(a_del_group);
 
-    updateGroupsMenu();
+    updateMenu();
 }
 
-void WTGroups::updateGroupsMenu() {
-    if (l_groups.isEmpty())
-        l_groups = groupNames();
-
+void WTGroups::updateMenu() {
     a_del_group->setDisabled(current_group == NO_GROUP);
 
     m_add->clear();
 
     auto *a_add = new QAction(QObject::tr("Add to new group"), m_add);
-    QObject::connect(a_add, &QAction::triggered, [this]() { this->createGroup(true); });
+    QObject::connect(a_add, &QAction::triggered, [this]() { this->create(true); });
     m_add->addAction(a_add);
     m_add->addSeparator();
 
-    for (const QString &group : l_groups) {
+    for (const QString &group : groups->names()) {
         if (group == NO_GROUP)
             continue;
 
         auto *t_action = new QAction(group, m_add);
-        QObject::connect(t_action, &QAction::triggered, [this, group]() { this->addCurrentToGroup(group); });
+        QObject::connect(t_action, &QAction::triggered, [this, group]() { this->addCurrentTabTo(group); });
         m_add->addAction(t_action);
     }
 
     m_goto->clear();
-    for (const QString &group : l_groups) {
+    for (const QString &group : groups->names()) {
         auto *a = new QAction(group, m_goto);
         QObject::connect(a, &QAction::triggered, [this, group]() { this->tabs->groupBy(group); });
         m_goto->addAction(a);
@@ -116,44 +108,20 @@ void WTGroups::updateGroupsMenu() {
     }
 }
 
-QString WTGroups::setSelectedGroup(QString group) {
-    if (l_groups.isEmpty())
-        l_groups = groupNames();
-
+QString WTGroups::setSelected(QString group) {
     if (group.isEmpty()) // If default
-        group = GROUP_SELECTED_IF_NULL(l_groups);
+        group = GROUP_SELECTED_IF_NULL(groups->names());
 
     current_group = group;
+    groups->setCurrent(group);
 
     l_group->setGroup(current_group);
 
-    updateGroupsMenu();
+    updateMenu();
 
     return group;
 }
 
-QString WTGroups::findGroupAfterCurrent() {
-    int i = l_groups.indexOf(current_group);
-
-    if (i == -1 || i == (l_groups.size() - 1)) {
-        return l_groups.first();
-
-    } else {
-        return l_groups.value(i + 1);
-    }
+QString WTGroups::nextGroup() {
+    return groups->nextGroup();
 }
-
-QStringList WTGroups::groupNames() {
-    QStringList groups;
-
-    for (Tab *t : contr->tabs) {
-        for (const QString &group : t->groups())
-            if (!groups.contains(group))
-                groups << group;
-    }
-
-    groups << NO_GROUP;
-
-    return groups;
-}
-

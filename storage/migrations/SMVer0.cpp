@@ -4,14 +4,14 @@
 	See the provided LICENSE.TXT file for details.
 */
 
-#include "SMVer1.h"
+#include "SMVer0.h"
 #include <utils/Utils.h>
 
-QString SMVer1::getVersion() {
-    return "1";
+QString SMVer0::getVersion() {
+    return "0.0";
 }
 
-QJsonObject SMVer1::processF(QJsonObject o) {
+QJsonObject SMVer0::processF(QJsonObject o) {
     QString d = o["docs"].toString();
 
     // Collect all docs to one array
@@ -37,7 +37,7 @@ QJsonObject SMVer1::processF(QJsonObject o) {
     return o;
 }
 
-QJsonObject SMVer1::processD(QJsonObject o) {
+QJsonObject SMVer0::processD(QJsonObject o) {
     switch (o["type"].toInt()) {
         case 0:
             o["content"] = o["text"].toString();

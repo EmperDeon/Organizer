@@ -11,6 +11,7 @@
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QFormLayout>
+#include <QtCore/QtCore>
 #include "TEncryptedTab.h"
 
 TEncryptedTab::TEncryptedTab(const QJsonObject &o) : Tab(o, Tab::Encrypted) {
@@ -51,6 +52,7 @@ QWidget *TEncryptedTab::createPassWidget() {
     hl->addWidget(b_unlock);
     hl->addWidget(w_forget);
 
+    connect(w_password, &QLineEdit::returnPressed, this, &TEncryptedTab::tryUnlock);
     connect(b_unlock, &QPushButton::clicked, this, &TEncryptedTab::tryUnlock);
     connect(w_forget, &QPushButton::clicked, [&]() {
         remember_me = false;
@@ -123,6 +125,7 @@ void TEncryptedTab::unlock() {
         layout->itemAt(1)->widget()->setVisible(true);
     }
 
+    w_password->clear();
     fromJson(content);
     logD("Unlocked successfully");
 }
@@ -308,4 +311,10 @@ void TEncryptedTab::addRememberPeriods() {
 void TEncryptedTab::updateState() {
     w_password->setEnabled(!remember_me);
     w_forget->setVisible(remember_me);
+}
+
+void TEncryptedTab::onSelected() {
+    if (locked) {
+        w_password->setFocus(Qt::TabFocusReason);
+    }
 }

@@ -89,3 +89,11 @@ CBytes Crypt::deriveKey(const QString &str, int index, int length) {
 
     return r;
 }
+
+QString Crypt::generateUUID() {
+    QString r = randomBytes(15).toHex();
+
+//  Pattern is xxxxxxxx-xxxx-4xxx-axxx-xxxxxxxxxxxx - Version 4 Variant 1
+    return QString("{%1-%2-4%3-a%4-%5}").arg(r.mid(0, 8)).arg(r.mid(8, 4)).arg(r.mid(12, 3)).arg(r.mid(15, 3)).arg(
+            r.mid(18, 12));
+}

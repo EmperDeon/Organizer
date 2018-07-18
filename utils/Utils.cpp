@@ -68,3 +68,12 @@ QJsonValue Utils::serializeFromString(const QString &value) {
 
     return QJsonValue::fromVariant(variant);
 }
+
+void Utils::removeInArray(QJsonArray &array, const QJsonValue &val) {
+    for (int i = 0; i < array.size(); i++) {
+        if (array.at(i) == val) {
+            array.removeAt(i);
+            i--;
+        }
+    }
+}

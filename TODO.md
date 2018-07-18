@@ -6,8 +6,10 @@
 
 
 ### Current TODO's
+  
 - Add UUIDs to tabs, move groups out to separate key
   - Change Journal to UUID, sort order & date in doc
+  - Add universal widget for sorting SMap elements
 
 - Move sensitive variables to SSecure (with static key for now)
 
@@ -53,7 +55,7 @@
 - Add markdown syntax highlighting and toolbar
   - Custom markdown render to QLabel, etc as module (push to GitHub as separate rep)
 
-- Themes [Light, Dark] as default, and custom (JSON)
+- Themes [Light, Dark] as default, and custom (JSON or QSS)
 
 
 #### Other 
@@ -63,7 +65,6 @@
 
 ##### Maybe
 - Rewrite to Model-View, to cleanup code and use less code
-- Move all "secure" variables from storage to separate file or leave there but encrypted like docs (for ex. to SSecure)
 - Move login/register logic to SSecure
 - Sync:
   - TOTP [repo 1](https://github.com/RavuAlHemio/cpptotp), [repo 2](https://github.com/andreagrandi/QGoogleAuth)

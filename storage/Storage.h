@@ -15,6 +15,7 @@
 #include <storage/SMigrations.h>
 #include <utils/USingleton.h>
 #include "plugins/tabs/PTabFiles.h"
+#include "SMap.h"
 
 class PTabFiles;
 
@@ -38,6 +39,8 @@ public:
     QString getS(const QString &k) { return get(k).toString(); }
 
     bool getB(const QString &k) { return get(k).toBool(); }
+
+    SMap getMap(const QString &k);
 
     Storage *set(const QString &k, const QJsonValue &v) {
         original.insert(k, v);

@@ -15,7 +15,7 @@
 
 #define select_if(from, to, predicate) std::copy_if((from).begin(), (from).end(), std::back_inserter(to), predicate)
 #define collect(from, to, lambda) std::transform((from).begin(), (from).end(), std::back_inserter(to), lambda)
-
+#define sort_by(collection, lambda) std::sort((collection).begin(), (collection).end(), (lambda))
 
 class Utils {
 public:
@@ -40,6 +40,8 @@ public:
     static QString serializeToString(const QJsonValue &value);
 
     static QJsonValue serializeFromString(const QString &value);
+
+    static void removeInArray(QJsonArray &array, const QJsonValue &val);
 };
 
 #endif //ORGANIZER_CTOOLS_H

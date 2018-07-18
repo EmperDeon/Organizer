@@ -13,6 +13,7 @@
 Tab::Tab(const QJsonObject &o, TabType t) {
 	obj = o;
     t_name = obj["name"].toString();
+    t_uuid = obj["uuid"].toString();
 	type = t;
 	u_last = static_cast<qint64>(o["last_updated"].toDouble());
 
@@ -41,14 +42,6 @@ void Tab::saveStorage() {
 	}
 }
 
-bool Tab::isInGroup(const QString &gr) {
-	if (gr == NO_GROUP) {
-		return t_groups.isEmpty();
-	} else {
-		return t_groups.contains(gr);
-	}
-}
-
 void Tab::load(QJsonObject o) {
 //	qint64 n_last = static_cast<qint64>(o["last_updated"].toDouble());
 //
@@ -61,8 +54,8 @@ void Tab::load(QJsonObject o) {
 	}
 
     t_name = o["name"].toString();
+    t_uuid = o["uuid"].toString();
 	u_last = static_cast<qint64>(o["last_updated"].toDouble());
-	t_groups = Utils::arrayFromJson(o["groups"]);
 
 	fromJson(o["content"]);
 	loadCustomParams(o);
@@ -74,7 +67,6 @@ QJsonObject Tab::save() {
 	obj["content"] = toJson();
 	obj["last_updated"] = u_last;
 	obj["type"] = type;
-	obj["groups"] = Utils::arrayToJson(t_groups);
 
 	saveCustomParams(obj);
 

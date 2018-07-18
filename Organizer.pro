@@ -53,8 +53,8 @@ storage/Storage.cpp \
 storage/SSecure.cpp \
 storage/SSettings.cpp \
  \
-storage/migrations/SMVer1.cpp \
-storage/migrations/SMVer11.cpp \
+storage/migrations/SMVer0.cpp \
+storage/migrations/SMVer01.cpp \
  \
 utils/ULoginDialog.cpp \
 utils/UPassDialog.cpp \
@@ -128,8 +128,8 @@ storage/SSecure.h \
 storage/SSettings.h \
  \
 storage/migrations/SMigration.h \
-storage/migrations/SMVer1.h \
-storage/migrations/SMVer11.h \
+storage/migrations/SMVer0.h \
+storage/migrations/SMVer01.h \
  \
 utils/ULoginDialog.h \
 utils/UPassDialog.h \

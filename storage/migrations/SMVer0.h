@@ -4,13 +4,13 @@
 	See the provided LICENSE.TXT file for details.
 */
 
-#ifndef ORGANIZER_SMVER11_H
-#define ORGANIZER_SMVER11_H
+#ifndef ORGANIZER_SMVER0_H
+#define ORGANIZER_SMVER0_H
 
 #include "storage/migrations/SMigration.h"
 
 
-class SMVer11 : public SMigration {
+class SMVer0 : public SMigration {
 public:
     QString getVersion() override;
 
@@ -20,4 +20,4 @@ public:
 };
 
 
-#endif //ORGANIZER_SMVER11_H
+#endif //ORGANIZER_SMVER0_H

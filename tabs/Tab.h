@@ -23,8 +23,6 @@ public:
 		NewTab = 1024
 	};
 
-	const QString NO_GROUP = QObject::tr("Other tabs");
-
 private:
 	qint64 u_time = 0, u_last = 0;
 	bool timer_not_started = true;
@@ -33,8 +31,7 @@ private:
 	TabType type = NewTab;
 
 protected:
-	QString t_name;
-	QStringList t_groups;
+    QString t_name, t_uuid;
 
 	void saveStorage();
 
@@ -51,13 +48,7 @@ public:
 
 	QString name() { return t_name; }
 
-	bool isInGroup(const QString &gr);
-
-	const QStringList &groups() { return t_groups; }
-
-	void addGroup(const QString &group) { t_groups << group; }
-
-	void removeGroup(const QString &group) { t_groups.removeAll(group); }
+    QString uuid() { return t_uuid; }
 
 	static const QString tabTypeS(TabType type);
 
@@ -76,6 +67,8 @@ public:
 	virtual void loadCustomParams(const QJsonObject &o) { Q_UNUSED(o); }
 
 	virtual void saveCustomParams(QJsonObject &o) { Q_UNUSED(o); }
+
+    virtual void onSelected() {}
 
 	friend class TEncryptedTab;
 };

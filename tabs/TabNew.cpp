@@ -11,6 +11,7 @@
 #include "TabNew.h"
 
 TabNew::TabNew(WMain *w, TabsController *c) : wnd(w), contr(c) {
+	// TODO: Use UCenteredWidget
 	QWidget *wgt = new QWidget;
 	auto *v = new QVBoxLayout;
 	auto *l = new QFormLayout;
@@ -21,10 +22,10 @@ TabNew::TabNew(WMain *w, TabsController *c) : wnd(w), contr(c) {
 	QPushButton *submit = new QPushButton(tr("Create"));
 	submit->setProperty("newLineButton", "true");
 
-    type->addItem("Plain text", Tab::Text);
-    type->addItem("Links group", Tab::LinksGroup);
-    type->addItem("Files group", Tab::FilesGroup);
-    type->addItem("Journal", Tab::Journal);
+	type->addItem(tr("Plain text"), Tab::Text);
+	type->addItem(tr("Links"), Tab::LinksGroup);
+	type->addItem(tr("Files"), Tab::FilesGroup);
+	type->addItem(tr("Journal"), Tab::Journal);
 
 	l->addRow(label);
 	l->addRow(tr("Name: "), name);
@@ -49,10 +50,14 @@ void TabNew::addClick() {
 	QJsonObject o = {
 			{"name", name->text()},
 			{"type", type->currentData().toInt()},
-			{"version", STORAGE_CUR_VERSION}
+			{"version", STORAGE_CUR_VERSION},
+			{"uuid", Crypt::generateUUID()}
 	};
 
+	// TODO: Refactor
 	QTabWidget *tabs = wnd->tabs;
 	contr->addNewTab(name->text(), o, tabs->count() - 2);
 	tabs->setCurrentIndex(tabs->count() - 3);
+
+	SGroups::getInstance()->addTo(wnd->tabs->getCurrentTab());
 }

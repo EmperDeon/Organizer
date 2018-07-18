@@ -22,6 +22,7 @@ int main(int argc, char **argv) {
     ULogger::getInstance();
     Crypt::getInstance();
     Storage::getInstance();
+    SGroups::getInstance();
 
     initStyles();
 

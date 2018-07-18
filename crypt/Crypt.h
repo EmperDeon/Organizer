@@ -29,6 +29,8 @@ public:
 
     static CBytes deriveKey(const QString &str, int index = 0, int length = 32);
 
+    static QString generateUUID();
+
     friend class CRsa;
 };
 
