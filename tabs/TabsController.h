@@ -10,6 +10,7 @@
 #include <storage/Storage.h>
 #include <widgets/WMain.h>
 #include <network/NSync.h>
+#include "TList.h"
 
 class WMain;
 
@@ -20,29 +21,27 @@ class Tab;
 
 class TabsController : public QObject {
 	WMain *wnd;
+	TList tabs;
 
 public:
-    QList<Tab *> tabs;
 
     explicit TabsController(WMain *w);
-
-    Tab *find(const QString &name);
-
-	bool contains(const QString &name);
 
 	void load();
 
 	void save();
 
-	void tabDel(QString name);
+	void tabDel(const QString &uuid);
 
-	void addNewTab(const QString &name, const QJsonObject &o, int i = -1);
+	void addNewTab(const QString &uuid, const QJsonObject &o);
 
     QList<Tab *> selectByGroup(const QString &group);
 
-	void move(int from, int to);
+	void swap(const QString &tab1, const QString &tab2);
 
-    static Tab *tabForType(const QJsonObject &o, int i_type = -1);
+	void recreate();
+
+	void lock();
 };
 
 

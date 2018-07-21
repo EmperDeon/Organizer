@@ -54,10 +54,7 @@ void TabNew::addClick() {
 			{"uuid", Crypt::generateUUID()}
 	};
 
-	// TODO: Refactor
-	QTabWidget *tabs = wnd->tabs;
-	contr->addNewTab(name->text(), o, tabs->count() - 2);
-	tabs->setCurrentIndex(tabs->count() - 3);
+	contr->addNewTab(name->text(), o);
 
 	SGroups::getInstance()->addTo(wnd->tabs->getCurrentTab());
 }

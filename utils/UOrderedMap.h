@@ -50,7 +50,11 @@ public:
     // Qt
     QList<Key> keys();
 
+    QList<T> values();
+
     int size() const;
+
+    void clear();
 
     bool isEmpty() const;
 
@@ -69,6 +73,10 @@ public:
     const T operator[](const Key &key) const;
 
     void insert(const Key &key, const T &value);
+
+    void insertAfter(const Key &after, const Key &key, const T &value);
+
+    void swap(const Key &key1, const Key &key2);
 };
 
 

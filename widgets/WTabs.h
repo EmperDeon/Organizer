@@ -46,6 +46,8 @@ public:
 
     void setGroupsMenu(QMenu *menu);
 
+    void tabMove(int from, int to);
+
     friend class WTGroups;
 };
 

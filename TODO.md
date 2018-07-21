@@ -10,6 +10,8 @@
 - Add UUIDs to tabs, move groups out to separate key
   - Change Journal to UUID, sort order & date in doc
   - Add universal widget for sorting SMap elements
+  
+- Move TabNew widget to '+'
 
 - Move sensitive variables to SSecure (with static key for now)
 

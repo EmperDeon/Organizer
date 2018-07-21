@@ -58,6 +58,7 @@ SET(M_S
         tabs/TabNew.cpp
         tabs/Tab.cpp
         tabs/TabsController.cpp
+        tabs/TList.cpp
 
         network/NCrypt.cpp
         network/Network.cpp
@@ -140,6 +141,7 @@ SET(M_H
         tabs/TabNew.h
         tabs/Tab.h
         tabs/TabsController.h
+        tabs/TList.h
 
         network/NCrypt.h
         network/Network.h

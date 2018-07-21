@@ -16,20 +16,6 @@ TabsController::TabsController(WMain *w) : wnd(w) {
 //    sync = new NSync(this);
 }
 
-Tab *TabsController::find(const QString &name) {
-    // std::find_if
-    for (Tab *t : tabs) {
-        if (t->name() == name)
-            return t;
-    }
-
-    return nullptr;
-}
-
-bool TabsController::contains(const QString &name) {
-    return find(name) != nullptr;
-}
-
 void TabsController::load() {
     logV("Loading tabs");
 
@@ -37,88 +23,62 @@ void TabsController::load() {
 
     logV("Tabs count: " + QString::number(docs.count()));
 
-    for (const auto &o : docs) {
-        QJsonObject ob = o.toObject();
-        QString name = ob["name"].toString("Error");
-
-        if (contains(name)) {
-            find(name)->load(ob);
-
-        } else {
-            addNewTab(name, ob);
-        }
-    }
+    tabs.fromJson(docs);
 }
 
-void TabsController::addNewTab(const QString &name, const QJsonObject &o, int i) {
-    auto *w = tabForType(o);
+void TabsController::addNewTab(const QString &uuid, const QJsonObject &o) {
+    auto w = tabs.addJson(uuid, o);
+    QString name = o["name"].toString("Error");
 
-    if (w != nullptr) {
-        tabs << w;
-
-        if (i == -1) {
-            wnd->tabs->addTab(w, name);
-        } else {
-            wnd->tabs->insertTab(i, w, name);
-        }
-    }
-}
-
-Tab *TabsController::tabForType(const QJsonObject &o, int i_type) {
-    Tab::TabType type;
-
-    if (i_type == -1) {
-        type = Tab::tabType(o);
-    } else {
-        type = Tab::tabType(i_type);
-    }
-
-    switch (type) {
-        case Tab::Text:
-            return new TEditor(o);
-
-        case Tab::LinksGroup:
-            return new TLinksGroup(o);
-
-        case Tab::FilesGroup:
-            return new TFileGroup(o);
-
-        case Tab::Journal:
-            return new TJournalTab(o);
-
-        case Tab::Encrypted:
-            return new TEncryptedTab(o);
-
-        default:
-            return nullptr;
+    if (w != nullptr) { // if successfully created Tab
+        int pos = wnd->tabs->count() - 2;
+        wnd->tabs->insertTab(pos, w, name);
+        wnd->tabs->setCurrentIndex(pos - 1);
     }
 }
 
 void TabsController::save() {
-    QJsonArray obj;
-
-    for (Tab *t : tabs) {
-        if (t != nullptr)
-            obj << t->save();
-    }
+    QJsonArray obj = tabs.toJsonA();
 
     Storage::getInstance()->setDocs(obj);
 }
 
-void TabsController::tabDel(QString name) {
-    tabs.removeAll(find(name));
+void TabsController::tabDel(const QString &uuid) {
+    tabs.remove(uuid);
 }
 
 QList<Tab *> TabsController::selectByGroup(const QString &group) {
+    QStringList keys;
     QList<Tab *> r;
 
-    select_if(tabs, r, [group](Tab *t) {
-        return SGroups::getInstance()->isInGroup(group, t);
+    select_if(tabs, keys, [group](const QString &k) {
+        return SGroups::getInstance()->isInGroup(group, k);
     });
+
+    collect(keys, r, [this](const QString &k) { return tabs[k]; });
 
     return r;
 }
 
-void TabsController::move(int from, int to) {
-    tabs.move(from, to);
+void TabsController::swap(const QString &tab1, const QString &tab2) {
+    tabs.swap(tab1, tab2);
+}
+
+void TabsController::recreate() {
+    for (auto *tab : tabs.values())
+        tab->deleteLater();
+
+    tabs.clear();
+
+    load();
+}
+
+void TabsController::lock() {
+    for (Tab *tab : tabs.values()) {
+        auto *t = dynamic_cast<TEncryptedTab *>(tab);
+
+        if (t != nullptr) {
+            t->lock();
+        }
+    }
 }

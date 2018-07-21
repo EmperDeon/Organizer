@@ -32,6 +32,7 @@ private:
 
 protected:
     QString t_name, t_uuid;
+    int t_sort_id;
 
 	void saveStorage();
 
@@ -50,6 +51,11 @@ public:
 
     QString uuid() { return t_uuid; }
 
+    int sortId() { return t_sort_id; }
+
+    const QString desc();
+
+
 	static const QString tabTypeS(TabType type);
 
 	inline static const QString tabTypeS(const QJsonObject &tab) { return tabTypeS(tabType(tab)); }
@@ -58,7 +64,6 @@ public:
 
     inline static TabType tabType(int t) { return static_cast<Tab::TabType>(t); }
 
-	const QString desc();
 
 	virtual void fromJson(QJsonValue v) { Q_UNUSED(v); };
 

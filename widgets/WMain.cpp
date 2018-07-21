@@ -114,24 +114,16 @@ void WMain::hideEvent(QHideEvent *e) {
 void WMain::recreateTabs() {
     logI("Recreating tabs");
 
+    // Save should be called before this method, this will destroy all changes !
+    // No save here, because in WTSorter tabs order is changed
+
     tabs->clear();
 
-    for (auto *tab : contr->tabs)
-        tab->deleteLater();
-
-    contr->tabs.clear();
-
-    contr->load();
+    contr->recreate();
 
     tabs->groupBy();
 }
 
 void WMain::lockTabs() {
-    for (Tab *tab : contr->tabs) {
-        auto *t = dynamic_cast<TEncryptedTab *>(tab);
-
-        if (t != nullptr) {
-            t->lock();
-        }
-    }
+    contr->lock();
 }

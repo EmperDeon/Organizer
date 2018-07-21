@@ -31,8 +31,19 @@ QList<K> UOrderedMap<K, V>::keys() {
 }
 
 template<class Key, class T>
+QList<T> UOrderedMap<Key, T>::values() {
+    return m_vals.values();
+}
+
+template<class Key, class T>
 int UOrderedMap<Key, T>::size() const {
     return m_keys.size();
+}
+
+template<class Key, class T>
+void UOrderedMap<Key, T>::clear() {
+    m_keys.clear();
+    m_vals.clear();
 }
 
 template<class Key, class T>
@@ -90,4 +101,22 @@ template<class Key, class T>
 void UOrderedMap<Key, T>::insert(const Key &key, const T &value) {
     m_keys.append(key);
     m_vals.insert(key, value);
+}
+
+template<class Key, class T>
+void UOrderedMap<Key, T>::insertAfter(const Key &after, const Key &key, const T &value) {
+    int after_i = m_keys.indexOf(after);
+    after_i = after_i < 0 ? m_keys.size() : after_i;
+    m_keys.insert(after_i + 1, key);
+    m_vals.insert(key, value);
+}
+
+template<class Key, class T>
+void UOrderedMap<Key, T>::swap(const Key &key1, const Key &key2) {
+    int i_k1 = m_keys.indexOf(key1), i_k2 = m_keys.indexOf(key2);
+
+    if (i_k1 < 0 || i_k2 < 0 || i_k1 > m_keys.size() || i_k2 > m_keys.size())
+        return;
+
+    m_keys.swap(i_k1, i_k2);
 }

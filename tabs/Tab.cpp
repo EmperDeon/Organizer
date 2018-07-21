@@ -14,6 +14,7 @@ Tab::Tab(const QJsonObject &o, TabType t) {
 	obj = o;
     t_name = obj["name"].toString();
     t_uuid = obj["uuid"].toString();
+    t_sort_id = obj["sort_id"].toInt();
 	type = t;
 	u_last = static_cast<qint64>(o["last_updated"].toDouble());
 
@@ -42,6 +43,10 @@ void Tab::saveStorage() {
 	}
 }
 
+const QString Tab::desc() {
+    return tabTypeS(type) + " " + name();
+}
+
 void Tab::load(QJsonObject o) {
 //	qint64 n_last = static_cast<qint64>(o["last_updated"].toDouble());
 //
@@ -55,6 +60,7 @@ void Tab::load(QJsonObject o) {
 
     t_name = o["name"].toString();
     t_uuid = o["uuid"].toString();
+    t_sort_id = o["sort_id"].toInt();
 	u_last = static_cast<qint64>(o["last_updated"].toDouble());
 
 	fromJson(o["content"]);
@@ -67,6 +73,7 @@ QJsonObject Tab::save() {
 	obj["content"] = toJson();
 	obj["last_updated"] = u_last;
 	obj["type"] = type;
+    obj["sort_id"] = t_sort_id;
 
 	saveCustomParams(obj);
 
@@ -104,8 +111,4 @@ const QString Tab::tabTypeS(Tab::TabType type) {
     }
 
     return QString();
-}
-
-const QString Tab::desc() {
-    return tabTypeS(type) + " " + name();
 }

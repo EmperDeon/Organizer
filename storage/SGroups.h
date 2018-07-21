@@ -40,7 +40,7 @@ public:
 
     QStringList names();
 
-    bool isInGroup(const QString &group, Tab *tab);
+    bool isInGroup(const QString &group, const QString &uuid);
 
     void setCurrent(const QString &group);
 

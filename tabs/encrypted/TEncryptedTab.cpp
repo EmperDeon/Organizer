@@ -166,7 +166,7 @@ Tab *TEncryptedTab::createTab() {
 
     t_obj["content"] = Utils::serializeFromString(decrypted_content);
 
-    tab = TabsController::tabForType(t_obj, tab_type);
+    tab = TList::createNew(t_obj, tab_type);
     return tab;
 }
 

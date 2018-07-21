@@ -13,7 +13,7 @@ WTabs::WTabs(WMain *m) : main(m), contr(m->contr) {
     groups = new WTGroups(this);
 
     connect(this, &QTabWidget::currentChanged, this, &WTabs::tabChange);
-    connect(this->tabBar(), &QTabBar::tabMoved, contr, &TabsController::move);
+    connect(this->tabBar(), &QTabBar::tabMoved, this, &WTabs::tabMove); // FIXME: Moves wrong tabs if in group
 
     logD("Constructed");
 }
@@ -31,10 +31,11 @@ void WTabs::tabNew() {
 }
 
 void WTabs::tabClose() {
-    const QString &name = tabText(currentIndex());
+    const QString &name = tabText(currentIndex()),
+            &uuid = getCurrentTab()->uuid();
 
-    if (name == "New Tab" || QMessageBox::question(this, QObject::tr("Close tab ?"), name) == QMessageBox::Yes) {
-        contr->tabDel(name);
+    if (uuid.isEmpty() || QMessageBox::question(this, QObject::tr("Close tab ?"), name) == QMessageBox::Yes) {
+        contr->tabDel(uuid);
         removeTab(currentIndex());
         logV("Removed NewTab");
     }
@@ -85,4 +86,10 @@ void WTabs::groupBy(QString group) {
 
 void WTabs::setGroupsMenu(QMenu *menu) {
     groups->setMenu(menu);
+}
+
+void WTabs::tabMove(int from, int to) {
+    Tab *t_from = getTab(from), *t_to = getTab(to);
+
+    contr->swap(t_from->uuid(), t_to->uuid());
 }

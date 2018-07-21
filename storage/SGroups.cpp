@@ -16,7 +16,7 @@ SGroups::SGroups() {
 }
 
 bool SGroups::addTo(Tab *tab, QString group) {
-    if (group == NO_GROUP || isInGroup(group, tab) || tab->uuid().isEmpty())
+    if (group == NO_GROUP || isInGroup(group, tab->uuid()))
         return false;
 
     if (group.isEmpty())
@@ -33,7 +33,7 @@ bool SGroups::addTo(Tab *tab, QString group) {
 }
 
 bool SGroups::removeFromCurrent(Tab *tab, QString group) {
-    if (group == NO_GROUP || !isInGroup(group, tab))
+    if (group == NO_GROUP || !isInGroup(group, tab->uuid()))
         return false;
 
     if (group.isEmpty())
@@ -74,13 +74,16 @@ QStringList SGroups::names() {
     return groups.keys();
 }
 
-bool SGroups::isInGroup(const QString &group, Tab *tab) {
+bool SGroups::isInGroup(const QString &group, const QString &uuid) {
+    if (uuid.isEmpty())
+        return false;
+
     GROUPS_ARRAY_LOAD(group);
 
-    if (notes.contains(tab->uuid()))
+    if (notes.contains(uuid))
         return true;
 
-    return group == NO_GROUP && !uuids.contains(tab->uuid());
+    return group == NO_GROUP && !uuids.contains(uuid);
 }
 
 void SGroups::setCurrent(const QString &group) {
