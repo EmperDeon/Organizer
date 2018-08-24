@@ -21,10 +21,12 @@
 // AES
 #define CRYPT_DERIVATION_SALT "aXCqolTzlnLqqtAoBrOBlfXf6W2DcO6KDZq2z4TWCc7IP+b2u5S6Zr49AezVqv5x9FQ5qqOffC8XzscZ7CMs0Q=="
 
+
 // RSA
 #define RSA_DEFAULT_SIZE 2048
 #define RSA_PRNG Crypt::getInstance()->random_state, find_prng("sprng")
 #define RSA_HASH find_hash("sha256")
+
 
 // Documents
 #define S_UID_SIZE 32
@@ -33,15 +35,17 @@
 #define S_REPLACE_KEY "content_replacement"
 #define S_DELETE_KEYS "delete_unused_fields"
 
+
 // Storage
-#define STORAGE_CUR_VERSION "1.1"
+#define STORAGE_CUR_VERSION "0.2"
 #define STORAGE_FILE (STORAGE_DIR + "storage.json")
-#define STORAGE_KEY "ttpGxMkT4wk7QJx77ak75dtYqaUdRQB5fJQO1NzzYFc="
-#define STORAGE_CIPHER "128"
+#define STORAGE_CIPHER 128
+
 
 // Storage Backup
 #define BACKUP_FILE_WEEK (STORAGE_DIR + "backup_week.json")
 #define BACKUP_FILE_LAST (STORAGE_DIR + "backup_last.json")
+
 
 // Encrypted tabs
 #define E_TAB_CIPHER 128
@@ -57,6 +61,7 @@
 #define FILE_KILOBYTE 1024
 #define FILE_MEGABYTE 1048576
 #define FILE_GIGABYTE 1073741824
+
 
 // Network
 #define NETWORK_URL "http://0.0.0.0:3005/"

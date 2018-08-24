@@ -60,7 +60,8 @@ void WMain::constructMenuBar() {
 
     QMenu *m_tabs = new QMenu("Tabs");
     auto *a_tab_add = new QAction("Add new tab", m_tabs);
-    QObject::connect(a_tab_add, &QAction::triggered, tabs, &WTabs::tabNew);
+    QObject::connect(a_tab_add, &QAction::triggered,
+                     [this]() { this->tabs->setCurrentIndex(this->tabs->count() - 1); });
     m_tabs->addAction(a_tab_add);
 
     auto *a_tab_del = new QAction("Delete tab", m_tabs);

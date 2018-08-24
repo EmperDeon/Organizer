@@ -30,8 +30,6 @@ class WTabs : public QTabWidget {
 public:
     explicit WTabs(WMain *m);
 
-    void tabNew();
-
     void tabClose();
 
     void tabChange(int i);

@@ -1,4 +1,5 @@
-### Big TODO's
+### Projects
+
 - Prepare for first release
   
 - README
@@ -6,12 +7,6 @@
 
 
 ### Current TODO's
-  
-- Add UUIDs to tabs, move groups out to separate key
-  - Change Journal to UUID, sort order & date in doc
-  - Add universal widget for sorting SMap elements
-  
-- Move TabNew widget to '+'
 
 - Move sensitive variables to SSecure (with static key for now)
 
@@ -26,25 +21,33 @@
 - Fix bugs:
   - Crash on first(empty) start
   - Windows blinks multiple times on start
-    - Multiple (10-12) random saves after app starts (Maybe it's just auto save after edit ?)
-  - Don't work correctly with dock (plank) until hidden to tray and shown back
+    - Multiple (10-12) saves after app starts (Maybe it's just auto save after edit ?)
+  - Don't work correctly with dock (`plank`) until hidden to tray and shown back
+  - Keyboard language don't change (Dev bug?)
+
 
 ### Low priority TODO's
+  
+- Welcome screen with quick links to groups/last edited tabs/settings
+
 - Logging
-  - qDebug's stream syntax
   - Load logging settings from storage with silent flag
+
+- Additional windows (sorting, settings) as pinned first tab, closed on save/cancel
 
 - Logs widget [WIP in branch `logs_widget`]
   - Archiving old logs (store unzipped 2-3 files, rest is in logs.zip)
   - Send logs with button (dunno, host an app for it ?)
   - Check `Q_FUNC_INFO` on other compilers/platforms
+    - Works correctly on `GCC Ubuntu 5.4.0`
 
 - Double-Shift or some other shortcut to quickly go to any tab | switch options
 
 - Encryption of storage with local password
-  - Remember me, for time set by user
   
-- Welcome screen with quick links to groups/last edited tabs/settings
+- Add UUIDs to tabs, move groups out to separate key
+  - Change Journal to UUID, sort order & date in doc
+  - Add universal widget for sorting SMap elements
 
 - Import/Export through menu item
   
