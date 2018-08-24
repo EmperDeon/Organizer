@@ -10,13 +10,13 @@
 #include <utils/logs/ULogger.h>
 #include "Tab.h"
 
-Tab::Tab(const QJsonObject &o, TabType t) {
+Tab::Tab(const json_o &o, TabType t) {
 	obj = o;
-    t_name = obj["name"].toString();
-    t_uuid = obj["uuid"].toString();
-    t_sort_id = obj["sort_id"].toInt();
+    t_name = obj["name"];
+    t_uuid = obj["uuid"];
+    t_sort_id = obj["sort_id"];
 	type = t;
-	u_last = static_cast<qint64>(o["last_updated"].toDouble());
+    u_last = static_cast<qint64>(o["last_updated"].get<double>());
 
     logV("Constructed Tab: " + desc());
 }
@@ -47,7 +47,7 @@ const QString Tab::desc() {
     return tabTypeS(type) + " " + name();
 }
 
-void Tab::load(QJsonObject o) {
+void Tab::load(json_o o) {
 //	qint64 n_last = static_cast<qint64>(o["last_updated"].toDouble());
 //
 //	if (n_last > u_last)
@@ -58,16 +58,16 @@ void Tab::load(QJsonObject o) {
 		o = obj;
 	}
 
-    t_name = o["name"].toString();
-    t_uuid = o["uuid"].toString();
-    t_sort_id = o["sort_id"].toInt();
-	u_last = static_cast<qint64>(o["last_updated"].toDouble());
+    t_name = o["name"];
+    t_uuid = o["uuid"];
+    t_sort_id = o["sort_id"];
+    u_last = static_cast<qint64>(o["last_updated"].get<double>());
 
 	fromJson(o["content"]);
 	loadCustomParams(o);
 }
 
-QJsonObject Tab::save() {
+json_o Tab::save() {
     logV("Saving JSON");
 
 	obj["content"] = toJson();

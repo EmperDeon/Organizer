@@ -12,12 +12,12 @@ SSettings::SSettings(Storage *stor) : storage(stor) {
     }
 }
 
-QJsonObject SSettings::object() {
-    return storage->get("settings").toObject();
+json_o SSettings::object() {
+    return storage->get("settings");
 }
 
-QJsonValue SSettings::get(const QString &key) {
-    QJsonObject obj = object();
+json SSettings::get(const QString &key) {
+    json_o obj = object();
 
     if (!obj.contains(key)) {
         initializeDefaults();
@@ -28,39 +28,38 @@ QJsonValue SSettings::get(const QString &key) {
 }
 
 bool SSettings::getB(const QString &key) {
-    return get(key).toBool();
+    return get(key);
 }
 
 QString SSettings::getS(const QString &key) {
-    return get(key).toString();
+    return get(key);
 }
 
 int SSettings::getI(const QString &key) {
-    return get(key).toInt();
+    return get(key);
 }
 
-void SSettings::set(const QString &key, const QJsonValue &val) {
-    QJsonObject obj = object();
+void SSettings::set(const QString &key, const json &val) {
+    json_o obj = object();
     obj[key] = val;
     storage->set("settings", obj)->saveJson();
 }
 
-QJsonArray SSettings::allSettings() {
+json_a SSettings::allSettings() {
     QFile f(":/settings.json");
     f.open(QFile::ReadOnly);
 
-    return Utils::fromJsonA(f.readAll());
+    return json::parse(f.readAll().data());
 }
 
 void SSettings::initializeDefaults() {
 //    qDebug() << "Settings key not found, initializingDefaults";
 
-    QJsonObject obj = object();
+    json_o obj = object();
 
     for (const auto &level : allSettings()) {
-        for (const auto &t_entry : level.toObject()["entries"].toArray()) {
-            const QJsonObject &entry = t_entry.toObject();
-            const QString &name = entry["name"].toString();
+        for (const json_o &entry : level["entries"]) {
+            const QString &name = entry["name"];
 
             if (!obj.contains(name)) {
                 obj[name] = entry["default"];

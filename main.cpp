@@ -10,7 +10,7 @@
 #include <utils/logs/ULogger.h>
 #include <QtGui/QFontDatabase>
 #include <crypt/Crypt.h>
-
+#include <vendor/additions.h>
 
 void initStyles();
 
@@ -19,17 +19,19 @@ int main(int argc, char **argv) {
 
     logI(QString("Version ") + VERSION);
 
-    ULogger::getInstance();
-    Crypt::getInstance();
+//    ULogger::getInstance();
+//    Crypt::getInstance();
     Storage::getInstance();
-    SGroups::getInstance();
+//    SGroups::getInstance();
+//
+//    initStyles();
+//
+//    auto *wnd = WMain::getInstance();
+//    wnd->show();
+//
+//    logD("WMain showed");
 
-    initStyles();
-
-    auto *wnd = WMain::getInstance();
-    wnd->show();
-
-    logD("WMain showed");
+    auto storage = Storage::getInstance();
 
     return qApp->exec();
 }

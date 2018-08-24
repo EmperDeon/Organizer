@@ -16,3 +16,11 @@ std::string md2html(std::string in) {
 
     return ots.str();
 }
+
+void to_json(json &j, const QString &p) {
+    j = p.toStdString();
+}
+
+void from_json(const json &j, QString &p) {
+    p = QString::fromStdString(j);
+}

@@ -36,7 +36,7 @@ public:
 
     void removeCurrent();
 
-    QJsonObject createGroupJson(const QString &name);
+    json_o createGroupJson(const QString &name);
 
     QStringList names();
 

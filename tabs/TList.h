@@ -16,17 +16,15 @@ class TList : public UOrderedMap<QString, Tab *> {
 public:
     TList() = default;
 
-    void fromJson(const QJsonObject &obj);
+    void fromJson(const json_o &obj);
 
-    void fromJson(const QJsonArray &arr);
+    Tab *addJson(const QString &key, const json_o &obj);
 
-    Tab *addJson(const QString &key, const QJsonObject &obj);
+    json_o toJson();
 
-    QJsonObject toJson();
+    json_a toJsonA();
 
-    QJsonArray toJsonA();
-
-    static Tab *createNew(const QJsonObject &o, int i_type = -1);
+    static Tab *createNew(const json_o &o, int i_type = -1);
 };
 
 

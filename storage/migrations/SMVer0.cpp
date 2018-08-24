@@ -7,58 +7,55 @@
 #include "SMVer0.h"
 #include <utils/Utils.h>
 
-QString SMVer0::getVersion() {
+std::string SMVer0::getVersion() {
     return "0.0";
 }
 
-QJsonObject SMVer0::processF(QJsonObject o) {
-    QString d = o["docs"].toString();
+void SMVer0::processF(json_o &o) {
+    QString d = o["docs"];
 
     // Collect all docs to one array
-    QJsonArray r;
-    QJsonObject doc, obj = Utils::fromJson(d);
+    json_a r;
+    json_o doc, obj = json::parse(d.toStdString());
 
-    doc = obj["documents"].toObject();
-    for (const QString &v : doc.keys()) {
-        r << doc[v];
+    doc = obj["documents"];
+    for (const auto &v : doc.keys()) {
+        r += doc[v];
     }
 
-    doc = obj["links"].toObject();
-    for (const QString &v : doc.keys()) {
-        QJsonObject t = doc[v].toObject();
+    doc = obj["links"];
+    for (const auto &v : doc.keys()) {
+        json_o t = doc[v];
 
         t["type"] = 2;
 
-        r << t;
+        r += t;
     }
 
-    o["docs"] = Utils::toJson(r);
-
-    return o;
+    o["docs"] = r.dumpQ();
 }
 
-QJsonObject SMVer0::processD(QJsonObject o) {
-    switch (o["type"].toInt()) {
+void SMVer0::processD(json_o &o) {
+    int type = o["type"];
+    switch (type) {
         case 0:
-            o["content"] = o["text"].toString();
+            o["content"] = o["text"];
             o["type"] = 1;
-            o.remove("text");
+            o.erase("text");
             break;
 
         case 1:
-            o["content"] = o["lines"].toArray();
+            o["content"] = o["lines"];
             o["type"] = 2;
-            o.remove("lines");
+            o.erase("lines");
             break;
 
         case 2:
-            o["content"] = o["links"].toArray();
+            o["content"] = o["links"];
             o["type"] = 4;
-            o.remove("links");
+            o.erase("links");
             break;
 
         default:;
     }
-
-    return o;
 }

@@ -14,6 +14,7 @@
 #include <storage/SSettings.h>
 #include <storage/SMigrations.h>
 #include <utils/USingleton.h>
+#include <vendor/additions.h>
 #include "plugins/tabs/PTabFiles.h"
 #include "SMap.h"
 
@@ -22,8 +23,8 @@ class PTabFiles;
 class SSettings;
 
 class Storage : public USingleton<Storage> {
-    QJsonObject original;
-    QJsonArray docs;
+    json_o original;
+    json_a docs;
 
     SSecure *secure;
     SMigrations *migrations;
@@ -34,24 +35,24 @@ public:
     Storage();
 
     // redirect to original Json
-    QJsonValue get(const QString &k) { return original.value(k); }
+    json &get(const QString &k) { return original[k]; }
 
-    QString getS(const QString &k) { return get(k).toString(); }
+    QString getS(const QString &k) { return get(k); }
 
-    bool getB(const QString &k) { return get(k).toBool(); }
+    bool getB(const QString &k) { return get(k); }
 
     SMap getMap(const QString &k);
 
-    Storage *set(const QString &k, const QJsonValue &v) {
-        original.insert(k, v);
+    Storage *set(const QString &k, const json &v) {
+        original[k] = v;
         return this;
     }
 
-    void remove(const QString &k) { original.remove(k); }
+    void remove(const QString &k) { original.erase(k); }
 
-    QJsonArray getDocs() { return docs; }
+    json_a &getDocs() { return docs; }
 
-    void setDocs(const QJsonArray &doc) { docs = doc; }
+    void setDocs(const json_a &doc) { docs = doc; }
 
     // IO
     void loadJson();

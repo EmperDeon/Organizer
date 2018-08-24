@@ -6,41 +6,33 @@
 
 #include "SMap.h"
 
-void SMap::fromJson(const QJsonObject &obj) {
-    QMap<QString, QJsonObject> map;
+void SMap::fromJson(const json &obj) {
+    QMap<QString, json> map;
 
-    for (const auto &k : obj.keys()) {
-        map[k] = obj[k].toObject();
+    if (obj.is_object()) {
+        for (const auto &it : obj.items()) {
+            map[QString::fromStdString(it.key())] = it.value();
+        }
+    } else if (obj.is_array()) {
+        for (const auto &v : obj) {
+            map[obj["name"]] = obj;
+        }
     }
 
-    addItems(map, [](const QJsonObject &o1, const QJsonObject &o2) {
-        return o1["sort_id"].toInt() < o2["sort_id"].toInt();
+    addItems(map, [](const json &o1, const json &o2) {
+        int sort_one = o1["sort_id"], sort_two = o2["sort_id"];
+        return sort_one < sort_two;
     });
 }
 
-void SMap::fromJson(const QJsonArray &arr) {
-    QMap<QString, QJsonObject> map;
-
-    for (const auto &v : arr) {
-        auto obj = v.toObject();
-
-        map[obj["name"].toString()] = obj;
-    }
-
-    addItems(map, [](const QJsonObject &o1, const QJsonObject &o2) {
-        return o1["sort_id"].toInt() < o2["sort_id"].toInt();
-    });
-}
-
-QJsonObject SMap::toJson() {
-    QJsonObject o, t;
+json_o SMap::toJson() {
+    json_o o;
 
     for (int i = 0; i < m_keys.size(); i++) {
         const QString &k = m_keys[i];
 
-        t = m_vals[k];
-        t["sort_id"] = i;
-        o[k] = t;
+        o[k] = m_vals[k];
+        o[k]["sort_id"] = i;
     }
 
     return o;

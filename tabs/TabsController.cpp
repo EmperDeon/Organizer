@@ -19,9 +19,9 @@ TabsController::TabsController(WMain *w) : wnd(w) {
 void TabsController::load() {
     logV("Loading tabs");
 
-    QJsonArray docs = Storage::getInstance()->getDocs();
+    json_o docs = Storage::getInstance()->getDocs();
 
-    logV("Tabs count: " + QString::number(docs.count()));
+    logV("Tabs count: " + QString::number(docs.size()));
 
     tabs.fromJson(docs);
 }

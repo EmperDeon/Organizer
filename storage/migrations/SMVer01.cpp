@@ -6,15 +6,15 @@
 
 #include "SMVer01.h"
 
-QString SMVer01::getVersion() {
+std::string SMVer01::getVersion() {
     return "0.1";
 }
 
-QJsonObject SMVer01::processF(QJsonObject o) { return o; }
+void SMVer01::processF(json_o &o) {}
 
 
-QJsonObject SMVer01::processD(QJsonObject o) {
-    int type = o["type"].toInt();
+void SMVer01::processD(json_o &o) {
+    int type = o["type"];
 
     if (type == 4) {
         o["type"] = 2;
@@ -23,6 +23,4 @@ QJsonObject SMVer01::processD(QJsonObject o) {
     if (type == 8) {
         o["type"] = 4;
     }
-
-    return o;
 }

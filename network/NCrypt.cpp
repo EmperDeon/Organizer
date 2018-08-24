@@ -11,7 +11,7 @@
 #include "NCrypt.h"
 
 QByteArray NCrypt::encrypt(QByteArray mem, QString path) {
-	QJsonObject obj;
+    json_o obj;
 	CAes aes(NETWORK_AES_TYPE, getKey(path));
 
 	QString enc = aes.encrypt(QString::fromUtf8(mem)).toUtf8();
@@ -20,7 +20,7 @@ QByteArray NCrypt::encrypt(QByteArray mem, QString path) {
 	obj["uid"] = st->get("uid");
 	obj["sign"] = sign(enc);
 
-	return QJsonDocument(obj).toJson(QJsonDocument::Compact);
+    return obj.dumpQ().toUtf8();
 }
 
 QByteArray NCrypt::decrypt(QByteArray mes, QString path) {

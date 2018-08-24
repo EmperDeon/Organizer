@@ -11,27 +11,22 @@
 #include <tabs/encrypted/TEncryptedTab.h>
 #include "TList.h"
 
-void TList::fromJson(const QJsonObject &obj) {
+void TList::fromJson(const json_o &obj) {
     QMap<QString, Tab *> map;
 
     for (const auto &k : obj.keys()) {
         map[k] = createNew(obj[k].toObject());
     }
 
-    // TODO: Sync: Check contains(k) and compare last_updated
+    if (obj.is_object()) {
+        for (const auto &it : obj.items()) {
+            map[QString::fromStdString(it.key())] = it.value();
+        }
 
-    addItems(map, [](Tab *o1, Tab *o2) {
-        return o1->sortId() < o2->sortId();
-    });
-}
-
-void TList::fromJson(const QJsonArray &arr) {
-    QMap<QString, Tab *> map;
-
-    for (const auto &v : arr) {
-        auto obj = v.toObject();
-
-        map[obj["uuid"].toString()] = createNew(obj);
+    } else if (obj.is_array()) {
+        for (const auto &v : obj) {
+            map[obj["name"]] = obj;
+        }
     }
 
     // TODO: Sync: Check contains(k) and compare last_updated
@@ -41,7 +36,7 @@ void TList::fromJson(const QJsonArray &arr) {
     });
 }
 
-Tab *TList::addJson(const QString &key, const QJsonObject &arr) {
+Tab *TList::addJson(const QString &key, const json_o &arr) {
     Tab *w = createNew(arr);
 
     if (w == nullptr) {
@@ -53,8 +48,8 @@ Tab *TList::addJson(const QString &key, const QJsonObject &arr) {
     return w;
 }
 
-QJsonObject TList::toJson() {
-    QJsonObject o, t;
+json_o TList::toJson() {
+    json_o o, t;
 
     for (int i = 0; i < m_keys.size(); i++) {
         const QString &k = m_keys[i];
@@ -70,9 +65,9 @@ QJsonObject TList::toJson() {
     return o;
 }
 
-QJsonArray TList::toJsonA() {
-    QJsonArray o;
-    QJsonObject t;
+json_a TList::toJsonA() {
+    json_a o;
+    json_o t;
 
     for (int i = 0; i < m_keys.size(); i++) {
         const QString &k = m_keys[i];
@@ -88,7 +83,7 @@ QJsonArray TList::toJsonA() {
     return o;
 }
 
-Tab *TList::createNew(const QJsonObject &o, int i_type) {
+Tab *TList::createNew(const json_o &o, int i_type) {
     Tab::TabType type;
 
     if (i_type == -1) {

@@ -19,9 +19,9 @@ class SSettings {
 public:
     SSettings(Storage *stor = nullptr);
 
-    QJsonObject object();
+    json_o object();
 
-    QJsonValue get(const QString &key);
+    json get(const QString &key);
 
     bool getB(const QString &key);
 
@@ -29,9 +29,9 @@ public:
 
     int getI(const QString &key);
 
-    void set(const QString &key, const QJsonValue &val);
+    void set(const QString &key, const json &val);
 
-    static QJsonArray allSettings();
+    static json_a allSettings();
 
     void initializeDefaults();
 };

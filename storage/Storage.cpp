@@ -34,16 +34,16 @@ void Storage::loadJson() {
         logW("Can't open " + STORAGE_FILE);
     }
 
-    original = Utils::fromJson(json);
-    original = migrations->processFull(original);
+    original = json::parse(json.toStdString());
+    migrations->processFull(original);
 
     if (SSettings(this).getB("storage_backup"))
         SBackup::addDocs(json);
 
     // Here, because needs original json, but decrypt may need access to *secure
-    secure = new SSecure(&original);
+    secure = new SSecure(original);
 
-    loadDocs(original["docs"].toString());
+    loadDocs(original["docs"]);
 
     loaded = true;
     logD("Loaded");
@@ -68,7 +68,7 @@ void Storage::saveJson() {
     if (!getB("remember"))
         remove("login_hash");
 
-    QString json = Utils::toJson(original, QJsonDocument::Indented);
+    QString json = original.dumpQ(4);
 
     QFile f(STORAGE_FILE);
     if (f.open(QFile::WriteOnly)) {
@@ -99,11 +99,11 @@ void Storage::loadDocs(QString d) {
     }
 
     docs = Utils::fromJsonA(d);
-    docs = migrations->processDocs(docs);
+    migrations->processDocs(docs);
 }
 
 QString Storage::saveDocs() {
-    QString out = Utils::toJson(docs);
+    QString out = docs.dumpQ();
 
     if (getB("sync")) {
         CAes aes(S_DOC_CIPHER, secure->password());
@@ -129,7 +129,7 @@ void Storage::checkDir() {
 SMap Storage::getMap(const QString &k) {
     SMap r;
 
-    r.fromJson(get(k).toObject());
+    r.fromJson(get(k));
 
     return r;
 }

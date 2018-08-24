@@ -10,9 +10,6 @@
 #include <QtWidgets/QStatusBar>
 #include "WTGroups.h"
 
-#define GROUPS_ARRAY_LOAD(group) QJsonArray notes = groups[(group)]["notes"].toArray()
-#define GROUPS_ARRAY_SAVE(group) { QJsonObject obj = groups[(group)]; obj["notes"] = notes; groups[(group)] = obj; }
-
 WTGroups::WTGroups(WTabs *t) : tabs(t), contr(t->contr) {
     groups = SGroups::getInstance();
     l_group = new WTGroupLabel(this);

@@ -11,6 +11,7 @@
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonArray>
 #include <storage/migrations/SMigration.h>
+#include <vendor/additions.h>
 
 
 class SMigrations {
@@ -20,11 +21,11 @@ class SMigrations {
 public:
     explicit SMigrations();
 
-    QJsonObject processFull(QJsonObject o);
+    void processFull(json_o &o);
 
-    QJsonArray processDocs(QJsonArray a);
+    void processDocs(json_a &a);
 
-    QJsonObject processFiles(QJsonObject a);
+    void processFiles(json_o &a);
 };
 
 

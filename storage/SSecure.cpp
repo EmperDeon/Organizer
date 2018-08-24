@@ -9,30 +9,24 @@
 #include <crypt/CRsa.h>
 #include "SSecure.h"
 
-SSecure::SSecure(QJsonObject *o) : obj(o) {
-
-}
-
 QString SSecure::password() {
-    if (!obj->contains("login_hash"))
-        obj->insert("login_hash", UPassDialog::getLoginHash(
-                obj->value("last_login").toString())); // TODO: Replace with Crypt::deriveKey
+    if (!obj.contains("login_hash"))
+        obj["login_hash"] = UPassDialog::getLoginHash(obj["last_login"]); // TODO: Replace with Crypt::deriveKey
 
-    CAes aes(256, obj->value("login_hash").toString());
+    CAes aes(256, obj["login_hash"]);
 
     QString key;
-    key = aes.decrypt(obj->value("doc_key").toString());
+    key = aes.decrypt(obj["doc_key"]);
     key = Utils::toBase(key.toUtf8());
 
     return key;
 }
 
 void SSecure::initNetworkInfo() {
-    obj->insert("uid", Crypt::hash(Crypt::randomBytes(S_UID_SIZE))); // TODO: change to UUID
-    obj->insert("net_key", Crypt::randomBytes(NETWORK_AES_KEY_SIZE).toBase());
+    obj["uid"] = Crypt::hash(Crypt::randomBytes(S_UID_SIZE)); // TODO: change to UUID
+    obj["net_key"] = Crypt::randomBytes(NETWORK_AES_KEY_SIZE).toBase();
 
     CRsa rsa = CRsa::generatePrivate(NETWORK_RSA_KEY_SIZE);
-    obj->insert("rsa_pr", rsa.privateKey());
-    obj->insert("rsa_pu", rsa.publicKey());
+    obj["rsa_pr"] = rsa.privateKey();
+    obj["rsa_pu"] = rsa.publicKey();
 }
-

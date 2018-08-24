@@ -11,20 +11,19 @@
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonArray>
 #include <utils/UOrderedMap.h>
+#include <vendor/additions.h>
 
 /*
  * Sorting by "sort_by" index in QJsonObject
  * */
-class SMap : public UOrderedMap<QString, QJsonObject> {
+class SMap : public UOrderedMap<QString, json> {
 
 public:
     SMap() = default;
 
-    void fromJson(const QJsonObject &obj);
+    void fromJson(const json &obj);
 
-    void fromJson(const QJsonArray &arr);
-
-    QJsonObject toJson();
+    json_o toJson();
 
     QString nextKey(const QString &key);
 };

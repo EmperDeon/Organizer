@@ -10,6 +10,7 @@
 #include <QtWidgets/QWidget>
 #include <QtCore/QJsonObject>
 #include <QtCore/QMap>
+#include <vendor/additions.h>
 
 
 class Tab : public QWidget {
@@ -26,7 +27,7 @@ public:
 private:
 	qint64 u_time = 0, u_last = 0;
 	bool timer_not_started = true;
-	QJsonObject obj;
+    json_o obj;
 
 	TabType type = NewTab;
 
@@ -39,9 +40,9 @@ protected:
 public:
     explicit Tab() = default;
 
-    explicit Tab(const QJsonObject &o, TabType t = NewTab);
+    explicit Tab(const json_o &o, TabType t = NewTab);
 
-	void load(QJsonObject o = QJsonObject());
+    void load(json_o o = json_o());
 
 	QJsonObject save();
 
@@ -58,20 +59,20 @@ public:
 
 	static const QString tabTypeS(TabType type);
 
-	inline static const QString tabTypeS(const QJsonObject &tab) { return tabTypeS(tabType(tab)); }
+    inline static const QString tabTypeS(const json_o &tab) { return tabTypeS(tabType(tab)); }
 
-	inline static TabType tabType(const QJsonObject &tab) { return tabType(tab["type"].toInt(1024)); }
+    inline static TabType tabType(const json_o &tab) { return tabType(tab["type"].is_number() ? tab["type"] : 1024); }
 
     inline static TabType tabType(int t) { return static_cast<Tab::TabType>(t); }
 
 
-	virtual void fromJson(QJsonValue v) { Q_UNUSED(v); };
+    virtual void fromJson(json v) { Q_UNUSED(v); };
 
-	virtual QJsonValue toJson() { return QJsonObject(); };
+    virtual json toJson() { return json_o(); };
 
-	virtual void loadCustomParams(const QJsonObject &o) { Q_UNUSED(o); }
+    virtual void loadCustomParams(const json_o &o) { Q_UNUSED(o); }
 
-	virtual void saveCustomParams(QJsonObject &o) { Q_UNUSED(o); }
+    virtual void saveCustomParams(json_o &o) { Q_UNUSED(o); }
 
     virtual void onSelected() {}
 

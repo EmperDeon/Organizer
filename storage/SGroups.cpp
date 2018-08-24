@@ -8,9 +8,6 @@
 #include <QtGui/QtGui>
 #include "SGroups.h"
 
-#define GROUPS_ARRAY_LOAD(group) QJsonArray notes = groups[(group)]["notes"].toArray()
-#define GROUPS_ARRAY_SAVE(group) { QJsonObject obj = groups[(group)]; obj["notes"] = notes; groups[(group)] = obj; }
-
 SGroups::SGroups() {
     load();
 }
@@ -22,12 +19,8 @@ bool SGroups::addTo(Tab *tab, QString group) {
     if (group.isEmpty())
         group = current;
 
-    GROUPS_ARRAY_LOAD(group);
-
     uuids << tab->uuid();
-    notes.append(tab->uuid());
-
-    GROUPS_ARRAY_SAVE(group);
+    groups[group]["notes"] += tab->uuid();
 
     return true;
 }
@@ -39,34 +32,29 @@ bool SGroups::removeFromCurrent(Tab *tab, QString group) {
     if (group.isEmpty())
         group = current;
 
-    GROUPS_ARRAY_LOAD(group);
-
     uuids.removeAll(tab->uuid());
-    Utils::removeInArray(notes, tab->uuid());
-
-    GROUPS_ARRAY_SAVE(group);
+    groups[group]["notes"].eraseAllV(tab->uuid());
 
     return true;
 }
 
 void SGroups::create(const QString &name) {
-    groups.insert(name, createGroupJson(name));
+    json_o obj = createGroupJson(name);
+    groups.insert(name, obj);
 }
 
 void SGroups::removeCurrent() {
-    GROUPS_ARRAY_LOAD(current);
-
-    for (const auto &uuid : notes) {
-        uuids.removeAll(uuid.toString());
+    for (QString uuid : groups[current]["notes"]) {
+        uuids.removeAll(uuid);
     }
 
     groups.remove(current);
 }
 
-QJsonObject SGroups::createGroupJson(const QString &name) {
+json_o SGroups::createGroupJson(const QString &name) {
     return {
             {"name",  name},
-            {"notes", QJsonArray()}
+            {"notes", json_a()}
     };
 }
 
@@ -78,9 +66,7 @@ bool SGroups::isInGroup(const QString &group, const QString &uuid) {
     if (uuid.isEmpty())
         return false;
 
-    GROUPS_ARRAY_LOAD(group);
-
-    if (notes.contains(uuid))
+    if (groups[group]["notes"].contains(uuid))
         return true;
 
     return group == NO_GROUP && !uuids.contains(uuid);
@@ -102,8 +88,8 @@ void SGroups::load() {
     }
 
     for (const auto &k : groups) {
-        for (const auto &uuid : groups[k]["notes"].toArray()) {
-            uuids << uuid.toString();
+        for (QString uuid : groups[k]["notes"]) {
+            uuids << uuid;
         }
     }
 }

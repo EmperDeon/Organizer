@@ -8,23 +8,25 @@
 #define ORGANIZER_SMIGRATION_H
 
 #include <QtCore/QJsonObject>
+#include <vendor/additions.h>
 
 
 class SMigration {
 public:
     SMigration() = default;
 
-    virtual QString getVersion() = 0;
+    virtual std::string getVersion() = 0;
 
-    virtual bool isNeeded(const QJsonObject &o) {
-        return o["version"].toString() < getVersion();
+    virtual bool isNeeded(const json_o &o) {
+        std::string ver = o["version"];
+        return ver < getVersion();
     }
 
     // Full object
-    virtual QJsonObject processF(QJsonObject o) = 0;
+    virtual void processF(json_o &o) = 0;
 
     // Documents
-    virtual QJsonObject processD(QJsonObject o) = 0;
+    virtual void processD(json_o &o) = 0;
 };
 
 

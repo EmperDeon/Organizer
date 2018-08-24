@@ -7,14 +7,15 @@
 #ifndef ORGANIZER_SSECURE_H
 #define ORGANIZER_SSECURE_H
 
-
 #include <QtCore/QJsonObject>
+#include <vendor/additions.h>
+
 
 class SSecure {
-    QJsonObject *obj;
+    json_o &obj;
 
 public:
-    explicit SSecure(QJsonObject *o);
+    explicit SSecure(json_o &o) : obj(o) {}
 
     QString password();
 

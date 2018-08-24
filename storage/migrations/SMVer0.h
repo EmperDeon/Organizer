@@ -12,11 +12,11 @@
 
 class SMVer0 : public SMigration {
 public:
-    QString getVersion() override;
+    std::string getVersion() override;
 
-    QJsonObject processF(QJsonObject o) override;
+    void processF(json_o &o) override;
 
-    QJsonObject processD(QJsonObject o) override;
+    void processD(json_o &o) override;
 };
 
 

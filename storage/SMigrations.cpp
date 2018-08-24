@@ -17,38 +17,34 @@ SMigrations::SMigrations() {
     };
 }
 
-QJsonObject SMigrations::processFull(QJsonObject o) {
+void SMigrations::processFull(json_o &o) {
     for (auto m : migrations) {
         if (m->isNeeded(o)) {
-            o = m->processF(o);
+            m->processF(o);
             o["version"] = m->getVersion();
         }
     }
-
-    return o;
 }
 
-QJsonArray SMigrations::processDocs(QJsonArray a) {
+void SMigrations::processDocs(json_a &a) {
     for (auto m : migrations) {
-        QJsonArray r;
+        json_a result;
 
-        for (auto v : a) {
-            QJsonObject o = v.toObject();
-
+        for (const auto &o : a) {
             if (m->isNeeded(o)) {
-                o = m->processD(o);
-                o["version"] = m->getVersion();
-            }
-            r << o;
-        }
-        a = r;
-    }
+                json obj = o;
+                m->processD(obj);
+                obj["version"] = m->getVersion();
 
-    return a;
+                result += obj;
+            }
+        }
+
+        a = std::move(result);
+    }
 }
 
-QJsonObject SMigrations::processFiles(QJsonObject a) {
+void SMigrations::processFiles(json_o &a) {
     // FIXME: Stub, add realization later
 
-    return a;
 }
