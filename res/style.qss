@@ -4,7 +4,7 @@
     border: none;
     /*border: 1px solid #000;*/
     /*border: #545454;*/
-    font-family: "Roboto", serif;
+    font-family: "PT Sans", serif;
     font-size: 13px;
 }
 
@@ -28,10 +28,8 @@ QMenuBar {
 
 QTabBar::tab {
     border: 1px solid #414141;
-    /*margin: 5px 0 5px 5px;*/
     padding: 7px 15px;
     background-color: #333;
-
 }
 
 QTabBar::tab:hover {

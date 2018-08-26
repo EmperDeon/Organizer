@@ -12,6 +12,7 @@
 #include <QtCore/QDate>
 #include <QtCore/QDateTime>
 #include <QtCore/QVariant>
+#include <QtWidgets/QBoxLayout>
 
 #define select_if(from, to, predicate) std::copy_if((from).begin(), (from).end(), std::back_inserter(to), predicate)
 #define collect(from, to, lambda) std::transform((from).begin(), (from).end(), std::back_inserter(to), lambda)
@@ -42,6 +43,8 @@ public:
     static QJsonValue serializeFromString(const QString &value);
 
     static void removeInArray(QJsonArray &array, const QJsonValue &val);
+
+    static void layoutClear(QBoxLayout *layout);
 };
 
 #endif //ORGANIZER_CTOOLS_H

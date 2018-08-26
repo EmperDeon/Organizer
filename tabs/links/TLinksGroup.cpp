@@ -6,6 +6,7 @@
 
 #include <QtCore/QJsonArray>
 #include <utils/UScrollArea.h>
+#include <utils/Utils.h>
 #include "TLinksGroup.h"
 
 TLinksGroup::TLinksGroup(const QJsonObject &o) : Tab(o, Tab::LinksGroup) {
@@ -42,6 +43,11 @@ void TLinksGroup::updateLinks() {
 void TLinksGroup::fromJson(QJsonValue v) {
     QJsonArray arr = v.toArray();
 
+    // Remove old links
+    Utils::layoutClear(list);
+    links.clear();
+
+    // Add new links
     for (QJsonValue t : arr)
         addLink(t.toObject());
 

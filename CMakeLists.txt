@@ -18,7 +18,7 @@ find_package(Qt5 COMPONENTS Core Widgets Network REQUIRED)
 message(STATUS "Qt version: " ${Qt5_VERSION})
 
 set(ORGANIZER_MAJOR_VERSION "0")
-set(ORGANIZER_MINOR_VERSION "1")
+set(ORGANIZER_MINOR_VERSION "2")
 set(ORGANIZER_PATCH_VERSION "0")
 set(ORGANIZER_VERSION_STRING "${ORGANIZER_MAJOR_VERSION}.${ORGANIZER_MINOR_VERSION}.${ORGANIZER_PATCH_VERSION}")
 
@@ -82,7 +82,6 @@ SET(M_S
         storage/migrations/SMVer02.cpp
 
         utils/ULoginDialog.cpp
-        utils/UOrderedMap.cpp
         utils/UPassDialog.cpp
         utils/UScrollArea.cpp
         utils/USingleton.cpp

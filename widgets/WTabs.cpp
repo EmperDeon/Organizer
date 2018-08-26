@@ -51,7 +51,7 @@ void WTabs::groupBy(QString group) {
     }
 
     addTab(newTab, "+");
-    setCurrentIndex(1);
+    setCurrentIndex(0);
 
     logD("Tabs regrouped");
 }

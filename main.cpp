@@ -39,7 +39,7 @@ void initStyles() {
     QFontDatabase::addApplicationFont(":/fonts/PT_Sans-Web-BoldItalic.ttf");
     QFontDatabase::addApplicationFont(":/fonts/PT_Sans-Web-Italic.ttf");
     QFontDatabase::addApplicationFont(":/fonts/PT_Sans-Web-Regular.ttf");
-    qApp->setFont(QFont("Roboto Regular"));
+    qApp->setFont(QFont("PT Sans Regular"));
 
     QFile File(":/style.qss");
     File.open(QFile::ReadOnly);

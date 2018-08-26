@@ -31,9 +31,9 @@ void TabsController::addNewTab(const QString &uuid, const QJsonObject &o) {
     QString name = o["name"].toString("Error");
 
     if (w != nullptr) { // if successfully created Tab
-        int pos = wnd->tabs->count() - 2;
+        int pos = wnd->tabs->count() - 1;
         wnd->tabs->insertTab(pos, w, name);
-        wnd->tabs->setCurrentIndex(pos - 1);
+        wnd->tabs->setCurrentIndex(pos);
     }
 }
 

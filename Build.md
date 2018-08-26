@@ -1,4 +1,5 @@
 ## Dependencies
+
 - Qt >= 5.5
 - cpp-markdown
   - boost-regex
@@ -6,6 +7,7 @@
 
 
 ## Common
+
 ```
 sudo apt install qtbase5-dev libboost-regexp-dev libtommath-dev
 
@@ -23,6 +25,7 @@ git submodule update
 
 
 ### CMake
+
 ```
 mkdir build && cd build
 cmake ..
@@ -31,13 +34,10 @@ make Organizer_unity
 
 
 ## QMake
+
 ```
 cd vendor
 mkdir build && mkdir libs && cd build
-
-qmake ../simple_ossl.pro
-make
-mv libsimple_ossl.a ../libs
 
 qmake ../cpp-markdown.pro
 make
@@ -50,6 +50,7 @@ make
 
 
 ### Tested with
+
 - Ubuntu 16 (Qt 5.5.1)
 - Ubuntu 18 (Qt 5.9.3)
 - Qt 5.11 build from source

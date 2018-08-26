@@ -7,6 +7,7 @@
 #include <QtCore/QJsonObject>
 #include <QtCore/QBuffer>
 #include <QtCore/QDataStream>
+#include <QtWidgets/QWidget>
 #include "Utils.h"
 
 QByteArray Utils::fromBase(const QString &str) {
@@ -75,5 +76,12 @@ void Utils::removeInArray(QJsonArray &array, const QJsonValue &val) {
             array.removeAt(i);
             i--;
         }
+    }
+}
+
+void Utils::layoutClear(QBoxLayout *layout) {
+    QLayoutItem *child;
+    while (((child = layout->takeAt(0)) != nullptr) && (child->widget() != nullptr)) {
+        child->widget()->deleteLater();
     }
 }
