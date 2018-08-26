@@ -98,7 +98,7 @@ void Storage::loadDocs(QString d) {
         d = QString::fromUtf8(qUncompress(Utils::fromBase(d)));
     }
 
-    docs = Utils::fromJsonA(d);
+    docs = Utils::fromJson(d);
     docs = migrations->processDocs(docs);
 }
 

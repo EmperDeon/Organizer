@@ -19,7 +19,7 @@ TabsController::TabsController(WMain *w) : wnd(w) {
 void TabsController::load() {
     logV("Loading tabs");
 
-    QJsonArray docs = Storage::getInstance()->getDocs();
+    QJsonObject docs = Storage::getInstance()->getDocs();
 
     logV("Tabs count: " + QString::number(docs.count()));
 
@@ -38,7 +38,7 @@ void TabsController::addNewTab(const QString &uuid, const QJsonObject &o) {
 }
 
 void TabsController::save() {
-    QJsonArray obj = tabs.toJsonA();
+    QJsonObject obj = tabs.toJson();
 
     Storage::getInstance()->setDocs(obj);
 }

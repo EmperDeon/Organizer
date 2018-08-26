@@ -31,6 +31,14 @@ int main(int argc, char **argv) {
 
     logD("WMain showed");
 
+//    TList tabs;
+//
+//    QJsonArray docs = Storage::getInstance()->getDocs();
+//    tabs.fromJson(docs);
+//
+//    QJsonObject obj = tabs.toJson();
+//    Storage::getInstance()->setDocs(obj);
+
     return qApp->exec();
 }
 

@@ -28,20 +28,18 @@ QJsonObject SMigrations::processFull(QJsonObject o) {
     return o;
 }
 
-QJsonArray SMigrations::processDocs(QJsonArray a) {
+QJsonObject SMigrations::processDocs(QJsonObject a) {
     for (auto m : migrations) {
-        QJsonArray r;
-
-        for (auto v : a) {
-            QJsonObject o = v.toObject();
+        for (auto v : a.keys()) {
+            QJsonObject o = a[v].toObject();
 
             if (m->isNeeded(o)) {
                 o = m->processD(o);
                 o["version"] = m->getVersion();
             }
-            r << o;
+
+            a[v] = o;
         }
-        a = r;
     }
 
     return a;

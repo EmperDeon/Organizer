@@ -22,7 +22,7 @@ public:
 
     QJsonObject processFull(QJsonObject o);
 
-    QJsonArray processDocs(QJsonArray a);
+    QJsonObject processDocs(QJsonObject a);
 
     QJsonObject processFiles(QJsonObject a);
 };

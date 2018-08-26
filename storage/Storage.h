@@ -22,8 +22,7 @@ class PTabFiles;
 class SSettings;
 
 class Storage : public USingleton<Storage> {
-    QJsonObject original;
-    QJsonArray docs;
+    QJsonObject original, docs;
 
     SSecure *secure;
     SMigrations *migrations;
@@ -49,9 +48,9 @@ public:
 
     void remove(const QString &k) { original.remove(k); }
 
-    QJsonArray getDocs() { return docs; }
+    QJsonObject getDocs() { return docs; }
 
-    void setDocs(const QJsonArray &doc) { docs = doc; }
+    void setDocs(const QJsonObject &doc) { docs = doc; }
 
     // IO
     void loadJson();
