@@ -6,7 +6,15 @@
   - Screenshots
 
 
-### Current TODO's
+### Broken
+
+- WTSorter - no support for uuids
+- FilesGroup - encryption and decryption
+- New tab isn't added to current group
+- `cpp-markdown` doesn't compile with gcc7
+
+
+### Current roadmap
 
 - Move sensitive variables to SSecure (with static key for now)
 
@@ -23,15 +31,18 @@
   - Windows blinks multiple times on start
     - Multiple (10-12) saves after app starts (Maybe it's just auto save after edit ?)
   - Don't work correctly with dock (`plank`) until hidden to tray and shown back
+    - Bug present only if desktop entry is created (misconfiguration ?)
   - Keyboard language don't change (Dev bug?)
 
 
-### Low priority TODO's
+### Low priority roadmap
   
 - Welcome screen with quick links to groups/last edited tabs/settings
 
 - Logging
   - Load logging settings from storage with silent flag
+
+- Compress Journal's content
 
 - Additional windows (sorting, settings) as pinned first tab, closed on save/cancel
 
@@ -66,6 +77,7 @@
 #### Other 
 ##### Needs further checking
 - network/NCrypt:decrypt - Validation error prints only to console and message decryption isn't stopped
+  - Show QMessageBox with question about trust
 
 
 ##### Maybe

@@ -8,8 +8,6 @@
 #define ORGANIZER_MIO_H
 
 #include <vars.h>
-#include <vendor/additions.h>
-#include <vendor/additions.h>
 #include <storage/SSecure.h>
 #include <storage/SSettings.h>
 #include <storage/SMigrations.h>
@@ -23,8 +21,7 @@ class PTabFiles;
 class SSettings;
 
 class Storage : public USingleton<Storage> {
-    json_o original;
-    json_a docs;
+    json_o original, docs;
 
     SSecure *secure;
     SMigrations *migrations;
@@ -50,9 +47,9 @@ public:
 
     void remove(const QString &k) { original.erase(k); }
 
-    json_a &getDocs() { return docs; }
+    json_o &getDocs() { return docs; }
 
-    void setDocs(const json_a &doc) { docs = doc; }
+    void setDocs(const json_o &doc) { docs = doc; }
 
     // IO
     void loadJson();

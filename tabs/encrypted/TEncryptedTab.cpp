@@ -125,14 +125,13 @@ void TEncryptedTab::unlock() {
         layout->itemAt(1)->widget()->setVisible(true);
     }
 
-    w_password->clear();
     fromJson(content);
     logD("Unlocked successfully");
 }
 
 void TEncryptedTab::tryUnlock() {
     if (remember_me) {
-        if (remember_until > QDateTime::currentSecsSinceEpoch()) {
+        if (remember_until > (QDateTime::currentMSecsSinceEpoch() / 1000)) {
             return unlock();
         } else {
             remember_me = false;
@@ -147,7 +146,7 @@ void TEncryptedTab::tryUnlock() {
             remember_me = true;
             QDateTime time = QDateTime::currentDateTime();
             time = time.addSecs(w_remember_period->currentData(Qt::UserRole).toLongLong() * 60);
-            remember_until = time.toSecsSinceEpoch();
+            remember_until = time.toMSecsSinceEpoch() / 1000;
         }
 
         unlock();
@@ -157,6 +156,8 @@ void TEncryptedTab::tryUnlock() {
         w_password->setStyleSheet("border-bottom: 1px solid red");
         logD("Wrong password");
     }
+
+    w_password->clear();
 }
 
 Tab *TEncryptedTab::createTab() {
@@ -310,6 +311,7 @@ void TEncryptedTab::addRememberPeriods() {
 
 void TEncryptedTab::updateState() {
     w_password->setEnabled(!remember_me);
+    w_remember_check->setEnabled(!remember_me);
     w_forget->setVisible(remember_me);
 }
 

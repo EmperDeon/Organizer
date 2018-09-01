@@ -63,7 +63,8 @@ CBytes CBytes::mid(int index, int len) const {
 }
 
 void CBytes::append(int len, char c) {
-    b_array.append(len, c);
+    for (int i = 0; i < len; i++)
+        b_array.append(c);
 }
 
 void CBytes::remove(int index, int len) {

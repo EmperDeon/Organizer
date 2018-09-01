@@ -9,9 +9,7 @@
 
 #include <QtCore/QList>
 #include <vendor/additions.h>
-#include <vendor/additions.h>
 #include <storage/migrations/SMigration.h>
-#include <vendor/additions.h>
 
 
 class SMigrations {
@@ -23,7 +21,7 @@ public:
 
     void processFull(json_o &o);
 
-    void processDocs(json_a &a);
+    void processDocs(json_o &a);
 
     void processFiles(json_o &a);
 };

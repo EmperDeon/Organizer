@@ -26,21 +26,17 @@ void SMigrations::processFull(json_o &o) {
     }
 }
 
-void SMigrations::processDocs(json_a &a) {
+void SMigrations::processDocs(json_o &a) {
     for (auto m : migrations) {
-        json_a result;
-
-        for (const auto &o : a) {
+        for (const auto &o : o.items()) {
             if (m->isNeeded(o)) {
-                json obj = o;
+                json obj = o.value();
                 m->processD(obj);
                 obj["version"] = m->getVersion();
 
-                result += obj;
+                o[o.key()] = obj;
             }
         }
-
-        a = std::move(result);
     }
 }
 

@@ -42,22 +42,23 @@ void WTSorter::reload() {
     tree->clear();
     tree->addRoot(tr("Tabs"));
 
-    json_a groups = Storage::getInstance()->getDocs();
-
-    for (const json_o &o_group : groups) {
-        Tab::TabType type = Tab::tabType(o_group);
-
-        auto *t_group = tree->addToRoot({o_group["name"], Tab::tabTypeS(type)});
-        t_group->setData(2, Qt::UserRole, o_group.dumpQ());
-
-        if (type == Tab::LinksGroup) {
-            for (const auto &o_link : o_group["content"]) {
-
-                auto *t_link = new QTreeWidgetItem(t_group, {o_link["name"], o_link["link"]});
-                t_link->setData(2, Qt::UserRole, o_link.dumpQ());
-            }
-        }
-    }
+//    FIXME: Broken!
+//    json_a groups = Storage::getInstance()->getDocs();
+//
+//    for (const json_o &o_group : groups) {
+//        Tab::TabType type = Tab::tabType(o_group);
+//
+//        auto *t_group = tree->addToRoot({o_group["name"], Tab::tabTypeS(type)});
+//        t_group->setData(2, Qt::UserRole, o_group.dumpQ());
+//
+//        if (type == Tab::LinksGroup) {
+//            for (const auto &o_link : o_group["content"]) {
+//
+//                auto *t_link = new QTreeWidgetItem(t_group, {o_link["name"], o_link["link"]});
+//                t_link->setData(2, Qt::UserRole, o_link.dumpQ());
+//            }
+//        }
+//    }
 }
 
 json_a WTSorter::toDocs() {
@@ -104,7 +105,8 @@ void WTSorter::sortTabs() {
     if (w->exec()) { // Reorder only if clicked "Save"
         json_a docs = w->toDocs();
 
-        Storage::getInstance()->setDocs(docs);
+//        FIXME: Broken!
+//        Storage::getInstance()->setDocs(docs);
         WMain::getInstance()->recreateTabs();
     }
 }

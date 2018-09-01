@@ -35,6 +35,14 @@ int main(int argc, char **argv) {
 
     qDebug() << storage->get("groups").dump(4).c_str();
 
+//    TList tabs;
+//
+//    QJsonArray docs = Storage::getInstance()->getDocs();
+//    tabs.fromJson(docs);
+//
+//    QJsonObject obj = tabs.toJson();
+//    Storage::getInstance()->setDocs(obj);
+
     return qApp->exec();
 }
 
@@ -43,7 +51,7 @@ void initStyles() {
     QFontDatabase::addApplicationFont(":/fonts/PT_Sans-Web-BoldItalic.ttf");
     QFontDatabase::addApplicationFont(":/fonts/PT_Sans-Web-Italic.ttf");
     QFontDatabase::addApplicationFont(":/fonts/PT_Sans-Web-Regular.ttf");
-    qApp->setFont(QFont("Roboto Regular"));
+    qApp->setFont(QFont("PT Sans Regular"));
 
     QFile File(":/style.qss");
     File.open(QFile::ReadOnly);

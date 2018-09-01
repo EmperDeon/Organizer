@@ -7,6 +7,7 @@
 #include <vendor/additions.h>
 #include <QtCore/QBuffer>
 #include <QtCore/QDataStream>
+#include <QtWidgets/QWidget>
 #include "Utils.h"
 
 QByteArray Utils::fromBase(const QString &str) {
@@ -51,4 +52,11 @@ QJsonValue Utils::serializeFromString(const QString &value) {
     in >> variant;
 
     return QJsonValue::fromVariant(variant);
+}
+
+void Utils::layoutClear(QBoxLayout *layout) {
+    QLayoutItem *child;
+    while (((child = layout->takeAt(0)) != nullptr) && (child->widget() != nullptr)) {
+        child->widget()->deleteLater();
+    }
 }

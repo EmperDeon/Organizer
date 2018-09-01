@@ -28,14 +28,14 @@ void TabsController::addNewTab(const QString &uuid, const json_o &o) {
     auto w = tabs.addJson(uuid, o);
 
     if (w != nullptr) { // if successfully created Tab
-        int pos = wnd->tabs->count() - 2;
+        int pos = wnd->tabs->count() - 1;
         wnd->tabs->insertTab(pos, w, o["name"]);
         wnd->tabs->setCurrentIndex(pos - 1);
     }
 }
 
 void TabsController::save() {
-    Storage::getInstance()->setDocs(tabs.toJsonA());
+    Storage::getInstance()->setDocs(tabs.toJson());
 }
 
 void TabsController::tabDel(const QString &uuid) {

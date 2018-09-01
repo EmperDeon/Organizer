@@ -6,6 +6,7 @@
 
 #include <vendor/additions.h>
 #include <utils/UScrollArea.h>
+#include <utils/Utils.h>
 #include "TLinksGroup.h"
 
 TLinksGroup::TLinksGroup(const json_o &o) : Tab(o, Tab::LinksGroup) {
@@ -40,6 +41,11 @@ void TLinksGroup::updateLinks() {
 }
 
 void TLinksGroup::fromJson(json v) {
+    // Remove old links
+    Utils::layoutClear(list);
+    links.clear();
+
+    // Add new links
     for (json t : v)
         addLink(t);
 

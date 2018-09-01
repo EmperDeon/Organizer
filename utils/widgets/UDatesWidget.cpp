@@ -13,6 +13,7 @@
 #include <QDebug>
 #include <QtWidgets/QtWidgets>
 #include <vendor/verdigris/src/wobjectimpl.h>
+#include <utils/Utils.h>
 
 UDatesWidget::UDatesWidget() {
     auto *l = new QVBoxLayout;
@@ -40,8 +41,7 @@ UDatesWidget::UDatesWidget() {
 }
 
 void UDatesWidget::load(const QMap<QString, UDateItem *> &l) {
-    for (int i = 0; i < layout->count(); i++)
-        layout->takeAt(0)->widget()->deleteLater();
+    Utils::layoutClear(layout);
 
     for (const QString &id : l.keys()) {
         addItem(l[id]);
