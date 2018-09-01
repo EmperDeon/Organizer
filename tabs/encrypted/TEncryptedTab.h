@@ -35,7 +35,7 @@ class TEncryptedTab : public Tab {
 
 
 public:
-    explicit TEncryptedTab(const QJsonObject &o);
+    explicit TEncryptedTab(const json_o &o);
 
     QWidget *createPassWidget();
 
@@ -51,13 +51,13 @@ public:
 
     void tryUnlock();
 
-    void fromJson(QJsonValue v) override;
+    void fromJson(json v) override;
 
-    QJsonValue toJson() override;
+    json toJson() override;
 
-    void loadCustomParams(const QJsonObject &o) override;
+    void loadCustomParams(const json_o &o) override;
 
-    void saveCustomParams(QJsonObject &o) override;
+    void saveCustomParams(json_o &o) override;
 
     void onSelected() override;
 

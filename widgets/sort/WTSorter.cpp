@@ -42,48 +42,46 @@ void WTSorter::reload() {
     tree->clear();
     tree->addRoot(tr("Tabs"));
 
-    QJsonArray groups = Storage::getInstance()->getDocs();
+    json_a groups = Storage::getInstance()->getDocs();
 
-    for (const auto &group : groups) {
-        QJsonObject o_group = group.toObject();
+    for (const json_o &o_group : groups) {
         Tab::TabType type = Tab::tabType(o_group);
 
-        auto *t_group = tree->addToRoot({o_group["name"].toString(), Tab::tabTypeS(type)});
-        t_group->setData(2, Qt::UserRole, o_group);
+        auto *t_group = tree->addToRoot({o_group["name"], Tab::tabTypeS(type)});
+        t_group->setData(2, Qt::UserRole, o_group.dumpQ());
 
         if (type == Tab::LinksGroup) {
-            for (const auto &link : o_group["content"].toArray()) {
-                QJsonObject o_link = link.toObject();
+            for (const auto &o_link : o_group["content"]) {
 
-                auto *t_link = new QTreeWidgetItem(t_group, {o_link["name"].toString(), o_link["link"].toString()});
-                t_link->setData(2, Qt::UserRole, o_link);
+                auto *t_link = new QTreeWidgetItem(t_group, {o_link["name"], o_link["link"]});
+                t_link->setData(2, Qt::UserRole, o_link.dumpQ());
             }
         }
     }
 }
 
-QJsonArray WTSorter::toDocs() {
+json_a WTSorter::toDocs() {
     auto *root = tree->topLevelItem(0);
 
-    QJsonArray docs;
-    QJsonObject new_groups;
+    json_a docs;
+    json_o new_groups;
 
     for (int i = 0; i < root->childCount(); i++) { // Collect groups from UTreeWidget
         auto *i_group = root->child(i);
-        QJsonObject o_group = i_group->data(2, Qt::UserRole).toJsonObject();
+        json_o o_group = json::parse(i_group->data(2, Qt::UserRole).toString().toStdString());
         Tab::TabType type = Tab::tabType(o_group);
 
         if (type == Tab::LinksGroup) {
-            QJsonArray links;
+            json_a links;
 
             for (int j = 0; j < i_group->childCount(); j++) { // Collect links from group
                 auto *i_link = i_group->child(j);
-                QJsonObject o_link = i_link->data(2, Qt::UserRole).toJsonObject();
+                json_o o_link = json::parse(i_link->data(2, Qt::UserRole).toString().toStdString());
 
                 o_link["name"] = i_link->data(0, Qt::DisplayRole).toString();
                 o_link["link"] = i_link->data(1, Qt::DisplayRole).toString();
 
-                links << o_link;
+                links += o_link;
             }
 
             o_group["content"] = links;
@@ -91,7 +89,7 @@ QJsonArray WTSorter::toDocs() {
 
         o_group["name"] = i_group->data(0, Qt::DisplayRole).toString();
 
-        docs << o_group;
+        docs += o_group;
     }
 
     return docs;
@@ -104,7 +102,7 @@ void WTSorter::sortTabs() {
     auto *w = new WTSorter;
 
     if (w->exec()) { // Reorder only if clicked "Save"
-        QJsonArray docs = w->toDocs();
+        json_a docs = w->toDocs();
 
         Storage::getInstance()->setDocs(docs);
         WMain::getInstance()->recreateTabs();

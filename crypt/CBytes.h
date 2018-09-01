@@ -36,9 +36,9 @@ public:
 
     unsigned char back();
 
-    QString toHex();
+    QString toHex() const;
 
-    QString toBase();
+    QString toBase() const;
 
     int sizeI() const;
 

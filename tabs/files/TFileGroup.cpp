@@ -7,7 +7,7 @@
 #include <QtWidgets/QVBoxLayout>
 #include "TFileGroup.h"
 
-TFileGroup::TFileGroup(const QJsonObject &o) : Tab(o, Tab::FilesGroup) {
+TFileGroup::TFileGroup(const json_o &o) : Tab(o, Tab::FilesGroup) {
     auto *l = new QVBoxLayout;
 
     files = new PTabFiles;
@@ -19,12 +19,12 @@ TFileGroup::TFileGroup(const QJsonObject &o) : Tab(o, Tab::FilesGroup) {
     load();
 }
 
-void TFileGroup::loadCustomParams(const QJsonObject &o) {
+void TFileGroup::loadCustomParams(const json_o &o) {
     files->initIfNeeded(this, o);
 
     files->readInfo(o);
 }
 
-void TFileGroup::saveCustomParams(QJsonObject &o) {
+void TFileGroup::saveCustomParams(json_o &o) {
     files->writeInfo(o);
 }

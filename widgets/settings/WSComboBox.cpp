@@ -7,15 +7,15 @@
 #include <storage/SSettings.h>
 #include "WSComboBox.h"
 
-WSComboBox::WSComboBox(const QJsonObject &obj) : WSetting(obj) {
+WSComboBox::WSComboBox(const json_o &obj) : WSetting(obj) {
     widget = new QComboBox;
 
     const QString &curr = SSettings().getS(s_name);
 
     int i = 0;
-    for (const auto &entry : obj["list"].toArray()) {
-        const auto val = entry.toArray()[1].toString();
-        widget->addItem(entry.toArray()[0].toString(), val);
+    for (const auto &entry : obj["list"]) {
+        const QString val = entry[1];
+        widget->addItem(entry[0].get<QString>(), val);
 
         if (curr == val)
             widget->setCurrentIndex(i);
@@ -26,6 +26,6 @@ WSComboBox::WSComboBox(const QJsonObject &obj) : WSetting(obj) {
     layout->addWidget(widget);
 }
 
-QJsonValue WSComboBox::value() {
+json WSComboBox::value() {
     return widget->currentData().toString();
 }

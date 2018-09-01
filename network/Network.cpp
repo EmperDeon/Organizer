@@ -11,7 +11,7 @@
 #include <QtNetwork/QHttpPart>
 #include <QtCore/QFile>
 #include <storage/Storage.h>
-#include <QtCore/QJsonArray>
+#include <vendor/additions.h>
 #include "Network.h"
 
 Network::Network() {
@@ -22,7 +22,7 @@ bool Network::hasErrors() {
     return false;
 }
 
-QJsonValue Network::request(QString path, QMap<QString, QString> params) {
+json Network::request(QString path, QMap<QString, QString> params) {
     QTime requestTime;
     requestTime.start();
 
@@ -31,10 +31,10 @@ QJsonValue Network::request(QString path, QMap<QString, QString> params) {
 
     params.insert("token", Storage::getInstance()->getS("token"));
 
-    QJsonArray tries;
-    QJsonValue r = req_POST(path, params);
-    while (r.toObject()["error"].toString() == "no_token") {
-        tries << r;
+    json_a tries;
+    json r = req_POST(path, params);
+    while (r["error"].get<QString>() == "no_token") {
+        tries += r;
 
 //		NAuth::updateToken();
         params.insert("token", Storage::getInstance()->getS("token"));
@@ -65,7 +65,7 @@ QUrl Network::prepareReq(QString path) {
     return c;
 }
 
-QJsonValue Network::processReq(QNetworkReply *rep) {
+json Network::processReq(QNetworkReply *rep) {
     QEventLoop wait;
     QObject::connect(&manager, SIGNAL(finished(QNetworkReply * )), &wait, SLOT(quit()));
     QTimer::singleShot(60000, &wait, SLOT(quit()));
@@ -74,7 +74,7 @@ QJsonValue Network::processReq(QNetworkReply *rep) {
     QByteArray data = rep->readAll();
     data = crypt->decrypt(data, rep->url().toString());
 
-    lastReply = QJsonDocument::fromJson(data).object();
+    lastReply = json::parse(QString::fromUtf8(data).toStdString());
     lastError = rep->error();
 
     rep->deleteLater();
@@ -82,7 +82,7 @@ QJsonValue Network::processReq(QNetworkReply *rep) {
     return lastReply["response"];
 }
 
-QJsonValue Network::req_POST(QString path, QMap<QString, QString> params) {
+json Network::req_POST(QString path, QMap<QString, QString> params) {
     QNetworkRequest req;
     QNetworkReply *rep;
 
@@ -92,15 +92,15 @@ QJsonValue Network::req_POST(QString path, QMap<QString, QString> params) {
         checkEncryption();
 
     // Collect parameters
-    QJsonObject obj;
+    json_o obj;
     for (const QString &k : params.keys())
-        obj.insert(k, params[k]);
+        obj[k] = params[k];
 
     // Set required headers
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     // Get and encrypt data
-    QByteArray data = Utils::toJson(obj).toUtf8();
+    QByteArray data = obj.dumpQ().toUtf8();
     data = crypt->encrypt(data, path);
 
     // Send request
@@ -109,7 +109,7 @@ QJsonValue Network::req_POST(QString path, QMap<QString, QString> params) {
     return processReq(rep);
 }
 
-QJsonValue Network::req_POST(QString path, QHttpMultiPart *m) {
+json Network::req_POST(QString path, QHttpMultiPart *m) {
     QNetworkRequest request(prepareReq(path));
 
     QNetworkReply *rep = manager.post(request, m);
@@ -234,22 +234,22 @@ void Network::uploadFile(QString path, QString file) {
 void Network::checkEncryption() {
     Storage *st = Storage::getInstance();
 
-    QJsonObject ch = req_POST("auth/check_inited", {
+    json_o ch = req_POST("auth/check_inited", {
             {"uid", st->getS("uid")}
-    }).toObject();
+    });
 
-    if (ch["error"].toString() == "no_id") {
+    if (ch["error"].get<QString>() == "no_id") {
         st->secureStorage()->initNetworkInfo();
 
-        QJsonObject v = req_POST("auth/init_network", {
+        json_o v = req_POST("auth/init_network", {
                 {"uid",    st->getS("uid")},
                 {"public", st->getS("rsa_pu")},
                 {"aes",    st->getS("net_key")}
-        }).toObject();
+        });
 
-        qDebug() << v;
+        qDebug() << v.dumpQ();
 
-        QString status = v["status"].toString();
+        QString status = v["status"];
         if (status == "init_ok") {
             st->set("network_inited", true);
             st->set("server_pub", v["public_key"]);
@@ -258,8 +258,8 @@ void Network::checkEncryption() {
     }
 }
 
-void Network::writeToLog(QString qString, QMap<QString, QString> map, QString type, QJsonArray tries) {
-    QJsonObject o;
+void Network::writeToLog(QString qString, QMap<QString, QString> map, QString type, json_a tries) {
+    json_o o;
 
     o["path"] = qString;
     o["r_type"] = type;
@@ -269,7 +269,7 @@ void Network::writeToLog(QString qString, QMap<QString, QString> map, QString ty
     o["time"] = lastTime;
     o["tries"] = tries;
 
-    QJsonObject t;
+    json_o t;
     for (const QString &k : map.keys()) {
         if (k != "token")
             t[k] = map[k];
@@ -277,16 +277,16 @@ void Network::writeToLog(QString qString, QMap<QString, QString> map, QString ty
     o["params"] = t;
 
     // Save
-    QJsonArray a;
+    json_a a;
     QFile f("log.json");
     if (f.open(QFile::ReadOnly)) {
-        a = QJsonDocument::fromJson(f.readAll()).array();
+        a = json::parse(QString::fromUtf8(f.readAll()).toStdString());
         f.close();
     }
 
-    a << o;
+    a += o;
 
     f.open(QFile::WriteOnly);
-    f.write(QJsonDocument(a).toJson());
+    f.write(a.dumpQ().toUtf8());
     f.close();
 }

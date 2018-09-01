@@ -22,16 +22,14 @@ WSettings::WSettings() {
     scroll = new QVBoxLayout;
     auto w_scroll = new UScrollArea(scroll);
 
-    const QJsonArray &levels = SSettings::allSettings();
-    for (const auto &t_level : levels) {
-        const QJsonObject level = t_level.toObject();
-
-        auto *l_level = new QLabel(level["name"].toString());
+    const json_a &levels = SSettings::allSettings();
+    for (const auto &level : levels) {
+        auto *l_level = new QLabel(level["name"].get<QString>());
         l_level->setProperty("class", "h2");
         scroll->addWidget(l_level);
 
-        for (const auto &t_entry : level["entries"].toArray()) {
-            auto *entry = createWidgetForType(t_entry.toObject());
+        for (const auto &t_entry : level["entries"]) {
+            auto *entry = createWidgetForType(t_entry);
 
             if (entry != nullptr) {
                 entries << entry;
@@ -55,8 +53,8 @@ WSettings::WSettings() {
     setLayout(l);
 }
 
-WSetting *WSettings::createWidgetForType(const QJsonObject &obj) {
-    const QString &type = obj["type"].toString();
+WSetting *WSettings::createWidgetForType(const json_o &obj) {
+    const QString &type = obj["type"];
     WSetting *r;
 
     if (type == "boolean") {

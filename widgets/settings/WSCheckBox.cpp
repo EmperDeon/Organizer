@@ -8,14 +8,14 @@
 #include "WSCheckBox.h"
 #include <storage/SSettings.h>
 
-WSCheckBox::WSCheckBox(const QJsonObject &obj) : WSetting(obj) {
+WSCheckBox::WSCheckBox(const json_o &obj) : WSetting(obj) {
     widget = new QCheckBox;
 
-    widget->setChecked(SSettings().getB(obj["name"].toString()));
+    widget->setChecked(SSettings().getB(obj["name"]));
 
     layout->addWidget(widget);
 }
 
-QJsonValue WSCheckBox::value() {
+json WSCheckBox::value() {
     return widget->isChecked();
 }

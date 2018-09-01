@@ -4,7 +4,7 @@
 	See the provided LICENSE.TXT file for details.
 */
 
-#include <QtCore/QJsonObject>
+#include <vendor/additions.h>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QDebug>
 #include <crypt/CRsa.h>
@@ -24,17 +24,17 @@ QByteArray NCrypt::encrypt(QByteArray mem, QString path) {
 }
 
 QByteArray NCrypt::decrypt(QByteArray mes, QString path) {
-	QJsonObject obj = QJsonDocument::fromJson(mes).object();
+    json_o obj = json::parse(QString::fromUtf8(mes).toStdString());
 
 	CAes aes(NETWORK_AES_TYPE, getKey(path));
 
 	if (path.contains("auth/init_network") || path.contains("auth/check_inited")) {
-		if (!verify(obj["message"].toString(), obj["sign"].toString())) {
+        if (!verify(obj["message"], obj["sign"])) {
 			qWarning() << "Could not verify server response";
 		}
 	}
 
-	mes = aes.decrypt(obj["message"].toString()).toUtf8();
+    mes = aes.decrypt(obj["message"]).toUtf8();
 
 	return mes;
 }

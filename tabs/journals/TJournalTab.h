@@ -19,21 +19,21 @@ class TJournalTab : public Tab {
     QHBoxLayout *m_layout;
     QButtonGroup *m_buttons;
 
-    QJsonObject entries;
+    json_o entries;
     QPlainTextEdit *edit;
     QTextEdit *view;
     UDatesWidget *dates;
 
 public:
-    explicit TJournalTab(const QJsonObject &o);
+    explicit TJournalTab(const json_o &o);
 
-    void fromJson(QJsonValue v) override;
+    void fromJson(json v) override;
 
-    QJsonValue toJson() override;
+    json toJson() override;
 
-    void loadCustomParams(const QJsonObject &o) override;
+    void loadCustomParams(const json_o &o) override;
 
-    void saveCustomParams(QJsonObject &o) override;
+    void saveCustomParams(json_o &o) override;
 
     void updateText();
 

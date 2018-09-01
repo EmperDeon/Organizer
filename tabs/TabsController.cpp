@@ -19,28 +19,23 @@ TabsController::TabsController(WMain *w) : wnd(w) {
 void TabsController::load() {
     logV("Loading tabs");
 
-    json_o docs = Storage::getInstance()->getDocs();
+    tabs.fromJson(Storage::getInstance()->getDocs());
 
-    logV("Tabs count: " + QString::number(docs.size()));
-
-    tabs.fromJson(docs);
+    logV("Tabs count: " + QString::number(tabs.size()));
 }
 
-void TabsController::addNewTab(const QString &uuid, const QJsonObject &o) {
+void TabsController::addNewTab(const QString &uuid, const json_o &o) {
     auto w = tabs.addJson(uuid, o);
-    QString name = o["name"].toString("Error");
 
     if (w != nullptr) { // if successfully created Tab
         int pos = wnd->tabs->count() - 2;
-        wnd->tabs->insertTab(pos, w, name);
+        wnd->tabs->insertTab(pos, w, o["name"]);
         wnd->tabs->setCurrentIndex(pos - 1);
     }
 }
 
 void TabsController::save() {
-    QJsonArray obj = tabs.toJsonA();
-
-    Storage::getInstance()->setDocs(obj);
+    Storage::getInstance()->setDocs(tabs.toJsonA());
 }
 
 void TabsController::tabDel(const QString &uuid) {

@@ -19,7 +19,7 @@ class WSettings : public QWidget {
 public:
     WSettings();
 
-    WSetting *createWidgetForType(const QJsonObject &obj);
+    WSetting *createWidgetForType(const json_o &obj);
 
     void save();
 };

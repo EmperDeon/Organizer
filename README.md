@@ -47,7 +47,7 @@ Structure:
      "name": <doc name, string>,
      "type": <doc type, int>,
      "last_updated": <last save datetime>,
-     "content": <doc data, QJsonValue>,
+     "content": <doc data, json>,
      "version": <doc version, int>,
    
      // Custom fields

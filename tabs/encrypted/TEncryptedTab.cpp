@@ -14,7 +14,7 @@
 #include <QtCore/QtCore>
 #include "TEncryptedTab.h"
 
-TEncryptedTab::TEncryptedTab(const QJsonObject &o) : Tab(o, Tab::Encrypted) {
+TEncryptedTab::TEncryptedTab(const json_o &o) : Tab(o, Tab::Encrypted) {
     layout = new QVBoxLayout;
 
     layout->setMargin(0);
@@ -160,31 +160,31 @@ void TEncryptedTab::tryUnlock() {
 }
 
 Tab *TEncryptedTab::createTab() {
-    QJsonObject t_obj = obj;
+    json_o t_obj = obj;
     CAes aes(E_TAB_CIPHER, Crypt::deriveKey(password));
     QString decrypted_content = aes.decrypt(content);
 
-    t_obj["content"] = Utils::serializeFromString(decrypted_content);
+    t_obj["content"] = json::parse(decrypted_content.toStdString());
 
     tab = TList::createNew(t_obj, tab_type);
     return tab;
 }
 
-void TEncryptedTab::fromJson(QJsonValue v) {
-    content = v.toString();
+void TEncryptedTab::fromJson(json v) {
+    content = v.get<QString>();
 
     if (!locked && tab != nullptr) {
         CAes aes(E_TAB_CIPHER, Crypt::deriveKey(password));
         QString decrypted_content = aes.decrypt(content);
 
-        tab->fromJson(Utils::serializeFromString(decrypted_content));
+        tab->fromJson(json::parse(decrypted_content.toStdString()));
     }
 }
 
-QJsonValue TEncryptedTab::toJson() {
+json TEncryptedTab::toJson() {
     if (!locked && tab != nullptr) {
         CAes aes(E_TAB_CIPHER, Crypt::deriveKey(password));
-        QString decrypted_content = Utils::serializeToString(tab->toJson());
+        QString decrypted_content = tab->toJson().dumpQ();
 
         content = aes.encrypt(decrypted_content);
     }
@@ -192,18 +192,18 @@ QJsonValue TEncryptedTab::toJson() {
     return content;
 }
 
-void TEncryptedTab::loadCustomParams(const QJsonObject &o) {
-    remember_me = o["remember_me"].toBool();
-    password_hash = o["password_hash"].toString();
-    tab_type = o["tab_type"].toInt();
+void TEncryptedTab::loadCustomParams(const json_o &o) {
+    remember_me = o["remember_me"];
+    password_hash = o["password_hash"].get<QString>();
+    tab_type = o["tab_type"];
 
     layout->insertWidget(0, createPassWidget());
     updateState();
 
     if (remember_me) {
         // TODO: Store passwords in SSecure
-        password = o["remember_token"].toString();
-        remember_until = (qint64) o["remember_until"].toDouble();
+        password = o["remember_token"].get<QString>();
+        remember_until = (qint64) (double) o["remember_until"];
 
         if (layout->count() < 2) {
             QTimer::singleShot(10, [&]() {
@@ -217,7 +217,7 @@ void TEncryptedTab::loadCustomParams(const QJsonObject &o) {
     }
 }
 
-void TEncryptedTab::saveCustomParams(QJsonObject &o) {
+void TEncryptedTab::saveCustomParams(json_o &o) {
     if (!locked && tab != nullptr) {
         tab->saveCustomParams(o);
     }
@@ -231,8 +231,8 @@ void TEncryptedTab::saveCustomParams(QJsonObject &o) {
         o["remember_token"] = password;
         o["remember_until"] = remember_until;
     } else {
-        o["remember_token"] = QJsonValue();
-        o["remember_until"] = QJsonValue();
+        o["remember_token"] = "";
+        o["remember_until"] = "";
     }
 }
 
@@ -248,7 +248,7 @@ void TEncryptedTab::toggleEncryption(Tab *tab) {
             return;
 
         CAes aes(E_TAB_CIPHER, Crypt::deriveKey(password));
-        tab->obj[S_REPLACE_KEY] = aes.encrypt(Utils::serializeToString(tab->toJson()));
+        tab->obj[S_REPLACE_KEY] = aes.encrypt(tab->toJson().dumpQ());
         tab->obj["tab_type"] = tab->type;
         tab->obj["password_hash"] = Crypt::hash(password);
         tab->type = Encrypted;
@@ -270,7 +270,7 @@ void TEncryptedTab::toggleEncryption(Tab *tab) {
         }
 
         CAes aes(E_TAB_CIPHER, Crypt::deriveKey(e_tab->password));
-        e_tab->obj[S_REPLACE_KEY] = Utils::serializeFromString(aes.decrypt(e_tab->toJson().toString()));
+        e_tab->obj[S_REPLACE_KEY] = json::parse(aes.decrypt(e_tab->toJson()).toStdString());
         e_tab->obj[S_DELETE_KEYS] = true;
         e_tab->type = Tab::tabType(e_tab->tab_type);
     }

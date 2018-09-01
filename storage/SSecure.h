@@ -7,7 +7,7 @@
 #ifndef ORGANIZER_SSECURE_H
 #define ORGANIZER_SSECURE_H
 
-#include <QtCore/QJsonObject>
+#include <vendor/additions.h>
 #include <vendor/additions.h>
 
 

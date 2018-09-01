@@ -5,7 +5,7 @@
 */
 
 #include <QtCore/QFile>
-#include <QtCore/QJsonObject>
+#include <vendor/additions.h>
 #include <vars.h>
 #include <QtCore/QJsonDocument>
 #include <utils/Utils.h>
@@ -14,15 +14,15 @@
 void SBackup::addDocs(QString docs) {
     QString week = formattedWeek(), date = QDateTime::currentDateTime().toString(Qt::ISODate);
 
-    QJsonObject week_backup, last_backup;
-    QJsonObject backup = {
+    json_o week_backup, last_backup;
+    json_o backup = {
             {"docs", Utils::toBase(qCompress(docs.toUtf8(), 4))},
             {"date", QDate::currentDate().toString(Qt::ISODate)}
     };
 
     QFile f(BACKUP_FILE_WEEK);
     if (f.exists() && f.open(QFile::ReadOnly)) {
-        week_backup = QJsonDocument::fromJson(f.readAll()).object();
+        week_backup = json::parse(QString::fromUtf8(f.readAll()).toStdString());
         f.close();
     }
 
@@ -31,25 +31,25 @@ void SBackup::addDocs(QString docs) {
     }
 
     f.open(QFile::WriteOnly);
-    f.write(QJsonDocument(week_backup).toJson());
+    f.write(week_backup.dumpQ().toUtf8());
     f.close();
 
 
     f.setFileName(BACKUP_FILE_LAST);
     if (f.exists() && f.open(QFile::ReadOnly)) {
-        last_backup = QJsonDocument::fromJson(f.readAll()).object();
+        last_backup = json::parse(QString::fromUtf8(f.readAll()).toStdString());
         f.close();
     }
 
     if (last_backup.keys().size() > 1) {
         QString k = last_backup.keys().takeFirst();
-        last_backup.remove(k);
+        last_backup.erase(k);
     }
 
     last_backup[date] = backup;
 
     f.open(QFile::WriteOnly);
-    f.write(QJsonDocument(last_backup).toJson());
+    f.write(last_backup.dumpQ().toUtf8());
     f.close();
 }
 

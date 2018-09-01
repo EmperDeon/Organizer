@@ -21,12 +21,12 @@ void NSync::tryLoad() {
 
     QString last = st->getS("docs_last");
 
-    QJsonObject res = Network().request("documents/last_timestamp").toObject();
+    json_o res = Network().request("documents/last_timestamp");
 
-    if (res["status"].toString() == "ok") {// && last < res["docs_last"].toString()) {
-        res = Network().request("documents/load").toObject();
+    if (res["status"].get<QString>() == "ok") {// && last < res["docs_last"].toString()) {
+        res = Network().request("documents/load");
 
-        st->loadDocs(res["docs"].toString());
+        st->loadDocs(res["docs"]);
         st->set("docs_last", res["docs_last"]);
 
         contr->load();

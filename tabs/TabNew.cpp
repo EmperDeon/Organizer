@@ -47,7 +47,7 @@ TabNew::TabNew(WMain *w, TabsController *c) : wnd(w), contr(c) {
 
 void TabNew::addClick() {
 	if (name->text() == "") return;
-	QJsonObject o = {
+    json_o o = {
 			{"name", name->text()},
 			{"type", type->currentData().toInt()},
 			{"version", STORAGE_CUR_VERSION},

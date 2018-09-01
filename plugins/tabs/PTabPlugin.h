@@ -8,14 +8,14 @@
 #define ORGANIZER_PTABPLUGIN_H
 
 #include <plugins/Plugin.h>
-#include <QtCore/QJsonObject>
+#include <vendor/additions.h>
 
 
 class PTabPlugin : public Plugin {
 public:
-    virtual void readInfo(const QJsonObject &o) = 0;
+    virtual void readInfo(const json_o &o) = 0;
 
-    virtual void writeInfo(QJsonObject &o) = 0;
+    virtual void writeInfo(json_o &o) = 0;
 };
 
 

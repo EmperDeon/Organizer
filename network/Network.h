@@ -7,8 +7,8 @@
 #ifndef ORGANIZER_NETWORK_H
 #define ORGANIZER_NETWORK_H
 
-#include <QtCore/QJsonObject>
-#include <QtCore/QJsonArray>
+#include <vendor/additions.h>
+#include <vendor/additions.h>
 #include <QtCore/QMap>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
@@ -21,7 +21,7 @@ class Network : public QObject {
 
     QNetworkAccessManager manager;
 
-    QJsonObject lastReply;
+    json_o lastReply;
     int lastTime, lastCode;
     QNetworkReply::NetworkError lastError;
 
@@ -30,11 +30,11 @@ class Network : public QObject {
 
     QUrl prepareReq(QString path);
 
-    QJsonValue processReq(QNetworkReply *rep);
+    json processReq(QNetworkReply *rep);
 
-    QJsonValue req_POST(QString path, QMap<QString, QString> params);
+    json req_POST(QString path, QMap<QString, QString> params);
 
-    QJsonValue req_POST(QString path, QHttpMultiPart *part);
+    json req_POST(QString path, QHttpMultiPart *part);
 
 //	QString req_GET(QString path, QMap<QString, QString> params);
 
@@ -43,7 +43,7 @@ public:
 
     void uploadFile(QString path, QString file);
 
-    QJsonValue request(QString path, QMap<QString, QString> params = {});
+    json request(QString path, QMap<QString, QString> params = {});
 
 
     QString getLastTime();
@@ -56,7 +56,7 @@ public:
 
     friend class NAuth;
 
-    void writeToLog(QString qString, QMap<QString, QString> map, QString type, QJsonArray tries = QJsonArray());
+    void writeToLog(QString qString, QMap<QString, QString> map, QString type, json_a tries = json_a());
 };
 
 

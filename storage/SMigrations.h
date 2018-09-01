@@ -8,8 +8,8 @@
 #define ORGANIZER_SMIGRATIONS_H
 
 #include <QtCore/QList>
-#include <QtCore/QJsonObject>
-#include <QtCore/QJsonArray>
+#include <vendor/additions.h>
+#include <vendor/additions.h>
 #include <storage/migrations/SMigration.h>
 #include <vendor/additions.h>
 

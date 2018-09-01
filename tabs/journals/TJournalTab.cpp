@@ -11,7 +11,7 @@
 #include <vendor/additions.h>
 #include "TJournalTab.h"
 
-TJournalTab::TJournalTab(const QJsonObject &o) : Tab(o, Tab::Journal) {
+TJournalTab::TJournalTab(const json_o &o) : Tab(o, Tab::Journal) {
     auto *l = new QVBoxLayout;
 
     // Top menu
@@ -86,14 +86,15 @@ TJournalTab::TJournalTab(const QJsonObject &o) : Tab(o, Tab::Journal) {
     setLayout(l);
 }
 
-void TJournalTab::fromJson(QJsonValue v) {
-    entries = Utils::fromJson(v.toString());
+// FIXME: Why store as string, not as object ?
+void TJournalTab::fromJson(json v) {
+    entries = json::parse(v.get<std::string>());
 
     if (!entries.isEmpty()) {
         QMap<QString, UDateItem *> dates_map;
 
         for (const QString &id : entries.keys())
-            dates_map[id] = new UDateItem(id, entries[id].toObject()["name"].toString(), additionalInfo(id));
+            dates_map[id] = new UDateItem(id, entries[id]["name"], additionalInfo(id));
 
         dates->load(dates_map);
 
@@ -101,17 +102,17 @@ void TJournalTab::fromJson(QJsonValue v) {
     }
 }
 
-QJsonValue TJournalTab::toJson() {
+json TJournalTab::toJson() {
     saveDate(dates->currentDate());
 
-    return Utils::toJson(entries);
+    return entries.dump();
 }
 
-void TJournalTab::loadCustomParams(const QJsonObject &o) {
-    cur_mode = o["mode"].toInt();
+void TJournalTab::loadCustomParams(const json_o &o) {
+    cur_mode = o["mode"];
 }
 
-void TJournalTab::saveCustomParams(QJsonObject &o) {
+void TJournalTab::saveCustomParams(json_o &o) {
     o["mode"] = cur_mode;
 }
 
@@ -146,14 +147,14 @@ void TJournalTab::changeMode(int id, bool checked) {
 }
 
 void TJournalTab::loadDate(const QString &name) {
-    const QJsonObject &date = entries[name].toObject();
+    const json_o &date = entries[name];
 
-    edit->setPlainText(date["content"].toString());
+    edit->setPlainText(date["content"]);
 }
 
 void TJournalTab::saveDate(const QString &id) {
     if (!id.isEmpty()) {
-        QJsonObject date = entries[id].toObject();
+        json_o date = entries[id];
 
 //        qDebug() << "Saving: " << id << ", data:" << date;
 
@@ -164,7 +165,7 @@ void TJournalTab::saveDate(const QString &id) {
 }
 
 void TJournalTab::createdDate(UDateItem *item) {
-    entries[item->id()] = QJsonObject{
+    entries[item->id()] = json_o{
             {"name", item->name()}
     };
 
@@ -180,17 +181,17 @@ void TJournalTab::changedDate(const QString &old_id, UDateItem *item) {
 
     if (old_id != item->id()) {
         entries[item->id()] = entries[old_id];
-        entries.remove(old_id);
+        entries.erase(old_id);
     }
 
-    QJsonObject obj = entries[item->id()].toObject();
+    json_o obj = entries[item->id()];
 
     obj["name"] = item->name();
     entries[item->id()] = obj;
 }
 
 void TJournalTab::removedDate(const QString &name) {
-    entries.remove(name);
+    entries.erase(name);
 }
 
 void TJournalTab::selectedDate(const QString &from, const QString &to) {

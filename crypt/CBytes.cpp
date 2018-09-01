@@ -30,11 +30,11 @@ unsigned char CBytes::back() {
     return static_cast<unsigned char>(b_array.at(sizeI() - 1));
 }
 
-QString CBytes::toHex() {
+QString CBytes::toHex() const {
     return QString::fromUtf8(b_array.toHex());
 }
 
-QString CBytes::toBase() {
+QString CBytes::toBase() const {
     return QString::fromUtf8(b_array.toBase64());
 }
 

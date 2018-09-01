@@ -9,11 +9,11 @@
 #include <QtCore/QUrl>
 #include "TLink.h"
 
-TLink::TLink(TLinksGroup *g, QJsonObject o) : group(g) {
+TLink::TLink(TLinksGroup *g, json_o o) : group(g) {
     auto *l = new QVBoxLayout;
 
-    l_name = new QLineEdit(o["name"].toString());
-    l_link = new QLineEdit(o["link"].toString());
+    l_name = new QLineEdit(o["name"].get<QString>());
+    l_link = new QLineEdit(o["link"].get<QString>());
 
     l_link->setProperty("link", "true");
     l_link->installEventFilter(this);
@@ -35,8 +35,8 @@ void TLink::editChange() {
     group->updateLinks();
 }
 
-QJsonObject TLink::getJson() const {
-    return QJsonObject{{"name", l_name->text()},
+json_o TLink::getJson() const {
+    return json_o{{     "name", l_name->text()},
                        {"link", l_link->text()}};
 }
 

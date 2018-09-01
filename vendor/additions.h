@@ -9,6 +9,7 @@
 
 #include <QtCore/QString>
 #include <QtCore/QList>
+#include <crypt/CBytes.h>
 #include "cpp-markdown/src/markdown.h"
 
 // byte macro defined in tomcrypt_macros.h and conflicts with variable name byte
@@ -48,5 +49,9 @@ typedef json json_o;
 void to_json(json &j, const QString &p);
 
 void from_json(const json &j, QString &p);
+
+void to_json(json &j, const CBytes &p);
+
+void from_json(const json &j, CBytes &p);
 
 #endif //ORGANIZER_ADDITIONS_H

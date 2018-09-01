@@ -7,7 +7,7 @@
 #ifndef ORGANIZER_TLINK_H
 #define ORGANIZER_TLINK_H
 
-#include <QtCore/QJsonObject>
+#include <vendor/additions.h>
 #include <QtWidgets/QLineEdit>
 #include <tabs/links/TLinksGroup.h>
 
@@ -22,11 +22,11 @@ class TLink : public QWidget {
     bool empty = true;
 
 public:
-    explicit TLink(TLinksGroup *g, QJsonObject o = QJsonObject());
+    explicit TLink(TLinksGroup *g, json_o o = json_o());
 
     bool isEmpty() const { return empty; }
 
-    QJsonObject getJson() const;
+    json_o getJson() const;
 
     void editChange();
 

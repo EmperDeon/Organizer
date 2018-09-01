@@ -45,11 +45,11 @@ public:
 
     void rename(const PTabFile &file);
 
-    void initIfNeeded(Tab *tab, const QJsonObject &o);
+    void initIfNeeded(Tab *tab, const json_o &o);
 
-    void readInfo(const QJsonObject &o) override;
+    void readInfo(const json_o &o) override;
 
-    void writeInfo(QJsonObject &o) override;
+    void writeInfo(json_o &o) override;
 
     QWidget *getWidget();
 

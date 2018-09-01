@@ -16,9 +16,9 @@ class WSCheckBox : public WSetting {
     QCheckBox *widget;
 
 public:
-    explicit WSCheckBox(const QJsonObject &obj);
+    explicit WSCheckBox(const json_o &obj);
 
-    QJsonValue value() override;
+    json value() override;
 };
 
 

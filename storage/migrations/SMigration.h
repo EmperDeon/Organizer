@@ -7,7 +7,7 @@
 #ifndef ORGANIZER_SMIGRATION_H
 #define ORGANIZER_SMIGRATION_H
 
-#include <QtCore/QJsonObject>
+#include <vendor/additions.h>
 #include <vendor/additions.h>
 
 

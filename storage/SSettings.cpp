@@ -49,7 +49,7 @@ json_a SSettings::allSettings() {
     QFile f(":/settings.json");
     f.open(QFile::ReadOnly);
 
-    return json::parse(f.readAll().data());
+    return json::parse(QString::fromUtf8(f.readAll()).toStdString());
 }
 
 void SSettings::initializeDefaults() {

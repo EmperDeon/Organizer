@@ -8,21 +8,21 @@
 #include <QtGui/QIntValidator>
 #include "WSLineEdit.h"
 
-WSLineEdit::WSLineEdit(const QJsonObject &obj, Type t) : WSetting(obj), type(t) {
+WSLineEdit::WSLineEdit(const json_o &obj, Type t) : WSetting(obj), type(t) {
     widget = new QLineEdit;
 
     if (type == Integer) {
-        widget->setText(QString::number(SSettings().getI(obj["name"].toString())));
+        widget->setText(QString::number(SSettings().getI(obj["name"])));
         widget->setValidator(new QIntValidator);
 
     } else {
-        widget->setText(SSettings().getS(obj["name"].toString()));
+        widget->setText(SSettings().getS(obj["name"]));
     }
 
     layout->addWidget(widget);
 }
 
-QJsonValue WSLineEdit::value() {
+json WSLineEdit::value() {
     if (type == Integer) {
         return widget->text().toInt();
 

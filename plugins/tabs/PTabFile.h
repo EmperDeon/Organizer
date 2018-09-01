@@ -7,7 +7,7 @@
 #ifndef ORGANIZER_SFILE_H
 #define ORGANIZER_SFILE_H
 
-#include <QtCore/QJsonObject>
+#include <vendor/additions.h>
 #include <QtCore/QFileInfo>
 #include <crypt/CAes.h>
 
@@ -16,14 +16,14 @@ class PTabFile {
 public:
     QString name, name_enc, hash, size, type;
 
-    explicit PTabFile(const QJsonObject &o);
+    explicit PTabFile(const json_o &o);
 
     explicit PTabFile(const QFileInfo &f);
 
 
-    static PTabFile fromJson(const QJsonObject &o) { return PTabFile(o); }
+    static PTabFile fromJson(const json_o &o) { return PTabFile(o); }
 
-    QJsonObject toJson();
+    json_o toJson();
 
     QString processHash(const QFileInfo &f);
 

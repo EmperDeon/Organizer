@@ -15797,7 +15797,7 @@ Format](http://rfc7159.net/rfc7159)
 
         /// @}
 
-        bool contains(const QString &k) {
+        bool contains(const QString &k) const {
             return find(k.toStdString()) != end();
         }
 
@@ -15859,10 +15859,56 @@ Format](http://rfc7159.net/rfc7159)
             erase(key.toUtf8().data());
         }
 
-        QString dumpQ(int indent = -1) {
+        QString dumpQ(int indent = -1) const {
             return QString::fromStdString(dump(indent));
         }
 
+        // In Qt empty is for destroying
+        bool isEmpty() const {
+            return empty();
+        }
+
+        template<typename ValueTypeCV, typename ValueType = detail::uncvref_t<ValueTypeCV>,
+                detail::enable_if_t<
+                        not detail::is_basic_json<ValueType>::value and
+                        detail::has_from_json<basic_json_t, ValueType>::value and
+                        not detail::has_non_default_from_json<basic_json_t, ValueType>::value,
+                        int> = 0>
+        ValueType get(ValueType def) const noexcept(noexcept(
+                JSONSerializer<ValueType>::from_json(std::declval<const basic_json_t &>(),
+                                                     std::declval<ValueType &>()))) {
+
+            if (is_null()) {
+                return def;
+            }
+
+            // we cannot static_assert on ValueTypeCV being non-const, because
+            // there is support for get<const basic_json_t>(), which is why we
+            // still need the uncvref
+            static_assert(not std::is_reference<ValueTypeCV>::value,
+                          "get() cannot be used with reference types, you might want to use get_ref()");
+            static_assert(std::is_default_constructible<ValueType>::value,
+                          "types must be DefaultConstructible when used with get()");
+
+            ValueType ret;
+            JSONSerializer<ValueType>::from_json(*this, ret);
+            return ret;
+        }
+
+        template<typename ValueTypeCV, typename ValueType = detail::uncvref_t<ValueTypeCV>,
+                detail::enable_if_t<not std::is_same<basic_json_t, ValueType>::value and
+                                    detail::has_non_default_from_json<basic_json_t, ValueType>::value,
+                        int> = 0>
+        ValueType get(ValueType def) const noexcept(noexcept(
+                JSONSerializer<ValueTypeCV>::from_json(std::declval<const basic_json_t &>()))) {
+            if (is_null()) {
+                return def;
+            }
+
+            static_assert(not std::is_reference<ValueTypeCV>::value,
+                          "get() cannot be used with reference types, you might want to use get_ref()");
+            return JSONSerializer<ValueTypeCV>::from_json(*this);
+        }
     };
 }
 // namespace nlohmann

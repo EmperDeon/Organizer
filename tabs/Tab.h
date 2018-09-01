@@ -8,7 +8,7 @@
 #define ORGANIZER_TAB_H
 
 #include <QtWidgets/QWidget>
-#include <QtCore/QJsonObject>
+#include <vendor/additions.h>
 #include <QtCore/QMap>
 #include <vendor/additions.h>
 
@@ -44,7 +44,7 @@ public:
 
     void load(json_o o = json_o());
 
-	QJsonObject save();
+    json_o save();
 
 	void updated();
 
@@ -61,7 +61,9 @@ public:
 
     inline static const QString tabTypeS(const json_o &tab) { return tabTypeS(tabType(tab)); }
 
-    inline static TabType tabType(const json_o &tab) { return tabType(tab["type"].is_number() ? tab["type"] : 1024); }
+    inline static TabType tabType(const json_o &tab) {
+        return tabType(tab["type"].is_number() ? int(tab["type"]) : 1024);
+    }
 
     inline static TabType tabType(int t) { return static_cast<Tab::TabType>(t); }
 

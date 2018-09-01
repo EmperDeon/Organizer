@@ -9,7 +9,7 @@
 #include <vendor/additions.h>
 #include "TEditor.h"
 
-TEditor::TEditor(const QJsonObject &o) : Tab(o, Tab::Text) {
+TEditor::TEditor(const json_o &o) : Tab(o, Tab::Text) {
     auto *l = new QVBoxLayout;
 
     // Top menu, TODO: Move to TEdToolbar
@@ -74,19 +74,19 @@ TEditor::TEditor(const QJsonObject &o) : Tab(o, Tab::Text) {
     setLayout(l);
 }
 
-void TEditor::fromJson(QJsonValue v) {
-    edit->setPlainText(v.toString());
+void TEditor::fromJson(json v) {
+    edit->setPlainText(v);
 }
 
-QJsonValue TEditor::toJson() {
+json TEditor::toJson() {
     return edit->toPlainText();
 }
 
-void TEditor::loadCustomParams(const QJsonObject &o) {
-    cur_mode = o["mode"].toInt();
+void TEditor::loadCustomParams(const json_o &o) {
+    cur_mode = o["mode"];
 }
 
-void TEditor::saveCustomParams(QJsonObject &o) {
+void TEditor::saveCustomParams(json_o &o) {
     o["mode"] = cur_mode;
 }
 

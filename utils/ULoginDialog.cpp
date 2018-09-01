@@ -61,11 +61,11 @@ void ULoginDialog::tryLogin() {
     auto storage = Storage::getInstance();
     login_hash = Crypt::hash(l_log_login->text() + ":" + l_log_passw->text());
 
-    QJsonObject o = netw.request("auth/login", {
+    json_o o = netw.request("auth/login", {
             {"login", login_hash}
-    }).toObject();
+    });
 
-    if (o["status"].toString() == "login_ok") {
+    if (o["status"].get<QString>() == "login_ok") {
         storage->set("doc_key", o["key"]);
         storage->set("token", o["token"]);
         storage->set("sync", true);
@@ -77,7 +77,7 @@ void ULoginDialog::tryLogin() {
 
         accept();
     } else {
-        l_error->setText(o["message"].toString());
+        l_error->setText(o["message"]);
         l_error->setVisible(true);
     }
 }
@@ -91,12 +91,12 @@ void ULoginDialog::tryRegister() {
     CAes aes(256, login_hash);
     storage->set("doc_key", aes.encrypt(key));
 
-    QJsonObject o = netw.request("auth/register", {
+    json_o o = netw.request("auth/register", {
             {"login", login_hash},
             {"key",   storage->getS("doc_key")}
-    }).toObject();
+    });
 
-    if (o["status"].toString() == "reg_ok") {
+    if (o["status"].get<QString>() == "reg_ok") {
         storage->set("token", o["token"]);
         storage->set("sync", true);
 
@@ -105,7 +105,7 @@ void ULoginDialog::tryRegister() {
 
         storage->saveJson();
     } else {
-        l_error->setText(o["message"].toString());
+        l_error->setText(o["message"]);
         l_error->setVisible(true);
     }
 }

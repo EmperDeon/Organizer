@@ -33,6 +33,8 @@ int main(int argc, char **argv) {
 
     auto storage = Storage::getInstance();
 
+    qDebug() << storage->get("groups").dump(4).c_str();
+
     return qApp->exec();
 }
 

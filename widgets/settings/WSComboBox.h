@@ -17,9 +17,9 @@ private:
     QComboBox *widget;
 
 public:
-    explicit WSComboBox(const QJsonObject &obj);
+    explicit WSComboBox(const json_o &obj);
 
-    QJsonValue value() override;
+    json value() override;
 };
 
 

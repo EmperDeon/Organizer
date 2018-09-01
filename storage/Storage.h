@@ -8,8 +8,8 @@
 #define ORGANIZER_MIO_H
 
 #include <vars.h>
-#include <QtCore/QJsonObject>
-#include <QtCore/QJsonArray>
+#include <vendor/additions.h>
+#include <vendor/additions.h>
 #include <storage/SSecure.h>
 #include <storage/SSettings.h>
 #include <storage/SMigrations.h>
@@ -39,7 +39,7 @@ public:
 
     QString getS(const QString &k) { return get(k); }
 
-    bool getB(const QString &k) { return get(k); }
+    bool getB(const QString &k) { return original[k].get<bool>(false); }
 
     SMap getMap(const QString &k);
 

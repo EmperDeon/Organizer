@@ -14,18 +14,14 @@
 void TList::fromJson(const json_o &obj) {
     QMap<QString, Tab *> map;
 
-    for (const auto &k : obj.keys()) {
-        map[k] = createNew(obj[k].toObject());
-    }
-
     if (obj.is_object()) {
         for (const auto &it : obj.items()) {
-            map[QString::fromStdString(it.key())] = it.value();
+            map[QString::fromStdString(it.key())] = createNew(it.value());
         }
 
     } else if (obj.is_array()) {
         for (const auto &v : obj) {
-            map[obj["name"]] = obj;
+            map[obj["name"]] = createNew(obj);
         }
     }
 
@@ -77,7 +73,7 @@ json_a TList::toJsonA() {
 
         t = m_vals[k]->save();
         t["sort_id"] = i;
-        o << t;
+        o += t;
     }
 
     return o;

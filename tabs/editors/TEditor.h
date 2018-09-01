@@ -23,15 +23,15 @@ class TEditor : public Tab {
     QButtonGroup *m_buttons;
 
 public:
-    explicit TEditor(const QJsonObject &o);
+    explicit TEditor(const json_o &o);
 
-    void fromJson(QJsonValue v) override;
+    void fromJson(json v) override;
 
-    QJsonValue toJson() override;
+    json toJson() override;
 
-    void loadCustomParams(const QJsonObject &o) override;
+    void loadCustomParams(const json_o &o) override;
 
-    void saveCustomParams(QJsonObject &o) override;
+    void saveCustomParams(json_o &o) override;
 
     void updateText();
 

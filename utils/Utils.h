@@ -7,8 +7,8 @@
 #ifndef ORGANIZER_CTOOLS_H
 #define ORGANIZER_CTOOLS_H
 
-#include <QtCore/QJsonDocument>
-#include <QtCore/QJsonArray>
+#include <QtCore/QJsonValue>
+#include <vendor/additions.h>
 #include <QtCore/QDate>
 #include <QtCore/QDateTime>
 #include <QtCore/QVariant>
@@ -23,25 +23,15 @@ public:
 
     static QString toBase(const QByteArray &arr);
 
-    static QString toJson(QJsonArray ob, QJsonDocument::JsonFormat format = QJsonDocument::Compact);
-
-    static QString toJson(QJsonObject ob, QJsonDocument::JsonFormat format = QJsonDocument::Compact);
-
-    static QJsonObject fromJson(const QString &str);
-
-    static QJsonArray fromJsonA(const QString &str);
-
     static QDate dateFromString(const QString &date);
 
-    static QJsonArray arrayToJson(const QStringList &list);
+    static json_a arrayToJson(const QStringList &list);
 
-    static QStringList arrayFromJson(const QJsonValue &value);
+    static QStringList arrayFromJson(const json &value);
 
     static QString serializeToString(const QJsonValue &value);
 
     static QJsonValue serializeFromString(const QString &value);
-
-    static void removeInArray(QJsonArray &array, const QJsonValue &val);
 };
 
 #endif //ORGANIZER_CTOOLS_H

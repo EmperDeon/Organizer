@@ -8,13 +8,13 @@
 #define ORGANIZER_SMAP_H
 
 #include <QtCore/QString>
-#include <QtCore/QJsonObject>
-#include <QtCore/QJsonArray>
+#include <vendor/additions.h>
+#include <vendor/additions.h>
 #include <utils/UOrderedMap.h>
 #include <vendor/additions.h>
 
 /*
- * Sorting by "sort_by" index in QJsonObject
+ * Sorting by "sort_by" index in json_o
  * */
 class SMap : public UOrderedMap<QString, json> {
 

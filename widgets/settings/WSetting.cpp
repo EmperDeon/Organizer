@@ -8,12 +8,12 @@
 #include <storage/SSettings.h>
 #include "WSetting.h"
 
-WSetting::WSetting(const QJsonObject &obj) {
+WSetting::WSetting(const json_o &obj) {
     layout = new QHBoxLayout;
 
-    s_name = obj["name"].toString();
+    s_name = obj["name"].get<QString>();
 
-    layout->addWidget(new QLabel(obj["description"].toString()));
+    layout->addWidget(new QLabel(obj["description"].get<QString>()));
 
     setLayout(layout);
 }

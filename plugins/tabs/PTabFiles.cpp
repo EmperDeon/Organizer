@@ -26,7 +26,8 @@ void PTabFiles::addFile(const QString &file) {
     dir.mkpath(name);
     dir.cd(name);
 
-    PTabFile s_file(file);
+    QFileInfo info(file);
+    PTabFile s_file(info);
     s_file.processName(*aes);
 
     int existing_file = findFileByName(s_file.name);
@@ -168,23 +169,23 @@ void PTabFiles::rename(const PTabFile &file) {
     }
 }
 
-void PTabFiles::initIfNeeded(Tab *tab, const QJsonObject &o) {
-    if (o["files_name"].toString().isEmpty()) {
-        auto &ob = const_cast<QJsonObject &>(o);
+void PTabFiles::initIfNeeded(Tab *tab, const json_o &o) {
+    if (o["files_name"].get<QString>().isEmpty()) {
+        auto &ob = const_cast<json_o &>(o);
 
         ob["files_name"] = Crypt::hash(tab->desc());
         ob["file_key"] = Crypt::randomBytes(FILES_KEY_SIZE).toBase();
-        ob["files"] = QJsonArray();
+        ob["files"] = json_a();
     }
 }
 
-void PTabFiles::readInfo(const QJsonObject &o) {
-    name = o["files_name"].toString();
-    key = o["file_key"].toString();
+void PTabFiles::readInfo(const json_o &o) {
+    name = o["files_name"].get<QString>();
+    key = o["file_key"].get<QString>();
 
     files.clear();
-    for (auto v : o["files"].toArray()) {
-        files << PTabFile(v.toObject());
+    for (auto v : o["files"]) {
+        files << PTabFile(v);
     }
 
     delete aes;
@@ -193,10 +194,10 @@ void PTabFiles::readInfo(const QJsonObject &o) {
     w_files->updateFileList();
 }
 
-void PTabFiles::writeInfo(QJsonObject &o) {
-    QJsonArray ar;
+void PTabFiles::writeInfo(json_o &o) {
+    json_a ar;
     for (auto f : files) {
-        ar << f.toJson();
+        ar += f.toJson();
     }
 
     o["files"] = ar;

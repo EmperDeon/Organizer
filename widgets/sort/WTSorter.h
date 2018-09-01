@@ -26,7 +26,7 @@ public:
 
 protected:
     // Saves information about LinkGroups back to Storage
-    QJsonArray toDocs();
+    json_a toDocs();
 };
 
 

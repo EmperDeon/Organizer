@@ -12,8 +12,8 @@
 
 Tab::Tab(const json_o &o, TabType t) {
 	obj = o;
-    t_name = obj["name"];
-    t_uuid = obj["uuid"];
+    t_name = obj["name"].get<QString>();
+    t_uuid = obj["uuid"].get<QString>();
     t_sort_id = obj["sort_id"];
 	type = t;
     u_last = static_cast<qint64>(o["last_updated"].get<double>());
@@ -58,8 +58,8 @@ void Tab::load(json_o o) {
 		o = obj;
 	}
 
-    t_name = o["name"];
-    t_uuid = o["uuid"];
+    t_name = o["name"].get<QString>();
+    t_uuid = o["uuid"].get<QString>();
     t_sort_id = o["sort_id"];
     u_last = static_cast<qint64>(o["last_updated"].get<double>());
 
@@ -79,16 +79,16 @@ json_o Tab::save() {
 
     if (obj.contains(S_REPLACE_KEY)) {
         obj["content"] = obj[S_REPLACE_KEY];
-        obj.remove(S_REPLACE_KEY);
+        obj.erase(S_REPLACE_KEY);
     }
 
     if (obj.contains(S_DELETE_KEYS)) {
-        obj.remove("password_hash");
-        obj.remove("remember_me");
-	    obj.remove("remember_token");
-	    obj.remove("remember_until");
-        obj.remove("tab_type");
-        obj.remove(S_DELETE_KEYS);
+        obj.erase("password_hash");
+        obj.erase("remember_me");
+        obj.erase("remember_token");
+        obj.erase("remember_until");
+        obj.erase("tab_type");
+        obj.erase(S_DELETE_KEYS);
     }
 
 	return obj;

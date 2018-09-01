@@ -8,7 +8,7 @@
 #define ORGANIZER_WSLEVEL_H
 
 #include <QtWidgets/QWidget>
-#include <QtCore/QJsonValue>
+#include <vendor/additions.h>
 #include <QtWidgets/QHBoxLayout>
 
 
@@ -18,11 +18,11 @@ protected:
     QString s_name;
 
 public:
-    explicit WSetting(const QJsonObject &obj);
+    explicit WSetting(const json_o &obj);
 
     QString name() { return s_name; }
 
-    virtual QJsonValue value() = 0;
+    virtual json value() = 0;
 };
 
 

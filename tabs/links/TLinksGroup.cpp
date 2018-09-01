@@ -4,11 +4,11 @@
 	See the provided LICENSE.TXT file for details.
 */
 
-#include <QtCore/QJsonArray>
+#include <vendor/additions.h>
 #include <utils/UScrollArea.h>
 #include "TLinksGroup.h"
 
-TLinksGroup::TLinksGroup(const QJsonObject &o) : Tab(o, Tab::LinksGroup) {
+TLinksGroup::TLinksGroup(const json_o &o) : Tab(o, Tab::LinksGroup) {
     auto *scrollLayout = new QVBoxLayout;
 
     list = new QVBoxLayout;
@@ -24,7 +24,7 @@ TLinksGroup::TLinksGroup(const QJsonObject &o) : Tab(o, Tab::LinksGroup) {
     load();
 }
 
-void TLinksGroup::addLink(QJsonObject o) {
+void TLinksGroup::addLink(json_o o) {
     TLink *link = new TLink(this, o);
 
     links << link;
@@ -39,24 +39,23 @@ void TLinksGroup::updateLinks() {
     updated();
 }
 
-void TLinksGroup::fromJson(QJsonValue v) {
-    QJsonArray arr = v.toArray();
+void TLinksGroup::fromJson(json v) {
+    for (json t : v)
+        addLink(t);
 
-    for (QJsonValue t : arr)
-        addLink(t.toObject());
-
-    if (arr.empty())
+    if (v.empty())
         addLink();
 
     for (TLink *l : links)
         l->editChange();
 }
 
-QJsonValue TLinksGroup::toJson() {
-    QJsonArray r;
+json TLinksGroup::toJson() {
+    json_a r;
+
     for (TLink *l : links) {
         if (!l->isEmpty())
-            r << l->getJson();
+            r += l->getJson();
     }
 
     return r;

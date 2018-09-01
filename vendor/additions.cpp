@@ -24,3 +24,11 @@ void to_json(json &j, const QString &p) {
 void from_json(const json &j, QString &p) {
     p = QString::fromStdString(j);
 }
+
+void to_json(json &j, const CBytes &p) {
+    j = p.toBase().toStdString();
+}
+
+void from_json(const json &j, CBytes &p) {
+    p = CBytes(QString::fromStdString(j));
+}

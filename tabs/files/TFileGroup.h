@@ -15,11 +15,11 @@ class TFileGroup : public Tab {
     PTabFiles *files;
 
 public:
-    explicit TFileGroup(const QJsonObject &o);
+    explicit TFileGroup(const json_o &o);
 
-    void loadCustomParams(const QJsonObject &o) override;
+    void loadCustomParams(const json_o &o) override;
 
-    void saveCustomParams(QJsonObject &o) override;
+    void saveCustomParams(json_o &o) override;
 };
 
 

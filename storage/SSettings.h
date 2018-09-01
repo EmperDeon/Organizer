@@ -7,8 +7,8 @@
 #ifndef ORGANIZER_SSETTINGS_H
 #define ORGANIZER_SSETTINGS_H
 
-#include <QtCore/QJsonObject>
-#include <QtCore/QJsonArray>
+#include <vendor/additions.h>
+#include <vendor/additions.h>
 #include "Storage.h"
 
 class Storage;

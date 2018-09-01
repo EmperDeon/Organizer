@@ -23,9 +23,9 @@ private:
     Type type;
 
 public:
-    explicit WSLineEdit(const QJsonObject &obj, Type t = Normal);
+    explicit WSLineEdit(const json_o &obj, Type t = Normal);
 
-    QJsonValue value() override;
+    json value() override;
 };
 
 

@@ -7,12 +7,12 @@
 #include <vars.h>
 #include "PTabFile.h"
 
-PTabFile::PTabFile(const QJsonObject &o) {
-    name = o["name"].toString();
-    name_enc = o["name_enc"].toString();
-    hash = o["hash"].toString();
-    size = o["size"].toString();
-    type = o["type"].toString();
+PTabFile::PTabFile(const json_o &o) {
+    name = o["name"].get<QString>();
+    name_enc = o["name_enc"].get<QString>();
+    hash = o["hash"].get<QString>();
+    size = o["size"].get<QString>();
+    type = o["type"].get<QString>();
 }
 
 PTabFile::PTabFile(const QFileInfo &f) {
@@ -22,8 +22,8 @@ PTabFile::PTabFile(const QFileInfo &f) {
     type = processType(f);
 }
 
-QJsonObject PTabFile::toJson() {
-    return QJsonObject{
+json_o PTabFile::toJson() {
+    return json_o{
             {"name",     name},
             {"name_enc", name_enc},
             {"hash",     hash},

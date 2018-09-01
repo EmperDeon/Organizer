@@ -22,15 +22,15 @@ class TLinksGroup : public Tab {
 
 
 public:
-    explicit TLinksGroup(const QJsonObject &o);
+    explicit TLinksGroup(const json_o &o);
 
-    void addLink(QJsonObject o = QJsonObject());
+    void addLink(json_o o = json_o());
 
     void updateLinks();
 
-    void fromJson(QJsonValue v) override;
+    void fromJson(json v) override;
 
-    QJsonValue toJson() override;
+    json toJson() override;
 };
 
 

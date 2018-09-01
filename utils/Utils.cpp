@@ -4,7 +4,7 @@
 	See the provided LICENSE.TXT file for details.
 */
 
-#include <QtCore/QJsonObject>
+#include <vendor/additions.h>
 #include <QtCore/QBuffer>
 #include <QtCore/QDataStream>
 #include "Utils.h"
@@ -17,35 +17,19 @@ QString Utils::toBase(const QByteArray &arr) {
     return QString::fromUtf8(arr.toBase64());
 }
 
-QString Utils::toJson(QJsonArray ob, QJsonDocument::JsonFormat format) {
-    return QString::fromUtf8(QJsonDocument(ob).toJson(format));
-}
-
-QString Utils::toJson(QJsonObject ob, QJsonDocument::JsonFormat format) {
-    return QString::fromUtf8(QJsonDocument(ob).toJson(format));
-}
-
-QJsonObject Utils::fromJson(const QString &str) {
-    return QJsonDocument::fromJson(str.toUtf8()).object();
-}
-
-QJsonArray Utils::fromJsonA(const QString &str) {
-    return QJsonDocument::fromJson(str.toUtf8()).array();
-}
-
 QDate Utils::dateFromString(const QString &date) {
     return QDateTime::fromMSecsSinceEpoch(date.toULongLong() * 1000).date();
 }
 
-QJsonArray Utils::arrayToJson(const QStringList &list) {
-    QJsonArray r;
-    for (const QString &s : list) r << s;
+json_a Utils::arrayToJson(const QStringList &list) {
+    json_a r;
+    for (const QString &s : list) r += s;
     return r;
 }
 
-QStringList Utils::arrayFromJson(const QJsonValue &value) {
+QStringList Utils::arrayFromJson(const json_a &value) {
     QStringList r;
-    for (const auto &s : value.toArray()) r << s.toString();
+    for (const auto &s : value) r << s.get<QString>();
     return r;
 }
 
@@ -67,13 +51,4 @@ QJsonValue Utils::serializeFromString(const QString &value) {
     in >> variant;
 
     return QJsonValue::fromVariant(variant);
-}
-
-void Utils::removeInArray(QJsonArray &array, const QJsonValue &val) {
-    for (int i = 0; i < array.size(); i++) {
-        if (array.at(i) == val) {
-            array.removeAt(i);
-            i--;
-        }
-    }
 }

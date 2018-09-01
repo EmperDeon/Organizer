@@ -33,7 +33,7 @@ public:
 
 	void tabDel(const QString &uuid);
 
-	void addNewTab(const QString &uuid, const QJsonObject &o);
+    void addNewTab(const QString &uuid, const json_o &o);
 
     QList<Tab *> selectByGroup(const QString &group);
 

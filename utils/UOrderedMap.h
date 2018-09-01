@@ -9,7 +9,7 @@
 
 #include <QtCore/QMap>
 #include <QtCore/QString>
-#include <QtCore/QJsonObject>
+#include <vendor/additions.h>
 
 /*
  * Add items with comparator and get Map with keys sorted by comparator
