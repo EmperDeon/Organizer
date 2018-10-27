@@ -9,39 +9,26 @@
 #include <widgets/WMain.h>
 #include <utils/logs/ULogger.h>
 #include <QtGui/QFontDatabase>
-#include <crypt/Crypt.h>
-#include <vendor/additions.h>
 
 void initStyles();
 
 int main(int argc, char **argv) {
     QApplication a(argc, argv);
 
+    ULogger::getInstance();
+
     logI(QString("Version ") + VERSION);
 
-//    ULogger::getInstance();
-//    Crypt::getInstance();
+    Crypt::getInstance();
     Storage::getInstance();
-//    SGroups::getInstance();
-//
-//    initStyles();
-//
-//    auto *wnd = WMain::getInstance();
-//    wnd->show();
-//
-//    logD("WMain showed");
+    SGroups::getInstance();
 
-    auto storage = Storage::getInstance();
+    initStyles();
 
-    qDebug() << storage->get("groups").dump(4).c_str();
+    auto *wnd = WMain::getInstance();
+    wnd->show();
 
-//    TList tabs;
-//
-//    QJsonArray docs = Storage::getInstance()->getDocs();
-//    tabs.fromJson(docs);
-//
-//    QJsonObject obj = tabs.toJson();
-//    Storage::getInstance()->setDocs(obj);
+    logD("WMain showed");
 
     return qApp->exec();
 }

@@ -21,7 +21,7 @@ public:
 
     void processFull(json_o &o);
 
-    void processDocs(json_o &a);
+    void processDocs(json_o &docs);
 
     void processFiles(json_o &a);
 };

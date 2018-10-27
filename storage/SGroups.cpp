@@ -19,6 +19,11 @@ bool SGroups::addTo(Tab *tab, QString group) {
     if (group.isEmpty())
         group = current;
 
+    // Remove from other
+    for (const QString &o_group : groups.keys()) {
+        groups[o_group]["notes"].eraseAllV(tab->uuid());
+    }
+
     uuids << tab->uuid();
     groups[group]["notes"] += tab->uuid();
 
@@ -66,7 +71,7 @@ bool SGroups::isInGroup(const QString &group, const QString &uuid) {
     if (uuid.isEmpty())
         return false;
 
-    if (groups[group]["notes"].contains(uuid))
+    if (groups[group]["notes"].has_value(uuid))
         return true;
 
     return group == NO_GROUP && !uuids.contains(uuid);
@@ -87,7 +92,7 @@ void SGroups::load() {
         create(NO_GROUP);
     }
 
-    for (const auto &k : groups) {
+    for (const json_o &k : groups) {
         for (QString uuid : groups[k]["notes"]) {
             uuids << uuid;
         }

@@ -32,3 +32,14 @@ void to_json(json &j, const CBytes &p) {
 void from_json(const json &j, CBytes &p) {
     p = CBytes(QString::fromStdString(j));
 }
+
+
+QDebug operator<<(QDebug d, const std::string &t) {
+    d << t.c_str();
+    return d;
+}
+
+QDebug operator<<(QDebug d, const json &t) {
+    d << t.dump().c_str();
+    return d;
+}

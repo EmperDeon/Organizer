@@ -21,7 +21,7 @@ void TList::fromJson(const json_o &obj) {
 
     } else if (obj.is_array()) {
         for (const auto &v : obj) {
-            map[obj["name"]] = createNew(obj);
+            map[v["uuid"]] = createNew(obj);
         }
     }
 

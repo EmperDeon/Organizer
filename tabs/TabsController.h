@@ -24,7 +24,6 @@ class TabsController : public QObject {
 	TList tabs;
 
 public:
-
     explicit TabsController(WMain *w);
 
 	void load();

@@ -18,7 +18,13 @@
 
 - Move sensitive variables to SSecure (with static key for now)
 
-- Fix markdown crash on tab character
+- Fix markdown crash on tab character - debug and create pull-request
+  - Crash after creating submenu
+  ```
+  - First row
+    - <Crash here>
+  ```
+
 
 - Rename `doc` to `note` in README
 

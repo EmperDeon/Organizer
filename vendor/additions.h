@@ -46,6 +46,12 @@ typedef json json_o;
 
 
 // Serializers for Qt types
+
+QDebug operator<<(QDebug d, const std::string &t);
+
+QDebug operator<<(QDebug d, const json &t);
+
+
 void to_json(json &j, const QString &p);
 
 void from_json(const json &j, QString &p);

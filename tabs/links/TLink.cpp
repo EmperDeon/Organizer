@@ -36,8 +36,8 @@ void TLink::editChange() {
 }
 
 json_o TLink::getJson() const {
-    return json_o{{     "name", l_name->text()},
-                       {"link", l_link->text()}};
+    return json_o{{"name", l_name->text()},
+                  {"link", l_link->text()}};
 }
 
 bool TLink::eventFilter(QObject *object, QEvent *event) {

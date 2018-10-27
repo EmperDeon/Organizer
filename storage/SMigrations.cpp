@@ -26,15 +26,15 @@ void SMigrations::processFull(json_o &o) {
     }
 }
 
-void SMigrations::processDocs(json_o &a) {
+void SMigrations::processDocs(json_o &docs) {
     for (auto m : migrations) {
-        for (const auto &o : o.items()) {
-            if (m->isNeeded(o)) {
-                json obj = o.value();
+        for (const auto &it : docs.items()) {
+            if (m->isNeeded(it.value())) {
+                json obj = it.value();
                 m->processD(obj);
                 obj["version"] = m->getVersion();
 
-                o[o.key()] = obj;
+                docs[it.key()] = obj;
             }
         }
     }

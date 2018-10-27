@@ -26,6 +26,10 @@ TLinksGroup::TLinksGroup(const json_o &o) : Tab(o, Tab::LinksGroup) {
 }
 
 void TLinksGroup::addLink(json_o o) {
+    if (o.isEmpty()) {
+        o = R"({"name": "", "link": ""})"_json;
+    }
+
     TLink *link = new TLink(this, o);
 
     links << link;
@@ -46,8 +50,9 @@ void TLinksGroup::fromJson(json v) {
     links.clear();
 
     // Add new links
-    for (json t : v)
+    for (json t : v) {
         addLink(t);
+    }
 
     if (v.empty())
         addLink();
