@@ -20,13 +20,14 @@ class TLinksGroup : public Tab {
 
     QVBoxLayout *list;
 
-
 public:
     explicit TLinksGroup(const json_o &o);
 
-    void addLink(json_o o = json_o());
+    void addLink(json_o o = json_o(), int index = 0);
 
     void updateLinks();
+
+    void swapLinks(int from_id, int to_id);
 
     void fromJson(json v) override;
 

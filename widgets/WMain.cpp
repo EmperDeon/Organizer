@@ -8,7 +8,6 @@
 #include <QtWidgets/QApplication>
 #include <QtGui/QHideEvent>
 #include <QtWidgets/QInputDialog>
-#include <widgets/sort/WTSorter.h>
 #include <widgets/settings/WSettings.h>
 #include <utils/logs/ULogger.h>
 #include <tabs/encrypted/TEncryptedTab.h>
@@ -72,10 +71,6 @@ void WMain::constructMenuBar() {
     QObject::connect(a_tab_toggle, &QAction::triggered,
                      [this]() { TEncryptedTab::toggleEncryption(this->tabs->getCurrentTab()); });
     m_tabs->addAction(a_tab_toggle);
-
-    auto *a_tab_sort = new QAction("Manual sort of tabs", m_tabs);
-    QObject::connect(a_tab_sort, &QAction::triggered, []() { WTSorter::sortTabs(); });
-    m_tabs->addAction(a_tab_sort);
 
     QMenu *m_groups = new QMenu("Groups");
     tabs->setGroupsMenu(m_groups);

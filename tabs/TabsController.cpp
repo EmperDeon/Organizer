@@ -8,7 +8,6 @@
 #include "tabs/editors/TEditor.h"
 #include "tabs/links/TLinksGroup.h"
 #include "tabs/TabsController.h"
-#include <tabs/journals/TJournalTab.h>
 #include <tabs/encrypted/TEncryptedTab.h>
 #include <utils/logs/ULogger.h>
 
@@ -30,7 +29,7 @@ void TabsController::addNewTab(const QString &uuid, const json_o &o) {
     if (w != nullptr) { // if successfully created Tab
         int pos = wnd->tabs->count() - 1;
         wnd->tabs->insertTab(pos, w, o["name"]);
-        wnd->tabs->setCurrentIndex(pos - 1);
+        wnd->tabs->setCurrentIndex(pos);
     }
 }
 

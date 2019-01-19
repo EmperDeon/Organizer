@@ -50,7 +50,7 @@
 
 - Compress Journal's content
 
-- Additional windows (sorting, settings) as pinned first tab, closed on save/cancel
+- Modals (settings) as pinned first tab, closed on save/cancel
 
 - Logs widget [WIP in branch `logs_widget`]
   - Archiving old logs (store unzipped 2-3 files, rest is in logs.zip)

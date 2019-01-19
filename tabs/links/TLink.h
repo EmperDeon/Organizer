@@ -10,11 +10,12 @@
 #include <vendor/additions.h>
 #include <QtWidgets/QLineEdit>
 #include <tabs/links/TLinksGroup.h>
+#include <utils/widgets/draggable/UDraggableItem.h>
 
 class TLinksGroup;
 
 
-class TLink : public QWidget {
+class TLink : public UDraggableItem {
     TLinksGroup *group;
 
     QLineEdit *l_name, *l_link;
@@ -22,7 +23,7 @@ class TLink : public QWidget {
     bool empty = true;
 
 public:
-    explicit TLink(TLinksGroup *g, json_o o = json_o());
+    explicit TLink(TLinksGroup *g, json_o o, int id);
 
     bool isEmpty() const { return empty; }
 
@@ -30,8 +31,9 @@ public:
 
     void editChange();
 
-public:
-    bool eventFilter(QObject *object, QEvent *event) override;
+    void itemDropped(int dropped_id, int at_id) override;
+
+    bool itemEventFilter(QObject *object, QEvent *event) override;
 };
 
 

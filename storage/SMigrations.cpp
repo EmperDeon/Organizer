@@ -18,6 +18,10 @@ SMigrations::SMigrations() {
 }
 
 void SMigrations::processFull(json_o &o) {
+    if (o.isEmpty()) {
+        return;
+    }
+
     for (auto m : migrations) {
         if (m->isNeeded(o)) {
             m->processF(o);

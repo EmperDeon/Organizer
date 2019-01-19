@@ -75,7 +75,7 @@ TEditor::TEditor(const json_o &o) : Tab(o, Tab::Text) {
 }
 
 void TEditor::fromJson(json v) {
-    edit->setPlainText(v);
+    edit->setPlainText(v.get<QString>(QString()));
 }
 
 json TEditor::toJson() {
@@ -83,7 +83,9 @@ json TEditor::toJson() {
 }
 
 void TEditor::loadCustomParams(const json_o &o) {
-    cur_mode = o["mode"];
+    if (o.has_key("mode")) {
+        cur_mode = o["mode"].get<int>(0);
+    }
 }
 
 void TEditor::saveCustomParams(json_o &o) {

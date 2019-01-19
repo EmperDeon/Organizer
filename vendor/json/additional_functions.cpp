@@ -3,10 +3,19 @@
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
-
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "CannotResolve"
 
+#ifdef JSON_APPEND_HEADER
+
+#include <QtCore/QString>
+#include <QtCore/QStringList>
+#include <QtCore/QList>
+
+#endif
+
+
+#ifdef JSON_APPEND_JSON
 bool contains(const QString &k) const {
     return has_key(k);
 }
@@ -134,5 +143,29 @@ ValueType get(ValueType def) const noexcept(noexcept(
                   "get() cannot be used with reference types, you might want to use get_ref()");
     return JSONSerializer<ValueTypeCV>::from_json(*this);
 }
+#endif
+
+
+#ifdef JSON_APPEND_CONVERSIONS
+void from_json(const nlohmann::json &j, QString &p) {
+    p = QString::fromStdString(j);
+}
+
+void to_json(nlohmann::json &j, const QString &p) {
+    j = p.toStdString();
+}
+
+void from_json(const nlohmann::json &j, QStringList &l) {
+    for (const auto &str : j) {
+        l << str.get<QString>(QString());
+    }
+}
+
+void to_json(nlohmann::json &j, const QStringList &l) {
+    for (const auto &str : j) {
+        j.push_back(str);
+    }
+}
+#endif
 
 #pragma clang diagnostic pop

@@ -14,7 +14,7 @@
 
 
 class TEditor : public Tab {
-    int cur_mode;
+    int cur_mode = 0;
 
     QPlainTextEdit *edit;
     QTextEdit *view;

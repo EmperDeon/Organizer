@@ -30,17 +30,18 @@ void Storage::loadJson() {
         f.open(QFile::ReadOnly);
 
         json = f.readAll();
+
+        original = json::parse(json.toStdString());
+        migrations->processFull(original);
+
+        if (SSettings(this).getB("storage_backup"))
+            SBackup::addDocs(json);
     } else {
+        original = json::parse("{ \"docs\": \"{}\", \"version\": \"" + std::string(STORAGE_CUR_VERSION) + "\" }");
         logW("Can't open " + STORAGE_FILE);
     }
 
-    original = json::parse(json.toStdString());
-    migrations->processFull(original);
-
-    if (SSettings(this).getB("storage_backup"))
-        SBackup::addDocs(json);
-
-    // Here, because needs original json, but decrypt may need access to *secure
+    // Here, because decrypt may need access to *secure
     secure = new SSecure(original);
 
     loadDocs(original["docs"]);

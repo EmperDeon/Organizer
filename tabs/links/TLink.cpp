@@ -9,14 +9,13 @@
 #include <QtCore/QUrl>
 #include "TLink.h"
 
-TLink::TLink(TLinksGroup *g, json_o o) : group(g) {
+TLink::TLink(TLinksGroup *g, json_o o, int id) : UDraggableItem(id), group(g) {
     auto *l = new QVBoxLayout;
 
     l_name = new QLineEdit(o["name"].get<QString>());
     l_link = new QLineEdit(o["link"].get<QString>());
 
     l_link->setProperty("link", "true");
-    l_link->installEventFilter(this);
 
     connect(l_name, &QLineEdit::textChanged, this, &TLink::editChange);
     connect(l_link, &QLineEdit::textChanged, this, &TLink::editChange);
@@ -26,7 +25,9 @@ TLink::TLink(TLinksGroup *g, json_o o) : group(g) {
 
     setContextMenuPolicy(Qt::NoContextMenu);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    setLayout(l);
+    addLayout(l);
+
+    installDragFilter({l_name, l_link});
 }
 
 void TLink::editChange() {
@@ -40,10 +41,14 @@ json_o TLink::getJson() const {
                   {"link", l_link->text()}};
 }
 
-bool TLink::eventFilter(QObject *object, QEvent *event) {
+bool TLink::itemEventFilter(QObject *object, QEvent *event) {
     if (event->type() == QEvent::MouseButtonDblClick) {
         QDesktopServices::openUrl(l_link->text());
     }
 
     return QObject::eventFilter(object, event);
+}
+
+void TLink::itemDropped(int dropped_id, int at_id) {
+    group->swapLinks(dropped_id, at_id);
 }

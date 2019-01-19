@@ -47,14 +47,21 @@ TabNew::TabNew(WMain *w, TabsController *c) : wnd(w), contr(c) {
 
 void TabNew::addClick() {
 	if (name->text() == "") return;
+
+    QString uuid = Crypt::generateUUID();
     json_o o = {
-			{"name", name->text()},
-			{"type", type->currentData().toInt()},
-			{"version", STORAGE_CUR_VERSION},
-			{"uuid", Crypt::generateUUID()}
+            {"name",         name->text()},
+            {"type",         type->currentData().toInt()},
+            {"version", STORAGE_CUR_VERSION},
+            {"uuid",         uuid},
+            {"last_updated", 0},
+            {"sort_id",      0}
 	};
 
-	contr->addNewTab(name->text(), o);
+    name->clear();
+    type->setCurrentIndex(0);
+
+    contr->addNewTab(uuid, o);
 
 	SGroups::getInstance()->addTo(wnd->tabs->getCurrentTab());
 }

@@ -95,6 +95,9 @@ SET(M_S
         utils/widgets/UDatesWidget.cpp
         utils/widgets/UTreeWidget.cpp
 
+        utils/widgets/draggable/UDraggableScroll.cpp
+        utils/widgets/draggable/UDraggableItem.cpp
+
         widgets/files/WFile.cpp
         widgets/files/WFileIcon.cpp
         widgets/files/WFiles.cpp
@@ -107,8 +110,6 @@ SET(M_S
         widgets/settings/WSettings.cpp
         widgets/settings/WSetting.cpp
         widgets/settings/WSLineEdit.cpp
-
-        widgets/sort/WTSorter.cpp
 
         widgets/WMain.cpp
         widgets/WSync.cpp
@@ -179,6 +180,9 @@ SET(M_H
         utils/widgets/UDatesWidget.h
         utils/widgets/UTreeWidget.h
 
+        utils/widgets/draggable/UDraggableScroll.h
+        utils/widgets/draggable/UDraggableItem.h
+
         widgets/files/WFile.h
         widgets/files/WFileIcon.h
         widgets/files/WFiles.h
@@ -191,8 +195,6 @@ SET(M_H
         widgets/settings/WSettings.h
         widgets/settings/WSetting.h
         widgets/settings/WSLineEdit.h
-
-        widgets/sort/WTSorter.h
 
         widgets/WMain.h
         widgets/WSync.h

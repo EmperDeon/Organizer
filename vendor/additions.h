@@ -16,7 +16,7 @@
 #ifdef byte
 #undef byte
 
-#include "nlohmann/json.hpp"
+#include "json/json.hpp"
 
 // Define from tomcrypt_macros.h
 #ifdef _MSC_VER
@@ -27,7 +27,7 @@
 
 #else
 
-#include "nlohmann/json.hpp"
+#include "json/json.hpp"
 
 #endif
 
@@ -50,11 +50,6 @@ typedef json json_o;
 QDebug operator<<(QDebug d, const std::string &t);
 
 QDebug operator<<(QDebug d, const json &t);
-
-
-void to_json(json &j, const QString &p);
-
-void from_json(const json &j, QString &p);
 
 void to_json(json &j, const CBytes &p);
 

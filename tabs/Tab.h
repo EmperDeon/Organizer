@@ -76,6 +76,8 @@ public:
 
     virtual void saveCustomParams(json_o &o) { Q_UNUSED(o); }
 
+    virtual void reloadJson(std::function<void(json &)> modifier);
+
     virtual void onSelected() {}
 
 	friend class TEncryptedTab;

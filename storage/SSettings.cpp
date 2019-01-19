@@ -4,6 +4,7 @@
 	See the provided LICENSE.TXT file for details.
 */
 
+#include <utils/logs/ULogger.h>
 #include "SSettings.h"
 
 SSettings::SSettings(Storage *stor) : storage(stor) {
@@ -53,7 +54,7 @@ json_a SSettings::allSettings() {
 }
 
 void SSettings::initializeDefaults() {
-//    qDebug() << "Settings key not found, initializingDefaults";
+    logW("Settings key not found, initializingDefaults");
 
     json_o obj = object();
 

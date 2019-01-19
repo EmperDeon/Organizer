@@ -8,15 +8,14 @@
 #include <QtCore/QDateTime>
 #include <storage/Storage.h>
 #include <utils/logs/ULogger.h>
-#include "Tab.h"
 
 Tab::Tab(const json_o &o, TabType t) {
 	obj = o;
     t_name = obj["name"].get<QString>();
     t_uuid = obj["uuid"].get<QString>();
-    t_sort_id = obj["sort_id"];
+    t_sort_id = obj["sort_id"].get<int>();
 	type = t;
-    u_last = static_cast<qint64>(o["last_updated"].get<double>());
+    u_last = static_cast<qint64>(obj["last_updated"].get<double>());
 
     logV("Constructed Tab: " + desc());
 }
@@ -111,4 +110,10 @@ const QString Tab::tabTypeS(Tab::TabType type) {
     }
 
     return QString();
+}
+
+void Tab::reloadJson(std::function<void(json &)> modifier) {
+    json obj = toJson();
+    modifier(obj);
+    fromJson(obj);
 }
