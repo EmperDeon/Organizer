@@ -28,6 +28,17 @@ int main(int argc, char **argv) {
     auto *wnd = WMain::getInstance();
     wnd->show();
 
+//     json &value = Storage::getInstance()->getDocs()["{12099588-f9f7-489e-a61e-85820d0ff067}"]["content"];
+//     QString content = value.get<QString>();
+//     CAes aes(E_TAB_CIPHER, Crypt::deriveKey("9i8u7y"));
+//     QString decrypted_content = aes.decrypt(content);
+//     qDebug() << decrypted_content;
+//
+//     content = Utils::serializeFromString(decrypted_content).toString();
+//     value = aes.encrypt(content);
+//
+//     Storage::getInstance()->saveJson();
+
     logD("WMain showed");
 
     return qApp->exec();
@@ -48,6 +59,8 @@ void initStyles() {
     qApp->setWindowIcon(QIcon(":/icon.ico"));
 }
 
+
+#ifdef QMAKE_BUILD
 void operator delete(void *p, std::size_t /*unused*/) {
     std::free(p);
 }
@@ -63,3 +76,9 @@ void operator delete[](void *p, std::size_t /*unused*/) {
 void operator delete[](void *p) {
     std::free(p);
 }
+#endif
+
+
+#define JSON_APPEND_CONVERSIONS
+
+#undef JSON_APPEND_CONVERSIONS

@@ -44,7 +44,7 @@ void SMigrations::processDocs(json_o &docs) {
     }
 }
 
-void SMigrations::processFiles(json_o &a) {
+void SMigrations::processFiles(json_o &) {
     // FIXME: Stub, add realization later
 
 }

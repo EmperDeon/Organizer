@@ -18,9 +18,11 @@ DEFINES += "VERSION_MAJOR=$$ORGANIZER_MAJOR_VERSION" \
 	   "VERSION=\\\"$$ORGANIZER_VERSION_STRING\\\"" \
        "USE_LTM" \
        "LTM_DESC" \
+       "QMAKE_BUILD"
 
 
 SOURCES += main.cpp \
+ \
  crypt/CAes.cpp \
  crypt/CRsa.cpp \
  crypt/Crypt.cpp \
@@ -78,6 +80,9 @@ SOURCES += main.cpp \
  utils/widgets/UDatesWidget.cpp \
  utils/widgets/UTreeWidget.cpp \
  \
+ utils/widgets/draggable/UDraggableScroll.cpp \
+ utils/widgets/draggable/UDraggableItem.cpp \
+ \
  widgets/files/WFile.cpp \
  widgets/files/WFileIcon.cpp \
  widgets/files/WFiles.cpp \
@@ -91,8 +96,6 @@ SOURCES += main.cpp \
  widgets/settings/WSetting.cpp \
  widgets/settings/WSLineEdit.cpp \
  \
- widgets/sort/WTSorter.cpp \
- \
  widgets/WMain.cpp \
  widgets/WSync.cpp \
  widgets/WTabs.cpp \
@@ -102,37 +105,38 @@ SOURCES += main.cpp \
 
 
 HEADERS += vars.h \
+ \
  crypt/CAes.h \
  crypt/CRsa.h \
  crypt/Crypt.h \
  crypt/CBytes.h \
  utils/Utils.h \
-  \
+ \
  tabs/editors/TEditor.h \
-  \
+ \
  tabs/encrypted/TEncryptedTab.h \
-  \
+ \
  tabs/files/TFileGroup.h \
-  \
+ \
  tabs/journals/TJournalTab.h \
-  \
+ \
  tabs/links/TLink.h \
  tabs/links/TLinksGroup.h \
-  \
+ \
  tabs/TabNew.h \
  tabs/Tab.h \
  tabs/TabsController.h \
  tabs/TList.h \
-  \
+ \
  network/NCrypt.h \
  network/Network.h \
  network/NSync.h \
-  \
+ \
  plugins/Plugin.h \
  plugins/tabs/PTabPlugin.h \
  plugins/tabs/PTabFile.h \
  plugins/tabs/PTabFiles.h \
-  \
+ \
  storage/SBackup.h \
  storage/SGroups.h \
  storage/SMap.h \
@@ -140,46 +144,47 @@ HEADERS += vars.h \
  storage/Storage.h \
  storage/SSecure.h \
  storage/SSettings.h \
-  \
+ \
  storage/migrations/SMigration.h \
  storage/migrations/SMVer0.h \
  storage/migrations/SMVer01.h \
  storage/migrations/SMVer02.h \
-  \
+ \
  utils/ULoginDialog.h \
  utils/UOrderedMap.h \
  utils/UPassDialog.h \
  utils/UScrollArea.h \
  utils/USingleton.h \
  utils/UTray.h \
-  \
+ \
  utils/logs/ULogger.h \
-  \
+ \
  utils/widgets/dates/UDateItem.h \
  utils/widgets/UCenteredWidget.h \
  utils/widgets/UDateDialog.h \
  utils/widgets/UDatesWidget.h \
  utils/widgets/UTreeWidget.h \
-  \
+ \
+ utils/widgets/draggable/UDraggableScroll.h \
+ utils/widgets/draggable/UDraggableItem.h \
+ \
  widgets/files/WFile.h \
  widgets/files/WFileIcon.h \
  widgets/files/WFiles.h \
-  \
+ \
  widgets/groups/WTGroupLabel.h \
  widgets/groups/WTGroups.h \
-  \
+ \
  widgets/settings/WSCheckBox.h \
  widgets/settings/WSComboBox.h \
  widgets/settings/WSettings.h \
  widgets/settings/WSetting.h \
  widgets/settings/WSLineEdit.h \
-  \
- widgets/sort/WTSorter.h \
-  \
+ \
  widgets/WMain.h \
  widgets/WSync.h \
  widgets/WTabs.h \
-  \
+ \
  vendor/additions.h
 
 

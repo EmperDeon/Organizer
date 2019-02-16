@@ -24,7 +24,7 @@ TabNew::TabNew(WMain *w, TabsController *c) : wnd(w), contr(c) {
 
 	type->addItem(tr("Plain text"), Tab::Text);
 	type->addItem(tr("Links"), Tab::LinksGroup);
-	type->addItem(tr("Files"), Tab::FilesGroup);
+//	type->addItem(tr("Files"), Tab::FilesGroup);
 	type->addItem(tr("Journal"), Tab::Journal);
 
 	l->addRow(label);

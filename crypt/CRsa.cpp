@@ -8,11 +8,10 @@
 #include "CRsa.h"
 #include "utils/Utils.h"
 #include "Crypt.h"
-#include <QDebug>
 
-#define RSA_INIT int err, stat; \
+#define RSA_INIT int err; \
                  CBytes r(8192, (char)0); \
-                 unsigned long r_len;
+                 unsigned long r_len = 0;
 
 CRsa::CRsa(rsa_key *_key) : key(_key) {}
 
@@ -58,6 +57,7 @@ QString CRsa::decode(QString str) {
         return "";
 
     CBytes in(str);
+    int stat;
     RSA_INIT
 
     if ((err = rsa_decrypt_key_ex(bytes_data(in), r.data(), &r_len,
@@ -89,9 +89,11 @@ bool CRsa::verify(QString str, QString sig) {
     if (key == nullptr)
         return false;
 
+    int stat;
     CBytes hash = CBytes::fromHex(Crypt::hash(str)),
             in = CBytes(sig);
     RSA_INIT
+    Q_UNUSED(r_len)
 
     if ((err = rsa_verify_hash_ex(bytes_data(in), bytes_data(hash),
                                   LTC_PKCS_1_V1_5, RSA_HASH,

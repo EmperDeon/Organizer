@@ -13,21 +13,19 @@
 
 
 class UDraggableItem : public QWidget {
-    W_OBJECT(UDraggableItem)
-
-    int item_id;
+    unsigned long item_id;
     QVBoxLayout *marginLayout;
     QSpacerItem *topMargin, *bottomMargin;
 
 public:
-    UDraggableItem(int id);
+    UDraggableItem(unsigned long id);
 
     bool eventFilter(QObject *watched, QEvent *event) override;
 
     // For child event handling
     virtual bool itemEventFilter(QObject *watched, QEvent *event);
 
-    virtual void itemDropped(int dropped_id, int at_id);
+    virtual void itemDropped(unsigned long dropped_id, unsigned long at_id);
 
 protected:
     void addLayout(QBoxLayout *l);

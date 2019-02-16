@@ -9,21 +9,23 @@
 WTGroupLabel::WTGroupLabel(WTGroups *w) : groups(w) {
     auto *l = new QHBoxLayout;
 
-    label = new QLabel;
+    auto *label = new QLabel(QObject::tr("Current group:"));
+    current = new QLabel;
 
     l->setContentsMargins(0, 10, 0, 10);
 
-    l->addWidget(new QLabel(QObject::tr("Current group:")));
     l->addWidget(label);
+    l->addWidget(current);
 
     label->installEventFilter(this);
+    current->installEventFilter(this);
 
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     setLayout(l);
 }
 
 void WTGroupLabel::setGroup(const QString &group) {
-    label->setText(group);
+    current->setText(group);
 }
 
 void WTGroupLabel::cycleGroups() {

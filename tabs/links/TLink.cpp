@@ -7,9 +7,10 @@
 #include <QtGui/QDesktopServices>
 #include <QtCore/QEvent>
 #include <QtCore/QUrl>
+#include <QtGui/QGuiApplication>
 #include "TLink.h"
 
-TLink::TLink(TLinksGroup *g, json_o o, int id) : UDraggableItem(id), group(g) {
+TLink::TLink(TLinksGroup *g, json_o o, unsigned long id) : UDraggableItem(id), group(g) {
     auto *l = new QVBoxLayout;
 
     l_name = new QLineEdit(o["name"].get<QString>());
@@ -42,13 +43,16 @@ json_o TLink::getJson() const {
 }
 
 bool TLink::itemEventFilter(QObject *object, QEvent *event) {
-    if (event->type() == QEvent::MouseButtonDblClick) {
+    // Double click or Ctrl-click
+    if (event->type() == QEvent::MouseButtonDblClick
+        || (event->type() == QEvent::MouseButtonRelease &&
+            QGuiApplication::queryKeyboardModifiers().testFlag(Qt::ControlModifier))) {
         QDesktopServices::openUrl(l_link->text());
     }
 
     return QObject::eventFilter(object, event);
 }
 
-void TLink::itemDropped(int dropped_id, int at_id) {
+void TLink::itemDropped(unsigned long dropped_id, unsigned long at_id) {
     group->swapLinks(dropped_id, at_id);
 }

@@ -14,7 +14,7 @@ In end of json class at line 18596:
     #undef JSON_APPEND_JSON
 ```
 
-And in end of file at line 18692:
+In main.cpp:
 ```c++
     #define JSON_APPEND_CONVERSIONS
     #include "additional_functions.cpp"

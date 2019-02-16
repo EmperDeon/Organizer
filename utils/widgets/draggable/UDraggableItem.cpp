@@ -10,9 +10,8 @@
 #include <QtCore/QMimeData>
 #include <utils/logs/ULogger.h>
 #include "UDraggableItem.h"
-#include <vendor/verdigris/src/wobjectimpl.h>
 
-UDraggableItem::UDraggableItem(int id) : item_id(id) {
+UDraggableItem::UDraggableItem(unsigned long id) : item_id(id) {
     setAcceptDrops(true);
     topMargin = new QSpacerItem(0, 0);
     bottomMargin = new QSpacerItem(0, 0);
@@ -77,7 +76,7 @@ bool UDraggableItem::itemEventFilter(QObject *watched, QEvent *event) {
     return QObject::eventFilter(watched, event);
 }
 
-void UDraggableItem::itemDropped(int, int) {
+void UDraggableItem::itemDropped(unsigned long, unsigned long) {
     logW("Not implemented");
 }
 
@@ -114,14 +113,14 @@ void UDraggableItem::dragMoveEvent(QDragMoveEvent *event) {
     setMarginFromPos(event->pos().y());
 }
 
-void UDraggableItem::dragLeaveEvent(QDragLeaveEvent *event) {
+void UDraggableItem::dragLeaveEvent(QDragLeaveEvent *) {
 //    Causes widget to flicker, gets triggered in middle of the widget (possibly, because of layout invalidation)
 //    setMarginFromPos(-1);
 }
 
 void UDraggableItem::dropEvent(QDropEvent *event) {
-    int next_id = item_id + ((event->pos().y() <= this->height() / 2) ? 0 : 1),
-            dropped_id = QString::fromUtf8(event->mimeData()->data("id")).toInt();
+    unsigned long next_id = item_id + ((event->pos().y() <= this->height() / 2) ? 0 : 1),
+            dropped_id = (unsigned long) QString::fromUtf8(event->mimeData()->data("id")).toLong();
 
     logD("Dropped " + QString::number(dropped_id) + " at " + QString::number(next_id));
 
@@ -133,5 +132,3 @@ void UDraggableItem::dropEvent(QDropEvent *event) {
 
     setMarginFromPos(-1);
 }
-
-W_OBJECT_IMPL(UDraggableItem)

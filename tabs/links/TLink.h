@@ -23,7 +23,7 @@ class TLink : public UDraggableItem {
     bool empty = true;
 
 public:
-    explicit TLink(TLinksGroup *g, json_o o, int id);
+    explicit TLink(TLinksGroup *g, json_o o, unsigned long id);
 
     bool isEmpty() const { return empty; }
 
@@ -31,7 +31,7 @@ public:
 
     void editChange();
 
-    void itemDropped(int dropped_id, int at_id) override;
+    void itemDropped(unsigned long dropped_id, unsigned long at_id) override;
 
     bool itemEventFilter(QObject *object, QEvent *event) override;
 };

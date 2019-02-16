@@ -15,7 +15,7 @@ class WTGroups;
 
 class WTGroupLabel : public QWidget {
     WTGroups *groups;
-    QLabel *label;
+    QLabel *current;
 
 public:
     explicit WTGroupLabel(WTGroups *w);

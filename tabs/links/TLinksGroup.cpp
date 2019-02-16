@@ -27,10 +27,10 @@ TLinksGroup::TLinksGroup(const json_o &o) : Tab(o, Tab::LinksGroup) {
     load();
 }
 
-void TLinksGroup::addLink(json_o o, int index) {
+void TLinksGroup::addLink(json_o o, unsigned long index) {
     if (o.isEmpty()) {
         o = R"({"name": "", "link": ""})"_json;
-        index = list->count();
+        index = (unsigned long) list->count();
     }
 
     TLink *link = new TLink(this, o, index);
@@ -47,7 +47,7 @@ void TLinksGroup::updateLinks() {
     updated();
 }
 
-void TLinksGroup::swapLinks(int from_id, int to_id) {
+void TLinksGroup::swapLinks(unsigned long from_id, unsigned long to_id) {
     reloadJson([from_id, to_id](json &obj) {
         unsigned long size = obj.size() + 1;
         if (from_id > size || to_id > size) {
@@ -72,16 +72,22 @@ void TLinksGroup::fromJson(json v) {
     Utils::layoutClear(list);
     links.clear();
 
-    // Add new links
-    for (int i = 0; i < v.size(); i++) {
-        addLink(v[i], i);
-    }
+    if (v.is_array()) {
+        // Add new links
+        for (unsigned long i = 0; i < v.size(); i++) {
+            addLink(v[i], i);
+        }
 
-    if (v.empty())
+        if (v.empty())
+            addLink();
+
+        for (TLink *l : links)
+            l->editChange();
+
+    } else {
         addLink();
-
-    for (TLink *l : links)
-        l->editChange();
+        return;
+    }
 }
 
 json TLinksGroup::toJson() {

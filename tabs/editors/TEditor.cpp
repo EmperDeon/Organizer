@@ -75,7 +75,8 @@ TEditor::TEditor(const json_o &o) : Tab(o, Tab::Text) {
 }
 
 void TEditor::fromJson(json v) {
-    edit->setPlainText(v.get<QString>(QString()));
+    if (v.is_string())
+        edit->setPlainText(v.get<QString>(QString()));
 }
 
 json TEditor::toJson() {

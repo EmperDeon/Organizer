@@ -15,7 +15,7 @@ void SMap::fromJson(const json &obj) {
         }
     } else if (obj.is_array()) {
         for (const auto &v : obj) {
-            map[obj["name"]] = obj;
+            map[v["name"]] = v;
         }
     }
 

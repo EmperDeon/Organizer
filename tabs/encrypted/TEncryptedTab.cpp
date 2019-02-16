@@ -165,6 +165,9 @@ Tab *TEncryptedTab::createTab() {
     CAes aes(E_TAB_CIPHER, Crypt::deriveKey(password));
     QString decrypted_content = aes.decrypt(content);
 
+    if (!(decrypted_content.startsWith('{') || decrypted_content.startsWith('[') || decrypted_content.startsWith('"')))
+        decrypted_content = Utils::serializeFromString(decrypted_content).toString();
+
     t_obj["content"] = json::parse(decrypted_content.toStdString());
 
     tab = TList::createNew(t_obj, tab_type);
@@ -177,6 +180,10 @@ void TEncryptedTab::fromJson(json v) {
     if (!locked && tab != nullptr) {
         CAes aes(E_TAB_CIPHER, Crypt::deriveKey(password));
         QString decrypted_content = aes.decrypt(content);
+
+        if (!(decrypted_content.startsWith('{') || decrypted_content.startsWith('[') ||
+              decrypted_content.startsWith('"')))
+            decrypted_content = Utils::serializeFromString(decrypted_content).toString();
 
         tab->fromJson(json::parse(decrypted_content.toStdString()));
     }
@@ -204,7 +211,7 @@ void TEncryptedTab::loadCustomParams(const json_o &o) {
     if (remember_me) {
         // TODO: Store passwords in SSecure
         password = o["remember_token"].get<QString>();
-        remember_until = (qint64) (double) o["remember_until"];
+        remember_until = static_cast<qint64>((double) o["remember_until"]);
 
         if (layout->count() < 2) {
             QTimer::singleShot(10, [&]() {
@@ -252,6 +259,7 @@ void TEncryptedTab::toggleEncryption(Tab *tab) {
         tab->obj[S_REPLACE_KEY] = aes.encrypt(tab->toJson().dumpQ());
         tab->obj["tab_type"] = tab->type;
         tab->obj["password_hash"] = Crypt::hash(password);
+        tab->obj["remember_me"] = false;
         tab->type = Encrypted;
 
     } else { // Decryption
@@ -262,18 +270,24 @@ void TEncryptedTab::toggleEncryption(Tab *tab) {
                                                     QLineEdit::Password);
         }
 
-        if (e_tab->password_hash != Crypt::hash(e_tab->password)) {
+        if (e_tab->password_hash == Crypt::hash(e_tab->password)) { // Password correct, decrypt
+            CAes aes(E_TAB_CIPHER, Crypt::deriveKey(e_tab->password));
+            e_tab->obj[S_REPLACE_KEY] = json::parse(aes.decrypt(e_tab->toJson()).toStdString());
+            e_tab->obj[S_DELETE_KEYS] = true;
+            e_tab->type = Tab::tabType(e_tab->tab_type);
+
+        } else {
             if (QMessageBox::question(tab, tr("Decryption"), tr("Passwords do not match.\nErase all the data ?")) ==
-                QMessageBox::No) {
+                QMessageBox::Yes) { // Incorrect password, clear data
+                e_tab->obj[S_REPLACE_KEY] = json();
+                e_tab->obj[S_DELETE_KEYS] = true;
+                e_tab->type = Tab::tabType(e_tab->tab_type);
+
+            } else { // Incorrect password, leave data encrypted
                 e_tab->password = "";
                 return;
             }
         }
-
-        CAes aes(E_TAB_CIPHER, Crypt::deriveKey(e_tab->password));
-        e_tab->obj[S_REPLACE_KEY] = json::parse(aes.decrypt(e_tab->toJson()).toStdString());
-        e_tab->obj[S_DELETE_KEYS] = true;
-        e_tab->type = Tab::tabType(e_tab->tab_type);
     }
 
     auto *main = WMain::getInstance();

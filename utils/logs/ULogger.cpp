@@ -46,12 +46,13 @@ void ULogger::log(ULogger::Level lev, const QDateTime &time, const QString &func
     emit logger->logEntryAdded(entry);
 
 #ifdef DEBUG
-    if (lev != Verbose)
+    if (lev != Verbose) {
         if (lev == Error || lev == Warning) {
             fprintf(stderr, "%s\n", entry.toStdString().c_str());
         } else {
             fprintf(stdout, "%s\n", entry.toStdString().c_str());
         }
+    }
 #endif
 }
 

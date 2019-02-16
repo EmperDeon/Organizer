@@ -10,13 +10,19 @@
 
 - WTSorter - no support for uuids
 - FilesGroup - encryption and decryption
-- New tab isn't added to current group
+- Moving TabNew to group deletes it from current screen (after regrouping is added)
 - `cpp-markdown` doesn't compile with gcc7
 
 
 ### Current roadmap
 
+- Split CMakeFiles to each dir with sources
+
 - Move sensitive variables to SSecure (with static key for now)
+
+- Low encrypted tab security
+  - Replace PBKDF2 with Argon2
+  - Hash of password are stored without salt
 
 - Fix markdown crash on tab character - debug and create pull-request
   - Crash after creating submenu

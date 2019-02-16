@@ -23,11 +23,11 @@ class TLinksGroup : public Tab {
 public:
     explicit TLinksGroup(const json_o &o);
 
-    void addLink(json_o o = json_o(), int index = 0);
+    void addLink(json_o o = json_o(), unsigned long index = 0);
 
     void updateLinks();
 
-    void swapLinks(int from_id, int to_id);
+    void swapLinks(unsigned long from_id, unsigned long to_id);
 
     void fromJson(json v) override;
 

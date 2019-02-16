@@ -7,8 +7,6 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QPushButton>
 #include <crypt/CAes.h>
-#include <QDebug>
-#include <vendor/additions.h>
 #include "TJournalTab.h"
 
 TJournalTab::TJournalTab(const json_o &o) : Tab(o, Tab::Journal) {
@@ -88,13 +86,17 @@ TJournalTab::TJournalTab(const json_o &o) : Tab(o, Tab::Journal) {
 
 // FIXME: Why store as string, not as object ?
 void TJournalTab::fromJson(json v) {
-    entries = json::parse(v.get<std::string>());
+    if (v.is_string()) {
+        entries = json::parse(v.get<std::string>());
+    } else if (v.is_object()) {
+        entries = v;
+    }
 
     if (!entries.isEmpty()) {
         QMap<QString, UDateItem *> dates_map;
 
         for (const QString &id : entries.keys())
-            dates_map[id] = new UDateItem(id, entries[id]["name"], additionalInfo(id));
+            dates_map[id] = new UDateItem(id, entries[id]["name"].get<QString>(QString()), additionalInfo(id));
 
         dates->load(dates_map);
 
@@ -105,11 +107,12 @@ void TJournalTab::fromJson(json v) {
 json TJournalTab::toJson() {
     saveDate(dates->currentDate());
 
-    return entries.dump();
+    return entries;
 }
 
 void TJournalTab::loadCustomParams(const json_o &o) {
-    cur_mode = o["mode"];
+    if (o.has_key("mode"))
+        cur_mode = o["mode"];
 }
 
 void TJournalTab::saveCustomParams(json_o &o) {
@@ -149,7 +152,10 @@ void TJournalTab::changeMode(int id, bool checked) {
 void TJournalTab::loadDate(const QString &name) {
     const json_o &date = entries[name];
 
-    edit->setPlainText(date["content"]);
+    if (date.has_key("content"))
+        edit->setPlainText(date["content"]);
+    else
+        edit->clear();
 }
 
 void TJournalTab::saveDate(const QString &id) {

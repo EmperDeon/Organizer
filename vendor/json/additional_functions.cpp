@@ -3,14 +3,17 @@
 	Released under the MIT License.
 	See the provided LICENSE.TXT file for details.
 */
+#ifndef QMAKE_BUILD
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "CannotResolve"
+#endif
 
 #ifdef JSON_APPEND_HEADER
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QList>
+#include <QtCore/QDebug>
 
 #endif
 
@@ -90,7 +93,7 @@ size_type erase(const char *key) {
 }
 
 size_type erase(const QString &key) {
-    erase(key.toUtf8().data());
+    return erase(key.toUtf8().data());
 }
 
 QString dumpQ(int indent = -1) const {
@@ -146,6 +149,17 @@ ValueType get(ValueType def) const noexcept(noexcept(
 #endif
 
 
+#ifdef JSON_APPEND_CONVERSIONS_HEADERS
+void from_json(const nlohmann::json &j, QString &p);
+
+void to_json(nlohmann::json &j, const QString &p);
+
+void from_json(const nlohmann::json &j, QStringList &l);
+
+void to_json(nlohmann::json &j, const QStringList &l);
+#endif
+
+
 #ifdef JSON_APPEND_CONVERSIONS
 void from_json(const nlohmann::json &j, QString &p) {
     p = QString::fromStdString(j);
@@ -162,10 +176,12 @@ void from_json(const nlohmann::json &j, QStringList &l) {
 }
 
 void to_json(nlohmann::json &j, const QStringList &l) {
-    for (const auto &str : j) {
+    for (const auto &str : l) {
         j.push_back(str);
     }
 }
 #endif
 
+#ifndef QMAKE_BUILD
 #pragma clang diagnostic pop
+#endif
